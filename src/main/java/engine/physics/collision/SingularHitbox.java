@@ -28,4 +28,9 @@ public class SingularHitbox implements Hitbox {
         return false;
 
     }
+
+    @Override
+    public boolean collides(Hitbox hitbox) {
+        return hitbox.collides(this);
+    }
 }

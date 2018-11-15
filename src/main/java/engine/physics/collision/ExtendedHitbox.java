@@ -23,4 +23,9 @@ public class ExtendedHitbox implements Hitbox {
     public boolean collides(ExtendedHitbox hitbox) {
         return false;
     }
+
+    @Override
+    public boolean collides(Hitbox hitbox) {
+        return hitbox.collides(this);
+    }
 }
