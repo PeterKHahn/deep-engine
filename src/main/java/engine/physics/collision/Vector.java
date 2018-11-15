@@ -4,8 +4,8 @@ import static engine.physics.math.Geom2D.distance;
 
 public class Vector {
 
-    private final double x;
-    private final double y;
+    public final double x;
+    public final double y;
     private final double magnitude;
 
     public Vector(double x, double y) {

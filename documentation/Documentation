@@ -1,0 +1,34 @@
+Configuration:
+
+Finding out how to include source folders in IntelliJ/Gradle
+https://intellij-support.jetbrains.com/hc/en-us/community/posts/206806425-Source-Directories-Not-Being-Created-In-New-Project
+
+
+Software:
+
+Why avoid using abstract classes
+https://www.javaworld.com/article/2073649/core-java/why-extends-is-evil.html
+
+Testing
+
+JUnit Testing
+https://docs.gradle.org/current/userguide/java_testing.html#using_junit5
+
+
+AI
+POMCoP: Belief Space Planning for Sidekicks in Cooperative Games, Owen Macindoe
+
+
+Game Engine:
+Learning about Video Game Collision
+https://www.toptal.com/game/video-game-physics-part-ii-collision-detection-for-solid-objects
+
+Quad Trees to partition Space
+https://en.wikipedia.org/wiki/Quadtree
+https://www.geeksforgeeks.org/quad-tree/
+
+Dynamic Bounding Volume Tree
+https://en.wikipedia.org/wiki/Bounding_volume_hierarchy
+https://www.sciencedirect.com/science/article/pii/S0097849306000689
+http://ai.stanford.edu/~latombe/cs26n/2012/slides/collision.pdf
+https://www.azurefromthetrenches.com/introductory-guide-to-aabb-tree-collision-detection/

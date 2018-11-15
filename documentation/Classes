@@ -1,0 +1,7 @@
+All objects in the game world are entity. If they do not have an effect on the
+world, then they do not serve a purpose.
+- Game Entity
+  - Dynamic Entity: Entities that update on a tick, which means that their
+    effect on the world changes at each time step.
+      - Movement: Entities can be Dynamic and not move, or they can move. 
+  - Static Entity: Entities that have effects on the world, but are static
