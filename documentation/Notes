@@ -1,0 +1,25 @@
+POMCoP
+  POMCoP talks a lot about belief space. Should our AI take into account what
+  our opponent is doing? If it is solving puzzles, then no. If it is playing
+  against a player, then this may be much more important.
+
+  Monte-Carlo planning: Good for domains with large state spaces. Continuous
+  space? This could be good for this. Keep in note, this is a 2012 paper,
+  so it could be very well outdated. But something to keep in mind.
+
+
+Dimensions of a Fighting Game
+  Position:
+    - x (float)
+    - y (float)
+    - z (float)
+    - facing direction (boolean)
+    - grounded (boolean)
+  State:
+    - Hitstun (int) (number of frames left)
+    - Movestun (int) (number of frames left of attack)
+    - Move number (the move that we are within. Perhaps this should be one feature per attack)
+      - Keep this as a one-hot vector
+  Existence:
+    - What character you are
+      - Do we need a separate training for each character? It is possible
