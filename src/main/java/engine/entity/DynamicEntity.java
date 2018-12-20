@@ -1,5 +1,5 @@
 package engine.entity;
 
-public interface Dynamic {
+public interface DynamicEntity {
     void tick();
 }

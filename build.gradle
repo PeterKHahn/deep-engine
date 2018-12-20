@@ -3,6 +3,11 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.51'
 }
 
+apply plugin: 'application'
+mainClassName = 'main.Main'
+
+
+
 group 'deep-engine'
 version '1.0-SNAPSHOT'
 
@@ -23,3 +28,6 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+
+
