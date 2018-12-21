@@ -51,7 +51,7 @@ public class Engine {
     }
 
     private void tick() {
-
+        game.tick();
     }
 
 

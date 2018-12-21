@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="engine.physics.math.Geom2DTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-12-20T22:09:51" hostname="peter-7000" time="0.001">
+<testsuite name="engine.physics.math.Geom2DTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-12-21T20:36:47" hostname="peter-7000" time="0.002">
   <properties/>
-  <testcase name="testDistance" classname="engine.physics.math.Geom2DTest" time="0.001"/>
+  <testcase name="testDistance" classname="engine.physics.math.Geom2DTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

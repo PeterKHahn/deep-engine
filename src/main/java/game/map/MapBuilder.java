@@ -2,6 +2,7 @@ package game.map;
 
 
 import game.entity.DynamicEntity;
+import game.entity.Player;
 import game.entity.StaticEntity;
 
 import java.util.Collection;
@@ -14,6 +15,7 @@ public class MapBuilder {
 
     Collection<DynamicEntity> dynamicEntities;
     Collection<StaticEntity> staticEntities;
+    Collection<Player> players;
 
     public MapBuilder() {
         init();
@@ -33,8 +35,13 @@ public class MapBuilder {
         dynamicEntities.add(entity);
     }
 
+    public void insertPlayer(Player entity) {
+        players.add(entity);
+        dynamicEntities.add(entity);
+    }
+
     public GameMap build() {
-        return new GameMap(staticEntities, dynamicEntities);
+        return new GameMap(players, staticEntities, dynamicEntities);
     }
 
 
