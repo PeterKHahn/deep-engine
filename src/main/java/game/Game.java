@@ -2,7 +2,7 @@ package game;
 
 import game.entity.DynamicEntity;
 import game.entity.Entity;
-import game.event.EventHandler;
+import game.event.CollisionEventHandler;
 import game.map.GameMap;
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class Game {
     private Set<DynamicEntity> dynamicEntities;
     private GameSchematic schematic;
 
-    private EventHandler eventHandler;
+    private CollisionEventHandler eventHandler;
 
     public Game(GameSchematic schematic) {
 
@@ -25,7 +25,7 @@ public class Game {
         entities = new HashSet<>();
         dynamicEntities = new HashSet<>();
 
-        eventHandler = new EventHandler();
+        eventHandler = new CollisionEventHandler();
 
         GameMap initialMap = schematic.getInitialMap();
         entities.addAll(initialMap.dynamicEntities);

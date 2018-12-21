@@ -6,11 +6,11 @@ import game.entity.Entity;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class EventHandler {
+public class CollisionEventHandler {
 
-    private Queue<Event> eventQueue;
+    private Queue<CollisionEvent> eventQueue;
 
-    public EventHandler() {
+    public CollisionEventHandler() {
         init();
     }
 
@@ -18,8 +18,17 @@ public class EventHandler {
         eventQueue = new LinkedList<>();
     }
 
+    public void addEvent(CollisionEvent e) {
+        eventQueue.add(e);
+    }
+
     public void tick() {
-        
+
+        for (CollisionEvent e : eventQueue) {
+            onCollide(e.d1, e.d2);
+
+        }
+
     }
 
 
@@ -30,6 +39,7 @@ public class EventHandler {
      * @param e
      */
     public void onCollide(DynamicEntity dy, Entity e) {
+        System.out.println(dy + " has collided with " + e);
 
     }
 }

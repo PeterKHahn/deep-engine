@@ -1,11 +1,19 @@
 package engine;
 
+import game.Game;
+
 public class Engine {
 
     private boolean running = false;
     private final int FPS = 30;
 
     private int ticks = 0;
+    private Game game;
+
+    public Engine(Game game) {
+
+        this.game = game;
+    }
 
     public void run() {
         running = true;
