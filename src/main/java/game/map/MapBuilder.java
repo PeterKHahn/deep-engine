@@ -1,8 +1,8 @@
-package engine.map;
+package game.map;
 
 
-import engine.entity.DynamicEntity;
-import engine.entity.StaticEntity;
+import game.entity.DynamicEntity;
+import game.entity.StaticEntity;
 
 /**
  * Tool for Building the Initial State Maps that a game can take on.

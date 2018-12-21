@@ -1,4 +1,4 @@
-package engine.game;
+package engine;
 
 public class Engine {
 
@@ -28,7 +28,7 @@ public class Engine {
 
     }
 
-    public void tick() {
+    private void tick() {
 
     }
 
