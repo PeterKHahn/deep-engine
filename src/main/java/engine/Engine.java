@@ -18,8 +18,13 @@ public class Engine {
     public void run() {
         running = true;
         long lastTime = System.nanoTime();
+
+        long lastMilis = System.currentTimeMillis();
+
         double nsPerTick = 1000000000.0 / FPS;
         double delta = 0;
+
+        int framesThisSecond = 0;
 
         while (running) {
             long now = System.nanoTime();
@@ -28,8 +33,17 @@ public class Engine {
             while (delta >= 1) {
                 ticks++;
                 tick();
+                framesThisSecond++;
 
                 delta -= 1.0;
+            }
+
+            long nowMilis = System.currentTimeMillis();
+            long diff = nowMilis - lastMilis;
+            if (diff > 1000) {
+                lastMilis = nowMilis;
+                System.out.println(framesThisSecond);
+                framesThisSecond = 0;
             }
 
         }
