@@ -26,4 +26,10 @@ public class RandomAi implements Player {
         int direction = (int) (3 * Math.random());
         this.velocity = direction - 1;
     }
+
+    @Override
+    public String toString() {
+        // TODO fix later
+        return "AI Player at: " + xPos;
+    }
 }

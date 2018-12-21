@@ -24,6 +24,7 @@ public class MapBuilder {
     private void init() {
         dynamicEntities = new LinkedList<>();
         staticEntities = new LinkedList<>();
+        players = new LinkedList<>();
 
     }
 
