@@ -27,6 +27,7 @@ public class Game {
     private void init() {
         entities = new HashSet<>();
         dynamicEntities = new HashSet<>();
+        players = new HashSet<>();
 
         eventHandler = new CollisionEventHandler();
 
@@ -52,6 +53,12 @@ public class Game {
         handleCollision();
 
         // lookup in the collision matrix
+
+        // tick all dynamic entities
+
+        for (DynamicEntity e : dynamicEntities) {
+            e.tick();
+        }
     }
 
     private void handleCollision() {
@@ -63,6 +70,13 @@ public class Game {
                 }
             }
 
+        }
+    }
+
+    public void printState() {
+        System.out.println("Printing Game State");
+        for (Entity e : entities) {
+            System.out.println(e);
         }
     }
 }
