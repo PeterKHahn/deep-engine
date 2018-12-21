@@ -1,5 +1,8 @@
 package game.entity;
 
-public interface DynamicEntity {
+public interface DynamicEntity extends Entity {
     void tick();
+
+    boolean collides(Entity e);
+
 }

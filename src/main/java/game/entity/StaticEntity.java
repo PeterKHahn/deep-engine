@@ -1,4 +1,4 @@
 package game.entity;
 
-public interface StaticEntity {
+public interface StaticEntity extends Entity {
 }

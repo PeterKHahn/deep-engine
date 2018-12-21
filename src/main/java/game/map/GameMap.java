@@ -8,8 +8,9 @@ import java.util.Collection;
 public class GameMap {
 
 
-    private final Collection<StaticEntity> staticEntities;
-    private final Collection<DynamicEntity> dynamicEntities;
+    // TODO change to private, and think of a better way to do this
+    public final Collection<StaticEntity> staticEntities;
+    public final Collection<DynamicEntity> dynamicEntities;
 
     public GameMap(Collection<StaticEntity> staticEntities, Collection<DynamicEntity> dynamicEntities) {
 
