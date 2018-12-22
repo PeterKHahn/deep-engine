@@ -1,9 +1,11 @@
 package engine;
 
 import game.Game;
+import rendering.JFrameExtra;
 
 public class Engine {
 
+    private boolean renderMode = false;
     private boolean running = false;
     private final int FPS = 30;
 
@@ -13,6 +15,7 @@ public class Engine {
     public Engine(Game game) {
 
         this.game = game;
+        new JFrameExtra();
     }
 
     public void run() {
@@ -33,6 +36,9 @@ public class Engine {
             while (delta >= 1) {
                 ticks++;
                 tick();
+                if (renderMode) {
+                    render();
+                }
                 framesThisSecond++;
 
                 delta -= 1.0;
@@ -53,6 +59,11 @@ public class Engine {
     private void tick() {
         game.tick();
         game.printState();
+    }
+
+
+    private void render() {
+
     }
 
 
