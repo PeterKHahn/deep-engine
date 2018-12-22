@@ -37,9 +37,6 @@ def next_state(action, state):
 
 
 
-
-
-
 def transition(player_r, player_c, state):
     _, _, apple_r, apple_c, score , _ = state
     if player_r < 0 or player_c < 0 or player_r >= size or player_c >= size:
@@ -62,12 +59,16 @@ def get_new_apple(player_r, player_c):
         return (new_r, new_c)
 
 
+def get_move():
+    random.randint(0, 3)
+    
+
 move_ar = ["LEFT", "RIGHT", "UP", "DOWN"]
 state = init_state()
 
 for i in range(1000):
     print_board(state)
-    move = random.randint(0, 3)
+    move = get_move()
     state = next_state(move_ar[move], state)
     print(state)
     _, _, _, _, score, ongoing = state
