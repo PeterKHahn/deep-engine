@@ -17,8 +17,9 @@ public class Engine {
     public Engine(Game game) {
 
         this.game = game;
-        d = new Drawing();
+        d = new Drawing(game);
     }
+
 
     public void run() {
         running = true;
@@ -49,7 +50,8 @@ public class Engine {
             if (renderMode && shouldRender) {
                 framesThisSecond++;
 
-                render();
+                d.render();
+                d.tick++;
             }
 
             if (System.currentTimeMillis() - lastMilis >= 1000) {
@@ -74,12 +76,6 @@ public class Engine {
             }
         }
 
-    }
-
-
-    private void render() {
-        d.render();
-        d.tick++;
     }
 
 

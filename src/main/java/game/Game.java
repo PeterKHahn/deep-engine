@@ -79,4 +79,10 @@ public class Game {
             System.out.println(e);
         }
     }
+
+    public Set<Entity> getEntities() {
+        return entities;
+    }
+
+
 }

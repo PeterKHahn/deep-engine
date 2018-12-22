@@ -32,4 +32,15 @@ public class RandomAi implements Player {
         // TODO fix later
         return "AI Player at: " + xPos;
     }
+
+
+    @Override
+    public int x() {
+        return xPos;
+    }
+
+    @Override
+    public int y() {
+        return yPos;
+    }
 }

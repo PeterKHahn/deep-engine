@@ -1,9 +1,13 @@
 package rendering;
 
+import game.Game;
+import game.entity.Entity;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
-public class Drawing extends JPanel {
+public class Drawing extends JPanel implements Renderer {
 
     public int tick = 0;
 
@@ -12,9 +16,11 @@ public class Drawing extends JPanel {
     int height = 480;
 
     String TITLE = "Temporary rendering";
+    private Game game;
 
 
-    public Drawing() {
+    public Drawing(Game game) {
+        this.game = game;
         init();
     }
 
@@ -32,17 +38,27 @@ public class Drawing extends JPanel {
     }
 
 
+    @Override
     public void render() {
-
         repaint();
     }
 
+
     public void paint(Graphics g) {
         super.paint(g);
+        Set<Entity> entities = game.getEntities();
+
+
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, 640, 480);
+
         g.setColor(Color.BLUE);
-        g.drawOval(100, 100 + tick % 200, 200, 200);
+
+
+        for (Entity e : entities) {
+            g.drawOval(e.x() + 300, e.y() + 100, 5, 5);
+        }
+
 
     }
 
