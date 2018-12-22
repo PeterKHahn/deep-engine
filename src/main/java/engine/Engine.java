@@ -35,21 +35,25 @@ public class Engine {
             long now = System.nanoTime();
             delta += (now - lastTime) / nsPerTick;
             lastTime = now;
+
+            boolean shouldRender = false;
             while (delta >= 1) {
                 ticks++;
                 tick();
-                if (renderMode) {
-                    render();
-                }
-                framesThisSecond++;
+
 
                 delta -= 1.0;
+                shouldRender = true;
             }
 
-            long nowMilis = System.currentTimeMillis();
-            long diff = nowMilis - lastMilis;
-            if (diff > 1000) {
-                lastMilis = nowMilis;
+            if (renderMode && shouldRender) {
+                framesThisSecond++;
+
+                render();
+            }
+
+            if (System.currentTimeMillis() - lastMilis >= 1000) {
+                lastMilis += 1000;
                 System.out.println("FPS: " + framesThisSecond);
                 framesThisSecond = 0;
             }
@@ -58,15 +62,18 @@ public class Engine {
 
     }
 
+    int count = 1000;
+
     private void tick() {
         game.tick();
-        int[][] ar = new int[10000][10000];
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 10000; j++) {
+        int[][] ar = new int[count][count];
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < count; j++) {
                 ar[i][j] = 5;
 
             }
         }
+
     }
 
 
