@@ -1,21 +1,23 @@
 package engine;
 
 import game.Game;
-import rendering.JFrameExtra;
+import rendering.Drawing;
 
 public class Engine {
 
-    private boolean renderMode = false;
+    private boolean renderMode = true;
     private boolean running = false;
-    private final int FPS = 30;
+    private final int FPS = 300;
 
     private int ticks = 0;
     private Game game;
 
+    Drawing d;
+
     public Engine(Game game) {
 
         this.game = game;
-        new JFrameExtra();
+        d = new Drawing();
     }
 
     public void run() {
@@ -48,7 +50,7 @@ public class Engine {
             long diff = nowMilis - lastMilis;
             if (diff > 1000) {
                 lastMilis = nowMilis;
-                System.out.println(framesThisSecond);
+                System.out.println("FPS: " + framesThisSecond);
                 framesThisSecond = 0;
             }
 
@@ -58,12 +60,19 @@ public class Engine {
 
     private void tick() {
         game.tick();
-        game.printState();
+        int[][] ar = new int[10000][10000];
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10000; j++) {
+                ar[i][j] = 5;
+
+            }
+        }
     }
 
 
     private void render() {
-
+        d.render();
+        d.tick++;
     }
 
 
