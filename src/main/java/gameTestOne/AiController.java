@@ -13,22 +13,25 @@ public class AiController extends PlayerController {
      * A player controller controls a specific player inside of a game.
      * This could be an AI player or an IRL player
      *
-     * @param game
      * @param player
      */
-    public AiController(Game game, Player player) {
-        super(game, player);
+    public AiController(Player player) {
+        super(player);
     }
 
     @Override
-    public void tick() {
+    public void tick(Game game) {
         Set<ControllerButton> held = new HashSet<>();
         int xDirection = (int) (Math.random() * 3);
         switch (xDirection) {
             case 0:
                 held.add(ControllerButton.LEFT);
+                break;
             case 1:
                 held.add(ControllerButton.RIGHT);
+                break;
+            default:
+                break;
 
         }
 
@@ -37,8 +40,12 @@ public class AiController extends PlayerController {
         switch (yDirection) {
             case 0:
                 held.add(ControllerButton.DOWN);
+                break;
             case 1:
                 held.add(ControllerButton.UP);
+                break;
+            default:
+                break;
 
         }
 

@@ -1,6 +1,7 @@
 package game.map;
 
 
+import game.action.PlayerController;
 import game.entity.DynamicEntity;
 import game.entity.Player;
 import game.entity.StaticEntity;
@@ -15,7 +16,8 @@ public class MapBuilder {
 
     Collection<DynamicEntity> dynamicEntities;
     Collection<StaticEntity> staticEntities;
-    Collection<Player> players;
+    Collection<PlayerController> controllers;
+
 
     public MapBuilder() {
         init();
@@ -24,7 +26,7 @@ public class MapBuilder {
     private void init() {
         dynamicEntities = new LinkedList<>();
         staticEntities = new LinkedList<>();
-        players = new LinkedList<>();
+        controllers = new LinkedList<>();
 
     }
 
@@ -36,13 +38,14 @@ public class MapBuilder {
         dynamicEntities.add(entity);
     }
 
-    public void insertPlayer(Player entity) {
-        players.add(entity);
+    public void insertPlayer(PlayerController controller) {
+        Player entity = controller.player; // TODO will have to change once this is not public
         dynamicEntities.add(entity);
+        controllers.add(controller);
     }
 
     public GameMap build() {
-        return new GameMap(players, staticEntities, dynamicEntities);
+        return new GameMap(controllers, staticEntities, dynamicEntities);
     }
 
 

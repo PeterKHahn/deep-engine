@@ -1,8 +1,8 @@
 package game;
 
+import game.action.PlayerController;
 import game.entity.DynamicEntity;
 import game.entity.Entity;
-import game.entity.Player;
 import game.event.CollisionEventHandler;
 import game.map.GameMap;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Game {
 
-    private Set<Player> players;
+    private Set<PlayerController> controllers;
     private Set<Entity> entities;
     private Set<DynamicEntity> dynamicEntities;
     private GameSchematic schematic;
@@ -27,7 +27,7 @@ public class Game {
     private void init() {
         entities = new HashSet<>();
         dynamicEntities = new HashSet<>();
-        players = new HashSet<>();
+        controllers = new HashSet<>();
 
         eventHandler = new CollisionEventHandler();
 
@@ -36,7 +36,7 @@ public class Game {
         dynamicEntities.addAll(initialMap.dynamicEntities);
         entities.addAll(initialMap.staticEntities);
 
-        players.addAll(initialMap.players);
+        controllers.addAll(initialMap.controllers);
 
     }
 
@@ -44,8 +44,9 @@ public class Game {
     public void tick() {
 
         // Iterate over all players for actions
-        for (Player player : players) {
-            player.act();
+        for (PlayerController controller : controllers) {
+            controller.tick(this);
+            controller.administer();
         }
 
         // Iterate over dynamic entities, and see if it collides with other entities,

@@ -5,6 +5,7 @@ import game.Game;
 import game.GameSchematic;
 import game.map.GameMap;
 import game.map.MapBuilder;
+import gameTestOne.AiController;
 import gameTestOne.PlayerX;
 
 public class Main {
@@ -15,8 +16,8 @@ public class Main {
         MapBuilder builder = new MapBuilder();
 
         // TODO add more stuff to the map
-        builder.insertPlayer(new PlayerX());
-        builder.insertPlayer(new PlayerX());
+        builder.insertPlayer(new AiController(new PlayerX()));
+        builder.insertPlayer(new AiController(new PlayerX()));
 
 
         GameMap map = builder.build();
