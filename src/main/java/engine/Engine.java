@@ -1,23 +1,29 @@
 package engine;
 
 import game.Game;
-import rendering.Drawing;
+import rendering.Renderer;
 
 public class Engine {
 
-    private boolean renderMode = true;
+    private boolean renderMode;
     private boolean running = false;
     private final int FPS = 300;
 
     private int ticks = 0;
     private Game game;
 
-    Drawing d;
+    private Renderer renderer;
 
     public Engine(Game game) {
 
         this.game = game;
-        d = new Drawing(game);
+        this.renderMode = false;
+    }
+
+    public Engine(Game game, Renderer renderer) {
+        this.game = game;
+        this.renderer = renderer;
+        this.renderMode = true;
     }
 
 
@@ -50,8 +56,7 @@ public class Engine {
             if (renderMode && shouldRender) {
                 framesThisSecond++;
 
-                d.render();
-                d.tick++;
+                renderer.render();
             }
 
             if (System.currentTimeMillis() - lastMilis >= 1000) {

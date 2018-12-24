@@ -39,7 +39,7 @@ public class MapBuilder {
     }
 
     public void insertPlayer(PlayerController controller) {
-        Player entity = controller.player; // TODO will have to change once this is not public
+        Player entity = controller.getPlayer(); // TODO will have to change once this is not public
         dynamicEntities.add(entity);
         controllers.add(controller);
     }

@@ -6,23 +6,22 @@ import game.entity.Player;
 
 import java.util.Set;
 
-public class PlayerX implements Player {
-    int xPos = 0;
-    int yPos = 0;
-
-    int xVelocity = 0;
-    int yVelocity = 0;
+public class PlayerX extends Player {
 
 
-    @Override
-    public void tick() {
-        xPos += xVelocity;
-        yPos += yVelocity;
+    public PlayerX() {
+        super(0, 0, 0, 0, 0, 0);
     }
+
 
     @Override
     public boolean collides(Entity e) {
         return false;
+    }
+
+    @Override
+    public void updateState() {
+        // TODO
     }
 
 
@@ -30,6 +29,7 @@ public class PlayerX implements Player {
 
         int tmpXVelocity = 0;
         int tmpYVelocity = 0;
+
         if (actionSet.contains(ControllerButton.UP)) {
             tmpYVelocity += 1;
         }
@@ -43,8 +43,8 @@ public class PlayerX implements Player {
             tmpXVelocity += 1;
         }
 
-        xVelocity = tmpXVelocity;
-        yVelocity = tmpYVelocity;
+        this.xVel = tmpXVelocity;
+        this.yVel = tmpYVelocity;
 
     }
 
@@ -55,14 +55,4 @@ public class PlayerX implements Player {
         return "Player at: " + xPos;
     }
 
-
-    @Override
-    public int x() {
-        return xPos;
-    }
-
-    @Override
-    public int y() {
-        return yPos;
-    }
 }

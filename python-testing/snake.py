@@ -41,18 +41,18 @@ def transition(player_r, player_c, state):
     (_, _, apple_r, apple_c) = state
     if player_r < 0 or player_c < 0 or player_r >= size or player_c >= size:
         # catch case where we go out of bounds to end game
-        return ((-1, -1, -1, -1), 0, False)
+        return ((player_r, player_c, apple_r, apple_c), 0, False)
 
     if player_r == apple_r and player_c == apple_c:
         new_r, new_c = get_new_apple(player_r, player_c)
-        return ((player_r, player_c, new_r, new_c), 50, True)
+        return ((player_r, player_c, new_r, new_c), 500, True)
     else:
-        return ((player_r, player_c, apple_r, apple_c), 1, True)
+        return ((player_r, player_c, apple_r, apple_c), 0, True)
 
 
 
 def get_new_apple(player_r, player_c):
-    new_r, new_c =  (random.randint(0, size - 1), random.randint(0, size))
+    new_r, new_c =  (random.randint(0, size - 1), random.randint(0, size - 1))
     if(new_r == player_r and new_c == player_c):
         return get_new_apple(player_r, player_c)
     else:

@@ -7,7 +7,7 @@ public abstract class PlayerController {
 
 
     // TODO protected getters in future?
-    public final Player player;
+    private final Player player;
     protected GameController controller;
 
     /**
@@ -30,6 +30,10 @@ public abstract class PlayerController {
     public abstract void tick(Game game);
 
     public void administer() {
-        player.act(controller.getHeld());
+        getPlayer().act(controller.getHeld());
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

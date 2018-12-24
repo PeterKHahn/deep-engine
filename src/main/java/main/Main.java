@@ -7,6 +7,7 @@ import game.map.GameMap;
 import game.map.MapBuilder;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
+import rendering.JPanelRenderer;
 
 public class Main {
 
@@ -27,7 +28,7 @@ public class Main {
         Game g = new Game(schematic);
 
         System.out.println("Starting the engine...");
-        Engine engine = new Engine(g);
+        Engine engine = new Engine(g, new JPanelRenderer(g));
         engine.run();
     }
 }

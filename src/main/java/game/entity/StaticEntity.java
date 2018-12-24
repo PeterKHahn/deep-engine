@@ -1,4 +1,9 @@
 package game.entity;
 
-public interface StaticEntity extends Entity {
+public abstract class StaticEntity extends Entity {
+    
+
+    public StaticEntity(double xPos, double yPos) {
+        super(xPos, yPos);
+    }
 }

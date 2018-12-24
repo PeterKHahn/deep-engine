@@ -7,19 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
-public class Drawing extends JPanel implements Renderer {
-
-    public int tick = 0;
+public class JPanelRenderer extends JPanel implements Renderer {
 
     // TODO move this elsewhere
-    int width = 640;
-    int height = 480;
+    private static final int PREFERRED_WIDTH = 640;
+    private static final int PREFERRED_HEIGHT = 480;
 
-    String TITLE = "Temporary rendering";
+    private static final String TITLE = "Temporary rendering";
+
     private Game game;
 
 
-    public Drawing(Game game) {
+    public JPanelRenderer(Game game) {
         this.game = game;
         init();
     }
@@ -27,7 +26,7 @@ public class Drawing extends JPanel implements Renderer {
     private void init() {
         JFrame frame = new JFrame(TITLE);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
 
 
         frame.add(this);
@@ -44,6 +43,7 @@ public class Drawing extends JPanel implements Renderer {
     }
 
 
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         Set<Entity> entities = game.getEntities();
@@ -56,7 +56,7 @@ public class Drawing extends JPanel implements Renderer {
 
 
         for (Entity e : entities) {
-            g.drawOval(e.x() + 300, e.y() + 100, 5, 5);
+            g.drawOval((int) (e.xPos() + 300), (int) (e.yPos() + 100), 5, 5);
         }
 
 

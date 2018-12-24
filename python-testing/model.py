@@ -46,10 +46,16 @@ class A2C:
         :return: A tensor of shape [num_states] representing the estimated value of each state in the trajectory.
         """
         V_1 = self.state_size
-        V_2 = 50
-        V_3 = 50
-        output = tf.layers.dense(self.state_input, V_2, activation=tf.nn.relu)
+        V_2 = 200
+        V_3 = 200
+
+        input = tf.layers.batch_normalization(self.state_input)
+
+        output = tf.layers.dense(input, V_2, activation=tf.nn.relu)
+        output = tf.layers.batch_normalization(output)
+
         output = tf.layers.dense(output, V_3, activation=tf.nn.relu)
+        output = tf.layers.batch_normalization(output)
 
         output = tf.layers.dense(output, 1, activation=tf.nn.relu)
 
@@ -73,8 +79,12 @@ class A2C:
         W_2 = 20
         W_3 = 20
 
-        output = tf.layers.dense(self.state_input, W_2, activation=tf.nn.relu)
+        input = tf.layers.batch_normalization(self.state_input)
+
+        output = tf.layers.dense(input, W_2, activation=tf.nn.relu)
+        output = tf.layers.batch_normalization(output)
         output = tf.layers.dense(output, W_3, activation=tf.nn.relu)
+        output = tf.layers.batch_normalization(output)
 
         output = tf.layers.dense(output, self.num_actions, activation=tf.nn.softmax)
         #W = tf.Variable(tf.random_uniform([W_1,W_2], dtype=tf.float32))
@@ -94,8 +104,10 @@ class A2C:
         :return: A scalar tensor representing the combined actor and critic loss.
         """
         advantage = self.rewards - self.state_value
+        print("advantage", advantage.shape)
 
-        indices = tf.range(0, tf.shape(self.actor_probs)[0]) * 2 + self.actions
+        indices = tf.range(0, tf.shape(self.actor_probs)[0]) * 4 + self.actions
+        print("indci", indices)
         act_probs = tf.gather(tf.reshape(self.actor_probs, [-1]), indices)
 
         actor_loss = -1 *  tf.reduce_mean(log(act_probs) * advantage)
@@ -104,7 +116,7 @@ class A2C:
         loss = actor_loss + critic_loss
         return loss
 
-    def train_episode(self, printx=False):
+    def train_episode(self, printx=False, randomx=False, p=0.1):
         """
         train_episode will be called 1000 times by the autograder to train your agent. In this method,
         run your agent for a single episode, then use that data to train your agent. Feel free to
@@ -112,7 +124,7 @@ class A2C:
         """
         history = []
         st, _, _ = snake.init_state() # self.game.reset()
-        for j in range(2000):
+        for j in range(500):
             fd = {
                 self.state_input: np.matrix(list(st))
             }
@@ -120,16 +132,26 @@ class A2C:
 
             action = np.random.choice(self.num_actions, 1, p=act_dist[0][0])
 
-            if random.random() < 0.25:
+
+            if random.random() < p:
                 action = np.random.choice(self.num_actions, 1)
 
 
             st1, reward, ongoing = snake.next_state(self.move_ar[action[0]], st)
 
-            if printx:
+            old_posx, old_posy, old_foodx, old_foody = st
 
+            if reward < 1:
+                posx, posy, foodx, foody = st1
+                md_old = abs(old_posx - old_foodx) + abs(old_posy - old_foody)
+                md = abs(posx - foodx) + abs(posy - foody)
+                reward = md_old - md
+
+
+            if printx:
+                print(act_dist[0][0])
                 snake.print_board(st1, reward, ongoing)
-                time.sleep(0.05)
+                time.sleep(0.1)
            # self.game.render()
 
             history.append((st, action[0], reward))
@@ -153,10 +175,12 @@ class A2C:
 
     def discounted_rewards(self, ls):
 
-        gamma = 0.75
+        gamma = 0.8
         rev = list(reversed(ls))
+
         for idx in range(1, len(ls)):
             rev[idx] = rev[idx] + gamma * rev[idx - 1]
+
 
         return list(reversed(rev))
 
@@ -181,18 +205,26 @@ if __name__ == '__main__':
     num = 0
     learner = A2C()
 
-    for i in range(5000):
+    for i in range(500000):
         av = 0
-        if i % 100 == 0:
-            av = learner.train_episode(False)
-            print(av)
-        else:
-
-            av = learner.train_episode()
-        if i > 4900:
-
+        if i % 1000 == 1:
+            av = learner.train_episode(printx=True, p=0.0)
+            print(i, tot / num)
+            tot = 0
+            num = 0
+        elif i % 100 == 1:
+            av = learner.train_episode(printx=False, p=0.0)
+            print(i, tot / num)
             tot += av
             num += 1
+
+        else:
+
+            av = learner.train_episode(printx=False, p=(1 - i/10000))
+            tot += av
+            num += 1
+
+
 
     print("Total / Num", tot / num)
     # assert(check_actor(learner))

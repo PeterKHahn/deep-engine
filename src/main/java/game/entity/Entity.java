@@ -1,10 +1,23 @@
 package game.entity;
 
-public interface Entity {
+public abstract class Entity {
 
-    // TODO make this better
-    int x();
+    protected double xPos;
+    protected double yPos;
 
-    int y();
+    public Entity(double xPos, double yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+
+    public double xPos() {
+        return xPos;
+    }
+
+    public double yPos() {
+        return yPos;
+    }
+
 
 }
