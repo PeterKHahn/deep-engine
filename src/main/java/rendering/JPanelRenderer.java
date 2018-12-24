@@ -13,6 +13,9 @@ public class JPanelRenderer extends JPanel implements Renderer {
     private static final int PREFERRED_WIDTH = 640;
     private static final int PREFERRED_HEIGHT = 480;
 
+    private static final int CENTER_HEIGHT = PREFERRED_HEIGHT / 2;
+    private static final int CENTER_WIDTH = PREFERRED_WIDTH / 2;
+
     private static final String TITLE = "Temporary rendering";
 
     private Game game;
@@ -56,8 +59,28 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
 
         for (Entity e : entities) {
-            g.drawOval((int) (e.xPos() + 300), (int) (e.yPos() + 100), 5, 5);
+            int x = (int) (e.xPos() + CENTER_WIDTH);
+            int y = (int) (CENTER_HEIGHT - e.yPos());
+            int radius = 6;
+
+
+            int centerX = x - (radius / 2);
+            int centerY = y - (radius / 2);
+
+
+            g.drawOval(centerX, centerY, radius, radius);
+
+
         }
+        g.setColor(Color.RED);
+
+        g.drawLine(CENTER_WIDTH, 0, CENTER_WIDTH, PREFERRED_HEIGHT);
+        g.drawLine(0, CENTER_HEIGHT, PREFERRED_WIDTH, CENTER_HEIGHT);
+
+
+        g.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
+        g.drawOval(CENTER_WIDTH - 20, CENTER_HEIGHT - 20, 20, 20);
+        g.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
 
 
     }

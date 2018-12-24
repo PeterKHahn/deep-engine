@@ -7,7 +7,7 @@ public class Engine {
 
     private boolean renderMode;
     private boolean running = false;
-    private final int FPS = 300;
+    private final int FPS = 30;
 
     private int ticks = 0;
     private Game game;
