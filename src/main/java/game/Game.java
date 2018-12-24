@@ -32,11 +32,11 @@ public class Game {
         eventHandler = new CollisionEventHandler();
 
         GameMap initialMap = schematic.getInitialMap();
-        entities.addAll(initialMap.dynamicEntities);
-        dynamicEntities.addAll(initialMap.dynamicEntities);
-        entities.addAll(initialMap.staticEntities);
+        entities.addAll(initialMap.getDynamicEntities());
+        dynamicEntities.addAll(initialMap.getDynamicEntities());
+        entities.addAll(initialMap.getStaticEntities());
 
-        controllers.addAll(initialMap.controllers);
+        controllers.addAll(initialMap.getControllers());
 
     }
 
