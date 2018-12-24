@@ -5,6 +5,7 @@ import game.entity.Entity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Set;
 
 public class JPanelRenderer extends JPanel implements Renderer {
@@ -20,6 +21,8 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
     private Game game;
 
+    private BufferedImage image;
+
 
     public JPanelRenderer(Game game) {
         this.game = game;
@@ -28,6 +31,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
     private void init() {
         JFrame frame = new JFrame(TITLE);
+        image = new BufferedImage(PREFERRED_WIDTH, PREFERRED_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
 
@@ -43,6 +47,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
     @Override
     public void render() {
         repaint();
+
     }
 
 
@@ -51,11 +56,12 @@ public class JPanelRenderer extends JPanel implements Renderer {
         super.paint(g);
         Set<Entity> entities = game.getEntities();
 
+        Graphics g2 = image.getGraphics();
 
-        g.setColor(Color.BLACK);
-        g.drawRect(0, 0, 640, 480);
+        g2.setColor(Color.PINK);
+        g2.fillRect(0, 0, 640, 480);
 
-        g.setColor(Color.BLUE);
+        g2.setColor(Color.BLUE);
 
 
         for (Entity e : entities) {
@@ -68,20 +74,21 @@ public class JPanelRenderer extends JPanel implements Renderer {
             int centerY = y - (radius / 2);
 
 
-            g.drawOval(centerX, centerY, radius, radius);
+            g2.drawOval(centerX, centerY, radius, radius);
 
 
         }
-        g.setColor(Color.RED);
+        g2.setColor(Color.RED);
 
-        g.drawLine(CENTER_WIDTH, 0, CENTER_WIDTH, PREFERRED_HEIGHT);
-        g.drawLine(0, CENTER_HEIGHT, PREFERRED_WIDTH, CENTER_HEIGHT);
+        g2.drawLine(CENTER_WIDTH, 0, CENTER_WIDTH, PREFERRED_HEIGHT);
+        g2.drawLine(0, CENTER_HEIGHT, PREFERRED_WIDTH, CENTER_HEIGHT);
 
 
-        g.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
-        g.drawOval(CENTER_WIDTH - 20, CENTER_HEIGHT - 20, 20, 20);
-        g.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
+        g2.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
+        g2.drawOval(CENTER_WIDTH - 20, CENTER_HEIGHT - 20, 20, 20);
+        g2.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
 
+        g.drawImage(image, 0, 0, null);
 
     }
 
