@@ -58,7 +58,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
         Graphics g2 = image.getGraphics();
 
-        g2.setColor(Color.PINK);
+        g2.setColor(Color.WHITE);
         g2.fillRect(0, 0, 640, 480);
 
         g2.setColor(Color.BLUE);
@@ -85,7 +85,6 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
 
         g2.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
-        g2.drawOval(CENTER_WIDTH - 20, CENTER_HEIGHT - 20, 20, 20);
         g2.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
 
         g.drawImage(image, 0, 0, null);

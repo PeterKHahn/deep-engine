@@ -8,6 +8,9 @@ public abstract class DynamicEntity extends Entity {
     protected double xAcc;
     protected double yAcc;
 
+    private int tick = 0;
+
+
     public DynamicEntity(double xPos, double yPos, double xVel, double yVel, double xAcc, double yAcc) {
         super(xPos, yPos);
         this.xVel = xVel;
@@ -20,6 +23,11 @@ public abstract class DynamicEntity extends Entity {
     public void tick() {
         updateState();
         updatePosition();
+        tick++;
+    }
+
+    public int currentTick() {
+        return tick;
     }
 
     public abstract boolean collides(Entity e);

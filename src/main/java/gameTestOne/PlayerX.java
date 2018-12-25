@@ -8,6 +8,10 @@ import java.util.Set;
 
 public class PlayerX extends Player {
 
+    private static final int FIRE_COOLDOWN = 30;
+
+    private int lastFire = -1;
+
 
     public PlayerX() {
         super(0, 0, 0, 0, 0, 0);
@@ -42,9 +46,20 @@ public class PlayerX extends Player {
         if (actionSet.contains(ControllerButton.RIGHT)) {
             tmpXVelocity += 1;
         }
+        if (actionSet.contains(ControllerButton.A)) {
+            fire();
+        }
 
         this.xVel = tmpXVelocity;
         this.yVel = tmpYVelocity;
+
+    }
+
+    private void fire() {
+        if (lastFire < 0 || currentTick() - lastFire > FIRE_COOLDOWN) {
+            lastFire = currentTick();
+            // TODO add fire effects
+        }
 
     }
 
