@@ -115,7 +115,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
         x[2] = convertX(ecb.top().x);
         y[2] = convertY(ecb.top().y);
         x[3] = convertX(ecb.right().x);
-        x[3] = convertY(ecb.right().y);
+        y[3] = convertY(ecb.right().y);
 
         g.drawPolygon(x, y, 4);
     }

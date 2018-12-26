@@ -24,8 +24,8 @@ public class EnvironmentCollisionBox {
         this.bps = bps;
         this.ecbBottom = new Point(bps);
         this.ecbTop = new Point(bps.x, bps.y + 8);
-        this.ecbLeft = new Point(bps.x + 4, bps.y + 4);
-        this.ecbRight = new Point(bps.x - 4, bps.y + 4);
+        this.ecbLeft = new Point(bps.x - 4, bps.y + 4);
+        this.ecbRight = new Point(bps.x + 4, bps.y + 4);
 
     }
 
@@ -55,6 +55,18 @@ public class EnvironmentCollisionBox {
         Point newPoint = new Point(bps.x + xVel, bps.y + yVel);
         EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
         return newBox;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Top: ");
+        sb.append(ecbTop + "\n");
+        sb.append("Bottom: " + ecbBottom + "\n");
+        sb.append("Left: " + ecbLeft + "\n");
+        sb.append("Right: " + ecbRight + "\n");
+        return sb.toString();
     }
 
 
