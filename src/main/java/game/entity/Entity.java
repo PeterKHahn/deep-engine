@@ -1,9 +1,9 @@
 package game.entity;
 
+import game.box.CollisionEnvironment;
+
 public abstract class Entity {
 
-    protected double xPos;
-    protected double yPos;
 
     protected double xVel;
     protected double yVel;
@@ -11,12 +11,16 @@ public abstract class Entity {
     protected double yAcc;
 
 
+    private CollisionEnvironment environment;
+
+
     private int tick = 0;
 
 
-    public Entity(double xPos, double yPos, double xVel, double yVel, double xAcc, double yAcc) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public Entity(CollisionEnvironment initialEnvironment, double xVel, double yVel,
+                  double xAcc, double yAcc) {
+
+        this.environment = initialEnvironment;
 
         this.xVel = xVel;
         this.yVel = yVel;
@@ -43,8 +47,9 @@ public abstract class Entity {
         xVel += xAcc;
         yVel += yAcc;
 
-        xPos += xVel;
-        yPos += yVel;
+        environment.projectedEcb.bps().x += xVel;
+        environment.projectedEcb.bps().y += yVel;
+
     }
 
     public double xVel() {
@@ -65,11 +70,11 @@ public abstract class Entity {
 
 
     public double xPos() {
-        return xPos;
+        return environment.ecb.bottom().x;
     }
 
     public double yPos() {
-        return yPos;
+        return environment.ecb.bottom().y;
     }
 
 

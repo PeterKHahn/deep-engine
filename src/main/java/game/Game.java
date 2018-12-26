@@ -1,6 +1,7 @@
 package game;
 
 import game.action.PlayerController;
+import game.box.EnvironmentObject;
 import game.entity.Entity;
 import game.map.GameMap;
 
@@ -11,6 +12,7 @@ public class Game {
 
     private Set<PlayerController> controllers;
     private Set<Entity> entities;
+    private Set<EnvironmentObject> environmentObjects;
     private GameSchematic schematic;
 
 
@@ -23,12 +25,14 @@ public class Game {
     private void init() {
         entities = new HashSet<>();
         controllers = new HashSet<>();
+        environmentObjects = new HashSet<>();
 
 
         GameMap initialMap = schematic.getInitialMap();
 
         entities.addAll(initialMap.getEntities());
         controllers.addAll(initialMap.getControllers());
+        environmentObjects.addAll(initialMap.getEnvironmentObjects());
 
     }
 
@@ -44,10 +48,11 @@ public class Game {
         // Iterate over dynamic entities, and see if it collides with other entities,
 
         handleCollision();
+        handleEnvironmentCollision();
 
         // lookup in the collision matrix
 
-        // tick all dynamic entities
+        // tick all entities
 
         for (Entity e : entities) {
             e.tick();
@@ -59,8 +64,18 @@ public class Game {
 
             for (Entity e1 : entities) {
                 if (e != e1 && e.collides(e1)) {
-
+                    // TODO Fill
                 }
+            }
+
+        }
+    }
+
+    private void handleEnvironmentCollision() {
+        for (Entity e : entities) {
+
+            for (EnvironmentObject obj : environmentObjects) {
+                // TODO fill
             }
 
         }

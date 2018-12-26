@@ -2,6 +2,7 @@ package game.map;
 
 
 import game.action.PlayerController;
+import game.box.EnvironmentObject;
 import game.entity.Entity;
 import game.entity.Player;
 
@@ -15,6 +16,7 @@ public class MapBuilder {
 
     Collection<Entity> entities;
     Collection<PlayerController> controllers;
+    Collection<EnvironmentObject> environmentObjects;
 
 
     public MapBuilder() {
@@ -24,6 +26,7 @@ public class MapBuilder {
     private void init() {
         entities = new LinkedList<>();
         controllers = new LinkedList<>();
+        environmentObjects = new LinkedList<>();
 
     }
 
@@ -38,8 +41,12 @@ public class MapBuilder {
         controllers.add(controller);
     }
 
+    public void insertEnvironmentObject(EnvironmentObject obj) {
+        environmentObjects.add(obj);
+    }
+
     public GameMap build() {
-        return new GameMap(controllers, entities);
+        return new GameMap(controllers, entities, environmentObjects);
     }
 
 

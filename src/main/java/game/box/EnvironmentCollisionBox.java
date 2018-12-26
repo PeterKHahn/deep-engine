@@ -75,4 +75,9 @@ public class EnvironmentCollisionBox {
         framesAirBound = 0;
     }
 
+
+    public Point bps() {
+        return bps;
+    }
+
 }

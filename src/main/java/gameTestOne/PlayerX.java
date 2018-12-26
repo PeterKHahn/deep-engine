@@ -1,6 +1,9 @@
 package gameTestOne;
 
 import game.action.ControllerButton;
+import game.box.CollisionEnvironment;
+import game.box.EnvironmentCollisionBox;
+import game.box.Point;
 import game.entity.Entity;
 import game.entity.Player;
 
@@ -14,7 +17,8 @@ public class PlayerX extends Player {
 
 
     public PlayerX() {
-        super(0, 0, 0, 0, 0, 0);
+        super(new CollisionEnvironment(new EnvironmentCollisionBox(new Point(0, 0))),
+                0, 0, 0, 0);
     }
 
 
@@ -67,7 +71,7 @@ public class PlayerX extends Player {
     @Override
     public String toString() {
         // TODO fix later
-        return "Player at: " + xPos;
+        return "PlayerX";
     }
 
 }
