@@ -1,6 +1,6 @@
 package game.entity;
 
-import game.box.CollisionEnvironment;
+import game.environment.CollisionEnvironment;
 
 public abstract class Entity {
 

@@ -1,7 +1,7 @@
 package game.map;
 
 import game.action.PlayerController;
-import game.box.EnvironmentObject;
+import game.environment.EnvironmentObject;
 import game.entity.Entity;
 
 import java.util.Collection;

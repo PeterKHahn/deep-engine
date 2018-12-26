@@ -1,4 +1,4 @@
-package game.box;
+package game.environment;
 
 /**
  * A box defines a region called the ecb, that allows an entity to interact

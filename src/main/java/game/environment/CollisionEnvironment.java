@@ -1,4 +1,4 @@
-package game.box;
+package game.environment;
 
 public class CollisionEnvironment {
 
@@ -77,6 +77,12 @@ public class CollisionEnvironment {
 
     public void setYAcc(double yAcc) {
         this.yAcc = yAcc;
+    }
+
+    public void setYAdjustment(double adjust) {
+        if (adjust > this.yAdjustment) {
+            this.yAdjustment = adjust;
+        }
     }
 
 

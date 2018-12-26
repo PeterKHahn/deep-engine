@@ -1,5 +1,7 @@
 package engine.physics.collision;
 
+import game.environment.Point;
+
 import static engine.physics.math.Geom2D.distanceSquared;
 
 public class SingularHitbox implements Hitbox {

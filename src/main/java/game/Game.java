@@ -1,8 +1,8 @@
 package game;
 
 import game.action.PlayerController;
-import game.box.EnvironmentObject;
 import game.entity.Entity;
+import game.environment.EnvironmentObject;
 import game.map.GameMap;
 
 import java.util.HashSet;
@@ -74,9 +74,7 @@ public class Game {
         for (Entity e : entities) {
 
             for (EnvironmentObject obj : environmentObjects) {
-                if (obj.collide(e.getEnvironment())) {
-                    obj.actOnCollide(e.getEnvironment());
-                }
+                // TODO fill
             }
 
         }

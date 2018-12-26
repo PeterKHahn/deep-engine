@@ -1,6 +1,8 @@
-package game.box;
+package game.environment;
 
 public class Point {
+
+    public static final Point ORIGIN = new Point(0, 0);
 
     public double x;
     public double y;

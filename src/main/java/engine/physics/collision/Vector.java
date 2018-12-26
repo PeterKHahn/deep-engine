@@ -1,5 +1,7 @@
 package engine.physics.collision;
 
+import game.environment.Point;
+
 import static engine.physics.math.Geom2D.distance;
 
 public class Vector {
@@ -11,7 +13,7 @@ public class Vector {
     public Vector(double x, double y) {
         this.x = x;
         this.y = y;
-        this.magnitude = distance(Point.origin, new Point(x, y));
+        this.magnitude = distance(Point.ORIGIN, new Point(x, y));
     }
 
 
