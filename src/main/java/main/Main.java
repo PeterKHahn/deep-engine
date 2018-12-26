@@ -3,6 +3,9 @@ package main;
 import engine.Engine;
 import game.Game;
 import game.GameSchematic;
+import game.box.CollisionEnvironment;
+import game.box.EnvironmentCollisionBox;
+import game.box.Point;
 import game.map.GameMap;
 import game.map.MapBuilder;
 import gameTestOne.AiController;
@@ -16,9 +19,13 @@ public class Main {
         System.out.println("Buildering the Map...");
         MapBuilder builder = new MapBuilder();
 
-        // TODO add more stuff to the map
-        builder.insertPlayer(new AiController(new PlayerX()));
-        builder.insertPlayer(new AiController(new PlayerX()));
+        // TODO add more stuff to the map including static environment objects
+        builder.insertPlayer(new AiController(
+                new PlayerX(new CollisionEnvironment(
+                        new EnvironmentCollisionBox(new Point(-5, 0))))));
+        builder.insertPlayer(new AiController(
+                new PlayerX(new CollisionEnvironment(
+                        new EnvironmentCollisionBox(new Point(5, 0))))));
 
 
         GameMap map = builder.build();

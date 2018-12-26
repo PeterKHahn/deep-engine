@@ -5,12 +5,6 @@ import game.box.CollisionEnvironment;
 public abstract class Entity {
 
 
-    protected double xVel;
-    protected double yVel;
-    protected double xAcc;
-    protected double yAcc;
-
-
     private CollisionEnvironment environment;
 
 
@@ -22,10 +16,10 @@ public abstract class Entity {
 
         this.environment = initialEnvironment;
 
-        this.xVel = xVel;
-        this.yVel = yVel;
-        this.xAcc = xAcc;
-        this.yAcc = yAcc;
+        environment.setXVel(xVel);
+        environment.setYVel(yVel);
+        environment.setXAcc(xAcc);
+        environment.setYAcc(yAcc);
     }
 
 
@@ -44,37 +38,33 @@ public abstract class Entity {
     public abstract void updateState();
 
     public void updatePosition() {
-        xVel += xAcc;
-        yVel += yAcc;
-
-        environment.projectedEcb.bps().x += xVel;
-        environment.projectedEcb.bps().y += yVel;
+        environment.updatePosition();
 
     }
 
     public double xVel() {
-        return xVel;
+        return environment.xVel();
     }
 
     public double yVel() {
-        return yVel;
+        return environment.yVel();
     }
 
     public double xAcc() {
-        return xAcc;
+        return environment.xAcc();
     }
 
     public double yAcc() {
-        return yAcc;
+        return environment.yAcc();
     }
 
 
     public double xPos() {
-        return environment.ecb.bottom().x;
+        return environment.xPos();
     }
 
     public double yPos() {
-        return environment.ecb.bottom().y;
+        return environment.yPos();
     }
 
 

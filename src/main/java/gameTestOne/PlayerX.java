@@ -2,8 +2,6 @@ package gameTestOne;
 
 import game.action.ControllerButton;
 import game.box.CollisionEnvironment;
-import game.box.EnvironmentCollisionBox;
-import game.box.Point;
 import game.entity.Entity;
 import game.entity.Player;
 
@@ -16,9 +14,8 @@ public class PlayerX extends Player {
     private int lastFire = -1;
 
 
-    public PlayerX() {
-        super(new CollisionEnvironment(new EnvironmentCollisionBox(new Point(0, 0))),
-                0, 0, 0, 0);
+    public PlayerX(CollisionEnvironment environment) {
+        super(environment, 0, 0, 0, 0);
     }
 
 
