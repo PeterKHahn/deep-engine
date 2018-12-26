@@ -1,9 +1,7 @@
 package game;
 
 import game.action.PlayerController;
-import game.entity.DynamicEntity;
 import game.entity.Entity;
-import game.event.CollisionEventHandler;
 import game.map.GameMap;
 
 import java.util.HashSet;
@@ -13,10 +11,8 @@ public class Game {
 
     private Set<PlayerController> controllers;
     private Set<Entity> entities;
-    private Set<DynamicEntity> dynamicEntities;
     private GameSchematic schematic;
 
-    private CollisionEventHandler eventHandler;
 
     public Game(GameSchematic schematic) {
 
@@ -26,16 +22,12 @@ public class Game {
 
     private void init() {
         entities = new HashSet<>();
-        dynamicEntities = new HashSet<>();
         controllers = new HashSet<>();
 
-        eventHandler = new CollisionEventHandler();
 
         GameMap initialMap = schematic.getInitialMap();
-        entities.addAll(initialMap.getDynamicEntities());
-        dynamicEntities.addAll(initialMap.getDynamicEntities());
-        entities.addAll(initialMap.getStaticEntities());
 
+        entities.addAll(initialMap.getEntities());
         controllers.addAll(initialMap.getControllers());
 
     }
@@ -57,16 +49,16 @@ public class Game {
 
         // tick all dynamic entities
 
-        for (DynamicEntity e : dynamicEntities) {
+        for (Entity e : entities) {
             e.tick();
         }
     }
 
     private void handleCollision() {
-        for (DynamicEntity dy : dynamicEntities) {
+        for (Entity e : entities) {
 
-            for (Entity e : entities) {
-                if (dy.collides(e)) {
+            for (Entity e1 : entities) {
+                if (e != e1 && e.collides(e1)) {
 
                 }
             }

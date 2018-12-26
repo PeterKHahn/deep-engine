@@ -4,7 +4,7 @@ import game.action.ControllerButton;
 
 import java.util.Set;
 
-public abstract class Player extends DynamicEntity {
+public abstract class Player extends Entity {
 
 
     public Player(double xPos, double yPos, double xVel, double yVel, double xAcc, double yAcc) {
