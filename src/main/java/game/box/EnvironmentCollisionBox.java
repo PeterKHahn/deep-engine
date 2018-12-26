@@ -70,10 +70,7 @@ public class EnvironmentCollisionBox {
         this.ecbRight = new Point(bps.x - 4, bps.y + 4);
     }
 
-    public void lift() {
-        grounded = false;
-        framesAirBound = 0;
-    }
+
 
 
     public Point bps() {

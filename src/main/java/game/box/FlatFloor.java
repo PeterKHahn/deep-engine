@@ -18,10 +18,10 @@ public class FlatFloor extends EnvironmentObject {
     @Override
     public void actOnCollide(CollisionEnvironment environment) {
         Point prev = environment.previousEcb.bottom();
-        Point current = environment.ecb.bottom();
+        Point projected = environment.projectedEcb.bottom();
 
-        if (current.x >= left.x && current.x <= right.x
-                && current.y < height && prev.y >= height) {
+        if (projected.x >= left.x && projected.x <= right.x
+                && projected.y < height && prev.y >= height) {
             // ground the entity
             environment.ecb.ground(height);
 
@@ -32,6 +32,10 @@ public class FlatFloor extends EnvironmentObject {
 
     @Override
     public boolean collide(CollisionEnvironment environment) {
-        return false;
+        Point prev = environment.previousEcb.bottom();
+        Point projected = environment.projectedEcb.bottom();
+
+        return projected.x >= left.x && projected.x <= right.x
+                && projected.y < height && prev.y >= height;
     }
 }

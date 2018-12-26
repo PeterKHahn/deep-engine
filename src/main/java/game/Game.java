@@ -45,18 +45,17 @@ public class Game {
             controller.administer();
         }
 
-        // Iterate over dynamic entities, and see if it collides with other entities,
-
-        handleCollision();
-        handleEnvironmentCollision();
-
-        // lookup in the collision matrix
-
         // tick all entities
 
         for (Entity e : entities) {
             e.tick();
         }
+
+        handleCollision();
+
+        handleEnvironmentCollision();
+
+
     }
 
     private void handleCollision() {
@@ -75,7 +74,9 @@ public class Game {
         for (Entity e : entities) {
 
             for (EnvironmentObject obj : environmentObjects) {
-                // TODO fill
+                if (obj.collide(e.getEnvironment())) {
+                    obj.actOnCollide(e.getEnvironment());
+                }
             }
 
         }

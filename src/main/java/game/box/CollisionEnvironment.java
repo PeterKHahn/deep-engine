@@ -9,12 +9,13 @@ public class CollisionEnvironment {
     public final EnvironmentCollisionBox projectedEcb;
 
 
-    private double xPos;
-    private double yPos;
     private double xVel;
     private double yVel;
     private double xAcc;
     private double yAcc;
+
+    private double xAdjustment;
+    private double yAdjustment;
 
     public CollisionEnvironment(EnvironmentCollisionBox ecb) {
         this.previousEcb = ecb;
@@ -23,12 +24,16 @@ public class CollisionEnvironment {
     }
 
 
-    public void updatePosition() {
+    public void updateProjectedPosition() {
         xVel += xAcc;
         yVel += yAcc;
 
         projectedEcb.bps().x += xVel;
         projectedEcb.bps().y += yVel;
+
+    }
+
+    public void updateEcb() {
 
     }
 

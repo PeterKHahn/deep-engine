@@ -25,7 +25,7 @@ public abstract class Entity {
 
     public void tick() {
         updateState();
-        updatePosition();
+        updateProjectedPosition();
         tick++;
     }
 
@@ -37,8 +37,8 @@ public abstract class Entity {
 
     public abstract void updateState();
 
-    public void updatePosition() {
-        environment.updatePosition();
+    public void updateProjectedPosition() {
+        environment.updateProjectedPosition();
 
     }
 
@@ -65,6 +65,10 @@ public abstract class Entity {
 
     public double yPos() {
         return environment.yPos();
+    }
+
+    public CollisionEnvironment getEnvironment() {
+        return environment;
     }
 
 
