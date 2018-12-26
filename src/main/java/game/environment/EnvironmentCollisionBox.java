@@ -23,9 +23,9 @@ public class EnvironmentCollisionBox {
         // TODO fix from default
         this.bps = bps;
         this.ecbBottom = new Point(bps);
-        this.ecbTop = new Point(bps.x, bps.y + 8);
-        this.ecbLeft = new Point(bps.x - 4, bps.y + 4);
-        this.ecbRight = new Point(bps.x + 4, bps.y + 4);
+        this.ecbTop = new Point(bps.x, bps.y + 32);
+        this.ecbLeft = new Point(bps.x - 16, bps.y + 16);
+        this.ecbRight = new Point(bps.x + 16, bps.y + 16);
 
     }
 

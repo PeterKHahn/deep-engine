@@ -39,6 +39,7 @@ public class Game {
 
     public void tick() {
 
+
         // Iterate over all players for actions
         for (PlayerController controller : controllers) {
             controller.tick(this);

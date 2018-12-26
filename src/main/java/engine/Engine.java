@@ -1,32 +1,38 @@
 package engine;
 
 import game.Game;
-import rendering.Renderer;
+import rendering.JPanelRenderer;
 
-public class Engine {
+public class Engine implements Runnable {
 
     private boolean renderMode;
     private boolean running = false;
     private final int FPS = 30;
 
+    private boolean paused;
+
     private int ticks = 0;
     private Game game;
 
-    private Renderer renderer;
+    private JPanelRenderer renderer;
+
 
     public Engine(Game game) {
-
         this.game = game;
-        this.renderMode = false;
-    }
-
-    public Engine(Game game, Renderer renderer) {
-        this.game = game;
-        this.renderer = renderer;
         this.renderMode = true;
+        renderer = new JPanelRenderer(game, this);
+    }
+
+    public void pause() {
+        paused = !paused;
+    }
+
+    public void advance() {
+        game.tick();
     }
 
 
+    @Override
     public void run() {
         running = true;
         long lastTime = System.nanoTime();
@@ -61,7 +67,7 @@ public class Engine {
 
             if (System.currentTimeMillis() - lastMilis >= 1000) {
                 lastMilis += 1000;
-                System.out.println("FPS: " + framesThisSecond);
+                // System.out.println("FPS: " + framesThisSecond);
                 framesThisSecond = 0;
             }
 
@@ -69,19 +75,15 @@ public class Engine {
 
     }
 
-    int count = 1000;
 
     private void tick() {
-        game.tick();
-        int[][] ar = new int[count][count];
-        for (int i = 0; i < count; i++) {
-            for (int j = 0; j < count; j++) {
-                ar[i][j] = 5;
+        if (!paused) {
 
-            }
+            game.tick();
+
+
         }
 
+
     }
-
-
 }

@@ -1,5 +1,7 @@
 package rendering;
 
+import engine.Engine;
+import engine.input.GameKeyListener;
 import game.Game;
 import game.entity.Entity;
 import game.environment.CollisionEnvironment;
@@ -12,9 +14,11 @@ import java.util.Set;
 
 public class JPanelRenderer extends JPanel implements Renderer {
 
+
     // TODO move this elsewhere
     private static final int PREFERRED_WIDTH = 640;
     private static final int PREFERRED_HEIGHT = 480;
+
 
     private static final int CENTER_HEIGHT = PREFERRED_HEIGHT / 2;
     private static final int CENTER_WIDTH = PREFERRED_WIDTH / 2;
@@ -22,24 +26,30 @@ public class JPanelRenderer extends JPanel implements Renderer {
     private static final String TITLE = "Temporary rendering";
 
     private Game game;
+    private Engine engine;
 
     private BufferedImage image;
 
 
-    public JPanelRenderer(Game game) {
+    public JPanelRenderer(Game game, Engine engine) {
         this.game = game;
+        this.engine = engine;
+
         init();
     }
 
     private void init() {
+
         JFrame frame = new JFrame(TITLE);
+        frame.addKeyListener(new GameKeyListener(engine));
+
         image = new BufferedImage(PREFERRED_WIDTH, PREFERRED_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         setPreferredSize(new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT));
 
 
         frame.add(this);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();             // "this" JFrame packs its components
         frame.setLocationRelativeTo(null); // center the application window
         frame.setVisible(true);            // show it
@@ -70,10 +80,13 @@ public class JPanelRenderer extends JPanel implements Renderer {
             CollisionEnvironment environment = e.getEnvironment();
             EnvironmentCollisionBox ecb = environment.getEcb();
 
-            Color c = new Color(100, 100, 100, 100);
+            Color c = new Color(255, 161, 0, 255);
 
             renderEcb(ecb, g2, c);
-            //renderEcb(environment.getPreviousEcb(), g2, Color.BLUE);
+
+            Color c2 = new Color(255, 116, 0, 255);
+
+            renderEcb(environment.getPreviousEcb(), g2, c2);
             // renderEcb(environment.getProjectedEcb(), g2, Color.WHITE);
 
             int x = convertX(e.xPos());

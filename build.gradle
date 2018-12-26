@@ -30,4 +30,9 @@ compileTestKotlin {
 }
 
 
+run {
+    standardInput = System.in
+}
+
+
 

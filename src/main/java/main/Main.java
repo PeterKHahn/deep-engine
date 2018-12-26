@@ -10,7 +10,8 @@ import game.map.GameMap;
 import game.map.MapBuilder;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
-import rendering.JPanelRenderer;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -35,7 +36,21 @@ public class Main {
         Game g = new Game(schematic);
 
         System.out.println("Starting the engine...");
-        Engine engine = new Engine(g, new JPanelRenderer(g));
-        engine.run();
+        Engine engine = new Engine(g);
+        Thread t = new Thread(engine);
+        t.start();
+
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String input = scanner.nextLine();
+
+            System.out.println("inputed: " + input);
+
+            if (input.equals("pause")) {
+                engine.pause();
+            }
+
+        }
+        scanner.close();
     }
 }
