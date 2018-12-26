@@ -1,6 +1,6 @@
 package engine.physics.math;
 
-import engine.physics.collision.Point;
+import game.environment.Point;
 import org.junit.Test;
 
 import static engine.physics.math.Geom2D.distance;

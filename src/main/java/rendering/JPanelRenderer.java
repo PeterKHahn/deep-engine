@@ -2,6 +2,8 @@ package rendering;
 
 import game.Game;
 import game.entity.Entity;
+import game.environment.CollisionEnvironment;
+import game.environment.EnvironmentCollisionBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,15 +67,24 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
 
         for (Entity e : entities) {
-            int x = (int) (e.xPos() + CENTER_WIDTH);
-            int y = (int) (CENTER_HEIGHT - e.yPos());
+            CollisionEnvironment environment = e.getEnvironment();
+            EnvironmentCollisionBox ecb = environment.getEcb();
+
+            Color c = new Color(100, 100, 100, 100);
+
+            renderEcb(ecb, g2, c);
+            //renderEcb(environment.getPreviousEcb(), g2, Color.BLUE);
+            // renderEcb(environment.getProjectedEcb(), g2, Color.WHITE);
+
+            int x = convertX(e.xPos());
+            int y = convertY(e.yPos());
             int radius = 6;
 
 
             int centerX = x - (radius / 2);
             int centerY = y - (radius / 2);
 
-
+            g2.setColor(Color.BLUE);
             g2.drawOval(centerX, centerY, radius, radius);
 
 
@@ -89,6 +100,32 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
         g.drawImage(image, 0, 0, null);
 
+    }
+
+    private void renderEcb(EnvironmentCollisionBox ecb, Graphics g, Color color) {
+        int[] x = new int[4];
+        int[] y = new int[4];
+
+        g.setColor(color);
+
+        x[0] = convertX(ecb.bottom().x);
+        y[0] = convertY(ecb.bottom().y);
+        x[1] = convertX(ecb.left().x);
+        y[1] = convertY(ecb.left().y);
+        x[2] = convertX(ecb.top().x);
+        y[2] = convertY(ecb.top().y);
+        x[3] = convertX(ecb.right().x);
+        x[3] = convertY(ecb.right().y);
+
+        g.drawPolygon(x, y, 4);
+    }
+
+    private int convertX(double x) {
+        return (int) (x + CENTER_WIDTH);
+    }
+
+    private int convertY(double y) {
+        return (int) (CENTER_HEIGHT - y);
     }
 
 

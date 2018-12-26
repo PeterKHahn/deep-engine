@@ -18,8 +18,8 @@ public class Floor extends EnvironmentObject {
 
     @Override
     public void actOn(CollisionEnvironment environment) {
-        Point previous = environment.previousEcb.bottom();
-        Point projected = environment.projectedEcb.bottom();
+        Point previous = environment.getPreviousEcb().bottom();
+        Point projected = environment.getProjectedEcb().bottom();
 
         if (previous.y < height || projected.y > height) {
             return;

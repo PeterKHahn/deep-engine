@@ -26,6 +26,7 @@ public abstract class Entity {
     public void tick() {
         updateState();
         updateProjectedPosition();
+        environment.updateEcb();
         tick++;
     }
 

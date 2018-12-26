@@ -1,9 +1,9 @@
 package gameTestOne;
 
 import game.action.ControllerButton;
-import game.environment.CollisionEnvironment;
 import game.entity.Entity;
 import game.entity.Player;
+import game.environment.CollisionEnvironment;
 
 import java.util.Set;
 
@@ -51,8 +51,9 @@ public class PlayerX extends Player {
             fire();
         }
 
-        this.xVel = tmpXVelocity;
-        this.yVel = tmpYVelocity;
+        getEnvironment().setXVel(tmpXVelocity);
+        getEnvironment().setYVel(tmpYVelocity);
+
 
     }
 
