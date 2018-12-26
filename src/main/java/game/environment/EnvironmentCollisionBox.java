@@ -8,10 +8,6 @@ public class EnvironmentCollisionBox {
     // TODO fix this so that it is less prone to bugs, reassignment needs
     // to be changed
 
-    private static final int AIR_BOUND_BPS = 10;
-
-    private boolean grounded;
-    private int framesAirBound;
 
     // Also known as top-n or base point star
     private Point bps;
@@ -38,11 +34,7 @@ public class EnvironmentCollisionBox {
     }
 
     public Point bottom() {
-        if (!grounded && framesAirBound < AIR_BOUND_BPS) {
-            return bps;
-        } else {
-            return ecbBottom;
-        }
+        return ecbBottom;
     }
 
     public Point left() {
@@ -53,28 +45,16 @@ public class EnvironmentCollisionBox {
         return ecbRight;
     }
 
-    public void tick() {
-        framesAirBound++;
-    }
-
-    public void ground(double height) {
-        grounded = true;
-        bps.y = height;
-        readjust();
-    }
-
-    private void readjust() {
-        this.ecbBottom = new Point(bps);
-        this.ecbTop = new Point(bps.x, bps.y + 8);
-        this.ecbLeft = new Point(bps.x + 4, bps.y + 4);
-        this.ecbRight = new Point(bps.x - 4, bps.y + 4);
-    }
-
-
-
 
     public Point bps() {
         return bps;
+    }
+
+    public EnvironmentCollisionBox copyWith(double xVel, double yVel) {
+        // TODO Fxi this as well
+        Point newPoint = new Point(bps.x + xVel, bps.y + yVel);
+        EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
+        return newBox;
     }
 
 

@@ -2,11 +2,11 @@ package game.environment;
 
 public class CollisionEnvironment {
 
-    public final EnvironmentCollisionBox previousEcb;
+    private EnvironmentCollisionBox previousEcb;
 
-    public final EnvironmentCollisionBox ecb;
+    private EnvironmentCollisionBox ecb;
 
-    public final EnvironmentCollisionBox projectedEcb;
+    private EnvironmentCollisionBox projectedEcb;
 
 
     private double xVel;
@@ -28,13 +28,22 @@ public class CollisionEnvironment {
         xVel += xAcc;
         yVel += yAcc;
 
-        projectedEcb.bps().x += xVel;
-        projectedEcb.bps().y += yVel;
+        Point newPoint = new Point(previousEcb.bps());
+        newPoint.x += xVel;
+        newPoint.y += yVel;
+        EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
+
+        projectedEcb = newBox;
 
     }
 
     public void updateEcb() {
-
+        // TODO does not handle affect changes such as airborn or whatnot. 
+        Point newPoint = new Point(projectedEcb.bps());
+        newPoint.x += xAdjustment;
+        newPoint.y += yAdjustment;
+        EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
+        ecb = newBox;
     }
 
 
@@ -82,6 +91,12 @@ public class CollisionEnvironment {
     public void setYAdjustment(double adjust) {
         if (adjust > this.yAdjustment) {
             this.yAdjustment = adjust;
+        }
+    }
+
+    public void setXAdjustment(double adjust) {
+        if (adjust > this.xAdjustment) {
+            this.xAdjustment = adjust;
         }
     }
 
