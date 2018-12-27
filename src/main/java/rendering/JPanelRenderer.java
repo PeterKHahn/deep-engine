@@ -6,6 +6,7 @@ import game.Game;
 import game.entity.Entity;
 import game.environment.CollisionEnvironment;
 import game.environment.EnvironmentCollisionBox;
+import game.environment.EnvironmentObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,6 +111,12 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
         g2.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
         g2.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
+
+
+        Set<EnvironmentObject> environmentObjects = game.getEnvironmentObjects();
+        for(EnvironmentObject obj : environmentObjects) {
+
+        }
 
         g.drawImage(image, 0, 0, null);
 

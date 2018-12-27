@@ -2,12 +2,9 @@ package main;
 
 import engine.Engine;
 import game.Game;
-import game.GameSchematic;
 import game.environment.CollisionEnvironment;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Point;
-import game.map.GameMap;
-import game.map.MapBuilder;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
 
@@ -18,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Deep Engine");
         System.out.println("Building the Map...");
-        MapBuilder builder = new MapBuilder();
+        Game.GameBuilder builder = new Game.GameBuilder();
 
         // TODO add more stuff to the map including static environment objects
         builder.insertPlayer(new AiController(
@@ -29,14 +26,10 @@ public class Main {
                         new EnvironmentCollisionBox(new Point(5, 0))))));
 
 
-        GameMap map = builder.build();
+        Game game = builder.build();
 
-        GameSchematic schematic = new GameSchematic(map);
-        System.out.println("Creating the game...");
-        Game g = new Game(schematic);
 
-        System.out.println("Starting the engine...");
-        Engine engine = new Engine(g);
+        Engine engine = new Engine(game);
         Thread t = new Thread(engine);
         t.start();
 
