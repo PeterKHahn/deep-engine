@@ -34,10 +34,8 @@ public class Floor extends EnvironmentObject {
 
         double t = (height - previous.y) / linearY;
         double x = linearX * t + previous.x;
-        System.out.println("A");
         if (x > left.x && x < right.x) {
             // WE have a collision!!
-            System.out.println("B");
             environment.setYAdjustment(height - projected.y);
 
         }
