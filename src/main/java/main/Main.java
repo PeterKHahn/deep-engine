@@ -4,11 +4,10 @@ import engine.Engine;
 import game.Game;
 import game.environment.CollisionEnvironment;
 import game.environment.EnvironmentCollisionBox;
+import game.environment.Floor;
 import game.environment.Point;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
-
-import java.util.Scanner;
 
 public class Main {
 
@@ -25,25 +24,14 @@ public class Main {
                 new PlayerX(new CollisionEnvironment(
                         new EnvironmentCollisionBox(new Point(5, 0))))));
 
+        builder.insertFloor(new Floor(new Point(-250, -10), 500));
+
 
         Game game = builder.build();
 
 
         Engine engine = new Engine(game);
-        Thread t = new Thread(engine);
-        t.start();
+        new Thread(engine).start();
 
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            String input = scanner.nextLine();
-
-            System.out.println("inputed: " + input);
-
-            if (input.equals("pause")) {
-                engine.pause();
-            }
-
-        }
-        scanner.close();
     }
 }

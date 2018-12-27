@@ -15,7 +15,8 @@ public class PlayerX extends Player {
 
 
     public PlayerX(CollisionEnvironment environment) {
-        super(environment, 0, 0, 0, 0);
+
+        super(environment, 0, 0, 0, -1.0);
     }
 
 
@@ -65,11 +66,5 @@ public class PlayerX extends Player {
 
     }
 
-
-    @Override
-    public String toString() {
-        // TODO fix later
-        return "PlayerX";
-    }
 
 }

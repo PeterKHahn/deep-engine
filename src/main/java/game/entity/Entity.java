@@ -43,6 +43,10 @@ public abstract class Entity {
 
     }
 
+    public void updateEcb() {
+        environment.updateEcb();
+    }
+
     public double xVel() {
         return environment.xVel();
     }
@@ -70,6 +74,20 @@ public abstract class Entity {
 
     public CollisionEnvironment getEnvironment() {
         return environment;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Position: " + xPos() + " " + yPos());
+        sb.append("\n");
+        sb.append("Velocity: " + xVel() + " " + yVel());
+        sb.append("\n");
+
+        sb.append("Acceleration: " + xAcc() + " " + yAcc());
+        sb.append("\n");
+
+        return sb.toString();
     }
 
 

@@ -5,7 +5,6 @@ import game.entity.Entity;
 import game.entity.Player;
 import game.environment.*;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,10 +15,10 @@ public class Game {
 
     private Set<EnvironmentObject> environmentObjects;
 
-    private Collection<LeftWall> leftWalls;
-    private Collection<RightWall> rightWalls;
-    private Collection<Ceiling> ceilings;
-    private Collection<Floor> floors;
+    private Set<LeftWall> leftWalls;
+    private Set<RightWall> rightWalls;
+    private Set<Ceiling> ceilings;
+    private Set<Floor> floors;
 
 
     public Game() {
@@ -50,15 +49,24 @@ public class Game {
             controller.administer();
         }
 
-        // tick all entities
 
         for (Entity e : entities) {
-            e.tick();
+            e.updateState();
+            e.updateProjectedPosition();
+
+            for (Entity e1 : entities) { // handle collision across entities
+                if (e != e1 && e.collides(e1)) {
+                    // TODO fill
+                }
+            }
+
+            // handle collision across environment
+            for (EnvironmentObject obj : environmentObjects) {
+                obj.actOn(e.getEnvironment());
+            }
+
+            e.updateEcb();
         }
-
-        handleCollision();
-
-        handleEnvironmentCollision();
 
 
     }
@@ -79,7 +87,7 @@ public class Game {
         for (Entity e : entities) {
 
             for (EnvironmentObject obj : environmentObjects) {
-                // TODO fill
+                obj.actOn(e.getEnvironment());
             }
 
         }
@@ -99,6 +107,23 @@ public class Game {
     public Set<EnvironmentObject> getEnvironmentObjects() {
         return environmentObjects;
     }
+
+    public Set<Floor> getFloors() {
+        return floors;
+    }
+
+    public Set<Ceiling> getCeilings() {
+        return ceilings;
+    }
+
+    public Set<LeftWall> getLeftWalls() {
+        return leftWalls;
+    }
+
+    public Set<RightWall> getRightWalls() {
+        return rightWalls;
+    }
+
 
     public static class GameBuilder {
 

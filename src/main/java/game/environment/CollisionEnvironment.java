@@ -45,8 +45,12 @@ public class CollisionEnvironment {
         Point newPoint = new Point(projectedEcb.bps());
         newPoint.x += xAdjustment;
         newPoint.y += yAdjustment;
+
         EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
         ecb = newBox;
+
+        xAdjustment = 0;
+        yAdjustment = 0;
     }
 
 
