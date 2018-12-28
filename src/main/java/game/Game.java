@@ -2,6 +2,7 @@ package game;
 
 import game.action.PlayerController;
 import game.entity.Entity;
+import game.entity.EntityState;
 import game.entity.Player;
 import game.environment.*;
 
@@ -73,6 +74,17 @@ public class Game {
         }
 
 
+    }
+
+    public DynamicGameState getState() {
+        Set<EntityState> states = new HashSet<>();
+        for (Entity e : entities) {
+            states.add(e.getState());
+        }
+
+        return DynamicGameState.builder()
+                .addEntities(states)
+                .build();
     }
 
     private void handleCollision() {

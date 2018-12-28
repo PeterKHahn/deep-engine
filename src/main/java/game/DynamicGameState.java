@@ -29,8 +29,9 @@ public class DynamicGameState {
             state = new DynamicGameState();
         }
 
-        public void addEntities(Set<EntityState> entityStates) {
+        public GameStateBuilder addEntities(Set<EntityState> entityStates) {
             state.entityStates = ImmutableSet.copyOf(entityStates);
+            return this;
 
         }
 

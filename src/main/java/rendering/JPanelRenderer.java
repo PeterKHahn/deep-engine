@@ -1,19 +1,23 @@
 package rendering;
 
 import engine.Engine;
+import engine.EngineListener;
 import engine.input.GameKeyListener;
+import game.DynamicGameState;
 import game.Game;
 import game.entity.Entity;
+import game.entity.EntityState;
 import game.environment.CollisionEnvironment;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Floor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Set;
 
-public class JPanelRenderer extends JPanel implements Renderer {
+public class JPanelRenderer extends JPanel implements Renderer, EngineListener {
 
 
     // TODO move this elsewhere
@@ -30,6 +34,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
     private Engine engine;
 
     private BufferedImage image;
+    private JFrame frame;
 
 
     public JPanelRenderer(Game game, Engine engine) {
@@ -41,7 +46,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
 
     private void init() {
 
-        JFrame frame = new JFrame(TITLE);
+        frame = new JFrame(TITLE);
         frame.addKeyListener(new GameKeyListener(engine));
 
         image = new BufferedImage(PREFERRED_WIDTH, PREFERRED_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -60,6 +65,75 @@ public class JPanelRenderer extends JPanel implements Renderer {
     @Override
     public void render() {
         repaint();
+    }
+
+    public void render(DynamicGameState state) {
+        BufferStrategy bs = frame.getBufferStrategy();
+        if (bs == null) {
+            frame.createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+
+        Set<EntityState> entityStates = state.getEntityStates();
+
+        Graphics g2 = image.getGraphics();
+
+        g2.setColor(Color.WHITE);
+        g2.fillRect(0, 0, 640, 480);
+
+        g2.setColor(Color.BLUE);
+
+
+        for (EntityState entityState : entityStates) {
+            EnvironmentCollisionBox ecb = entityState.getEcb();
+
+            Color c = new Color(255, 161, 0, 255);
+
+            renderEcb(ecb, g2, c);
+
+            Color c2 = new Color(255, 116, 0, 255);
+
+
+            int x = convertX(ecb.bps().x);
+            int y = convertY(ecb.bps().y);
+            int radius = 6;
+
+
+            int centerX = x - (radius / 2);
+            int centerY = y - (radius / 2);
+
+            g2.setColor(Color.BLUE);
+            g2.drawOval(centerX, centerY, radius, radius);
+
+
+        }
+        g2.setColor(Color.RED);
+
+        g2.drawLine(CENTER_WIDTH, 0, CENTER_WIDTH, PREFERRED_HEIGHT);
+        g2.drawLine(0, CENTER_HEIGHT, PREFERRED_WIDTH, CENTER_HEIGHT);
+
+
+        g2.drawOval(CENTER_WIDTH, CENTER_HEIGHT, 1, 1);
+        g2.drawOval(CENTER_WIDTH - 10, CENTER_HEIGHT - 10, 20, 20);
+
+
+        Set<Floor> environmentObjects = game.getFloors();
+
+        g2.setColor(Color.GREEN);
+        for (Floor floor : environmentObjects) {
+            g2.drawLine(convertX(floor.p1().x),
+                    convertY(floor.p1().y),
+                    convertX(floor.p2().x),
+                    convertY(floor.p2().y));
+        }
+
+        g.drawImage(image, 0, 0, null);
+
+
+        g.dispose();
+        bs.show();
+
 
     }
 
@@ -154,4 +228,9 @@ public class JPanelRenderer extends JPanel implements Renderer {
     }
 
 
+    @Override
+    public void onUpdate(DynamicGameState gameState) {
+        render(gameState);
+
+    }
 }

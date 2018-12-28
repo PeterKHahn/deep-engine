@@ -29,8 +29,10 @@ public class Engine implements Runnable {
     }
 
     private void init() {
-        renderer = new JPanelRenderer(game, this);
         engineListeners = new LinkedList<>();
+
+        renderer = new JPanelRenderer(game, this);
+        this.addListener(renderer);
 
     }
 
@@ -64,6 +66,7 @@ public class Engine implements Runnable {
             while (delta >= 1) {
                 ticks++;
                 tick();
+                updateListeners();
 
 
                 delta -= 1.0;
@@ -73,7 +76,7 @@ public class Engine implements Runnable {
             if (renderMode && shouldRender) {
                 framesThisSecond++;
 
-                renderer.render();
+                // renderer.render();
             }
 
             if (System.currentTimeMillis() - lastMilis >= 1000) {
@@ -104,7 +107,7 @@ public class Engine implements Runnable {
 
     private void updateListeners() {
         for (EngineListener listener : engineListeners) {
-            listener.onUpdate(null); // TODO replace argument
+            listener.onUpdate(game.getState()); // TODO replace argument
         }
     }
 }

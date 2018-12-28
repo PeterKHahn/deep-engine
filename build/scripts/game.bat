@@ -63,7 +63,7 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\game-1.0-SNAPSHOT.jar;%APP_HOME%\lib\kotlin-stdlib-jdk8-1.2.51.jar;%APP_HOME%\lib\kotlin-stdlib-jdk7-1.2.51.jar;%APP_HOME%\lib\kotlin-stdlib-1.2.51.jar;%APP_HOME%\lib\kotlin-stdlib-common-1.2.51.jar;%APP_HOME%\lib\annotations-13.0.jar
+set CLASSPATH=%APP_HOME%\lib\game-1.0-SNAPSHOT.jar;%APP_HOME%\lib\kotlin-stdlib-jdk8-1.2.51.jar;%APP_HOME%\lib\guava-11.0.2.jar;%APP_HOME%\lib\kotlin-stdlib-jdk7-1.2.51.jar;%APP_HOME%\lib\kotlin-stdlib-1.2.51.jar;%APP_HOME%\lib\jsr305-1.3.9.jar;%APP_HOME%\lib\kotlin-stdlib-common-1.2.51.jar;%APP_HOME%\lib\annotations-13.0.jar
 
 @rem Execute game
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GAME_OPTS%  -classpath "%CLASSPATH%" main.Main %CMD_LINE_ARGS%
