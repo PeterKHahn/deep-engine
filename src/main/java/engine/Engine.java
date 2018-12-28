@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 public class Engine implements Runnable {
 
-    private boolean renderMode;
     private boolean running = false;
     private final int FPS = 30;
 
@@ -24,7 +23,6 @@ public class Engine implements Runnable {
 
     public Engine(Game game) {
         this.game = game;
-        this.renderMode = true;
         init();
     }
 
@@ -62,7 +60,6 @@ public class Engine implements Runnable {
             delta += (now - lastTime) / nsPerTick;
             lastTime = now;
 
-            boolean shouldRender = false;
             while (delta >= 1) {
                 ticks++;
                 tick();
@@ -70,20 +67,8 @@ public class Engine implements Runnable {
 
 
                 delta -= 1.0;
-                shouldRender = true;
             }
 
-            if (renderMode && shouldRender) {
-                framesThisSecond++;
-
-                // renderer.render();
-            }
-
-            if (System.currentTimeMillis() - lastMilis >= 1000) {
-                lastMilis += 1000;
-                // System.out.println("FPS: " + framesThisSecond);
-                framesThisSecond = 0;
-            }
 
         }
 
