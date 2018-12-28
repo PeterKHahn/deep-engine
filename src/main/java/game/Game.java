@@ -22,7 +22,7 @@ public class Game {
     private Set<Floor> floors;
 
 
-    public Game() {
+    private Game() {
 
         init();
     }
@@ -38,6 +38,10 @@ public class Game {
         floors = new HashSet<>();
 
 
+    }
+
+    public static GameBuilder builder() {
+        return new GameBuilder();
     }
 
 
@@ -147,7 +151,7 @@ public class Game {
         private Game game;
 
 
-        public GameBuilder() {
+        private GameBuilder() {
             init();
         }
 
@@ -158,30 +162,35 @@ public class Game {
         }
 
 
-        public void insertPlayer(PlayerController controller) {
+        public GameBuilder insertPlayer(PlayerController controller) {
             Player entity = controller.getPlayer();
             game.entities.add(entity);
             game.controllers.add(controller);
+            return this;
         }
 
-        public void insertCeiling(Ceiling ceiling) {
+        public GameBuilder insertCeiling(Ceiling ceiling) {
             game.environmentObjects.add(ceiling);
             game.ceilings.add(ceiling);
+            return this;
         }
 
-        public void insertFloor(Floor floor) {
+        public GameBuilder insertFloor(Floor floor) {
             game.environmentObjects.add(floor);
             game.floors.add(floor);
+            return this;
         }
 
-        public void insertRightWall(RightWall rightWall) {
+        public GameBuilder insertRightWall(RightWall rightWall) {
             game.environmentObjects.add(rightWall);
             game.rightWalls.add(rightWall);
+            return this;
         }
 
-        public void insertLeftWall(LeftWall leftWall) {
+        public GameBuilder insertLeftWall(LeftWall leftWall) {
             game.environmentObjects.add(leftWall);
             game.leftWalls.add(leftWall);
+            return this;
         }
 
 
