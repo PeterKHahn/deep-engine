@@ -40,13 +40,13 @@ public class PlayerX extends Player {
             tmpYVelocity += 5;
         }
         if (actionSet.contains(ControllerButton.DOWN)) {
-            tmpYVelocity -= 5;
+            tmpYVelocity -= 0;
         }
         if (actionSet.contains(ControllerButton.LEFT)) {
-            tmpXVelocity -= 5;
+            tmpXVelocity -= 1;
         }
         if (actionSet.contains(ControllerButton.RIGHT)) {
-            tmpXVelocity += 5;
+            tmpXVelocity += 1;
         }
         if (actionSet.contains(ControllerButton.A)) {
             fire();

@@ -54,11 +54,6 @@ public class Game {
             e.updateState();
             e.updateProjectedPosition();
 
-            for (Entity e1 : entities) { // handle collision across entities
-                if (e != e1 && e.collides(e1)) {
-                    // TODO fill
-                }
-            }
 
             // handle collision across environment
             for (EnvironmentObject obj : environmentObjects) {
@@ -66,6 +61,15 @@ public class Game {
             }
 
             e.updateEcb();
+        }
+
+        for (Entity e : entities) {
+
+            for (Entity e1 : entities) { // handle collision across entities
+                if (e != e1 && e.collides(e1)) {
+                    // TODO fill
+                }
+            }
         }
 
 
@@ -143,7 +147,7 @@ public class Game {
 
 
         public void insertPlayer(PlayerController controller) {
-            Player entity = controller.getPlayer(); // TODO will have to change once this is not public
+            Player entity = controller.getPlayer();
             game.entities.add(entity);
             game.controllers.add(controller);
         }

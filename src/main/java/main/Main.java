@@ -24,6 +24,7 @@ public class Main {
                 new PlayerX(new CollisionEnvironment(
                         new EnvironmentCollisionBox(new Point(5, 0))))));
 
+
         builder.insertFloor(new Floor(new Point(-250, -10), 500));
 
 

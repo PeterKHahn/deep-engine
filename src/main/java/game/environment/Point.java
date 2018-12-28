@@ -4,8 +4,8 @@ public class Point {
 
     public static final Point ORIGIN = new Point(0, 0);
 
-    public double x;
-    public double y;
+    public final double x;
+    public final double y;
 
     public Point(double x, double y) {
         this.x = x;
@@ -15,6 +15,11 @@ public class Point {
     public Point(Point p) {
         this.x = p.x;
         this.y = p.y;
+    }
+
+    public Point(Point p, double dx, double dy) {
+        this.x = p.x + dx;
+        this.y = p.y + dy;
     }
 
 

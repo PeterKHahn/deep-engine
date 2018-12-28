@@ -47,6 +47,15 @@ public abstract class Entity {
         environment.updateEcb();
     }
 
+
+    public double xPos() {
+        return environment.xPos();
+    }
+
+    public double yPos() {
+        return environment.yPos();
+    }
+
     public double xVel() {
         return environment.xVel();
     }
@@ -61,15 +70,6 @@ public abstract class Entity {
 
     public double yAcc() {
         return environment.yAcc();
-    }
-
-
-    public double xPos() {
-        return environment.xPos();
-    }
-
-    public double yPos() {
-        return environment.yPos();
     }
 
     public CollisionEnvironment getEnvironment() {
@@ -88,6 +88,13 @@ public abstract class Entity {
         sb.append("\n");
 
         return sb.toString();
+    }
+
+    public EntityState getState() {
+        return EntityState.builder()
+                .tick(tick)
+                .ecb(environment.getEcb())
+                .build();
     }
 
 

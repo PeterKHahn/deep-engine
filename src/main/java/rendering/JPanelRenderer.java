@@ -24,7 +24,7 @@ public class JPanelRenderer extends JPanel implements Renderer {
     private static final int CENTER_HEIGHT = PREFERRED_HEIGHT / 2;
     private static final int CENTER_WIDTH = PREFERRED_WIDTH / 2;
 
-    private static final String TITLE = "Temporary rendering";
+    private static final String TITLE = "Your Game Rendered";
 
     private Game game;
     private Engine engine;

@@ -31,23 +31,19 @@ public class CollisionEnvironment {
         previousEcb = new EnvironmentCollisionBox(ecb.bps());
 
 
-        Point newPoint = new Point(previousEcb.bps());
-        newPoint.x += xVel;
-        newPoint.y += yVel;
-        EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
+        Point newPoint = new Point(previousEcb.bps(), xVel, yVel);
 
-        projectedEcb = newBox;
+
+        projectedEcb = new EnvironmentCollisionBox(newPoint);
 
     }
 
     public void updateEcb() {
         // TODO does not handle affect changes such as airborn or whatnot.
-        Point newPoint = new Point(projectedEcb.bps());
-        newPoint.x += xAdjustment;
-        newPoint.y += yAdjustment;
+        Point newPoint = new Point(projectedEcb.bps(), xAdjustment, yAdjustment);
 
-        EnvironmentCollisionBox newBox = new EnvironmentCollisionBox(newPoint);
-        ecb = newBox;
+
+        ecb = new EnvironmentCollisionBox(newPoint);
 
         xAdjustment = 0;
         yAdjustment = 0;
@@ -94,6 +90,7 @@ public class CollisionEnvironment {
     public void setYAcc(double yAcc) {
         this.yAcc = yAcc;
     }
+
 
     public void setYAdjustment(double adjust) {
         if (adjust > this.yAdjustment) {
