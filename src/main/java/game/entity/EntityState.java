@@ -14,12 +14,19 @@ public class EntityState {
         return new EntityStateBuilder();
     }
 
+    public int getTick() {
+        return tick;
+    }
+
+    public EnvironmentCollisionBox getEcb() {
+        return ecb;
+    }
+
 
     // TODO ADD HITBOXES
     // TODO ADD STATUS
 
     // TODO ADD IDs
-
 
 
     public static class EntityStateBuilder {

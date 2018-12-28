@@ -9,9 +9,11 @@ public class DynamicGameState {
 
     private Set<EntityState> entityStates;
 
-
     private DynamicGameState() {
+    }
 
+    public Set<EntityState> getEntityStates() {
+        return entityStates;
     }
 
     public static GameStateBuilder builder() {

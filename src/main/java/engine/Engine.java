@@ -3,6 +3,9 @@ package engine;
 import game.Game;
 import rendering.JPanelRenderer;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class Engine implements Runnable {
 
     private boolean renderMode;
@@ -16,11 +19,19 @@ public class Engine implements Runnable {
 
     private JPanelRenderer renderer;
 
+    private Collection<EngineListener> engineListeners;
+
 
     public Engine(Game game) {
         this.game = game;
         this.renderMode = true;
+        init();
+    }
+
+    private void init() {
         renderer = new JPanelRenderer(game, this);
+        engineListeners = new LinkedList<>();
+
     }
 
     public void pause() {
@@ -84,6 +95,16 @@ public class Engine implements Runnable {
 
         }
 
+    }
 
+    public void addListener(EngineListener listener) {
+        this.engineListeners.add(listener);
+
+    }
+
+    private void updateListeners() {
+        for (EngineListener listener : engineListeners) {
+            listener.onUpdate(null); // TODO replace argument
+        }
     }
 }
