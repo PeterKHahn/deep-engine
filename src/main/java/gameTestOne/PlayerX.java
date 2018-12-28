@@ -16,7 +16,7 @@ public class PlayerX extends Player {
 
     public PlayerX(CollisionEnvironment environment) {
 
-        super(environment, 0, 0, 0, -1.0);
+        super(environment, 0, 0, 0, -2.0);
     }
 
 
@@ -37,7 +37,7 @@ public class PlayerX extends Player {
         int tmpYVelocity = 0;
 
         if (actionSet.contains(ControllerButton.UP)) {
-            tmpYVelocity += 5;
+            tmpYVelocity += 4;
         }
         if (actionSet.contains(ControllerButton.DOWN)) {
             tmpYVelocity -= 0;
@@ -50,6 +50,10 @@ public class PlayerX extends Player {
         }
         if (actionSet.contains(ControllerButton.A)) {
             fire();
+        }
+        if (getEnvironment().grounded() && tmpYVelocity > 0) {
+            getEnvironment().setGrounded(false);
+            // TODO fix this
         }
 
         getEnvironment().setXVel(tmpXVelocity);

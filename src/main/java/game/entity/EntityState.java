@@ -7,6 +7,8 @@ public class EntityState {
     private int tick;
     private EnvironmentCollisionBox ecb;
 
+    private boolean grounded;
+
     private EntityState() {
     }
 
@@ -22,6 +24,16 @@ public class EntityState {
         return ecb;
     }
 
+    public boolean getGrounded() {
+        return grounded;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Grounded: " + grounded);
+        return sb.toString();
+    }
 
     // TODO ADD HITBOXES
     // TODO ADD STATUS
@@ -44,6 +56,11 @@ public class EntityState {
 
         public EntityStateBuilder ecb(EnvironmentCollisionBox ecb) {
             state.ecb = ecb;
+            return this;
+        }
+
+        public EntityStateBuilder grounded(boolean grounded) {
+            state.grounded = grounded;
             return this;
         }
 

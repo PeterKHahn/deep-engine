@@ -9,6 +9,9 @@ public class CollisionEnvironment {
     private EnvironmentCollisionBox projectedEcb;
 
 
+    private boolean grounded;
+
+
     private double xVel;
     private double yVel;
     private double xAcc;
@@ -66,6 +69,9 @@ public class CollisionEnvironment {
         return yAcc;
     }
 
+    public boolean grounded() {
+        return grounded;
+    }
 
     public double xPos() {
         return ecb.bps().x;
@@ -89,6 +95,10 @@ public class CollisionEnvironment {
 
     public void setYAcc(double yAcc) {
         this.yAcc = yAcc;
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
     }
 
 

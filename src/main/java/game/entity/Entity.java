@@ -93,6 +93,7 @@ public abstract class Entity {
     public EntityState getState() {
         return EntityState.builder()
                 .tick(tick)
+                .grounded(environment.grounded())
                 .ecb(environment.getEcb())
                 .build();
     }

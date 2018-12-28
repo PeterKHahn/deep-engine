@@ -40,6 +40,7 @@ public class Engine implements Runnable {
 
     public void advance() {
         game.tick();
+        updateListeners();
     }
 
 
@@ -63,7 +64,6 @@ public class Engine implements Runnable {
             while (delta >= 1) {
                 ticks++;
                 tick();
-                updateListeners();
 
 
                 delta -= 1.0;
@@ -79,11 +79,13 @@ public class Engine implements Runnable {
         if (!paused) {
 
             game.tick();
+            updateListeners();
 
 
         }
 
     }
+
 
     public void addListener(EngineListener listener) {
         this.engineListeners.add(listener);

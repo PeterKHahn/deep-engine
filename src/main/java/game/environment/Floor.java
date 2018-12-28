@@ -37,6 +37,7 @@ public class Floor extends EnvironmentObject {
         if (x > left.x && x < right.x) {
             // WE have a collision!!
             environment.setYAdjustment(height - projected.y);
+            environment.setGrounded(true);
 
         }
     }
