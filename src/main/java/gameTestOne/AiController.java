@@ -1,6 +1,6 @@
 package gameTestOne;
 
-import game.Game;
+import game.DynamicGameState;
 import game.action.ControllerButton;
 import game.action.PlayerController;
 import game.entity.Player;
@@ -20,7 +20,7 @@ public class AiController extends PlayerController {
     }
 
     @Override
-    public void tick(Game game) {
+    public void tick(DynamicGameState state) {
         Set<ControllerButton> held = new HashSet<>();
         int xDirection = (int) (Math.random() * 3);
         switch (xDirection) {

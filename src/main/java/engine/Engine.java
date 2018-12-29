@@ -3,8 +3,8 @@ package engine;
 import game.Game;
 import rendering.JPanelRenderer;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Engine implements Runnable {
 
@@ -18,7 +18,7 @@ public class Engine implements Runnable {
 
     private JPanelRenderer renderer;
 
-    private Collection<EngineListener> engineListeners;
+    private Set<EngineListener> engineListeners;
 
 
     public Engine(Game game) {
@@ -27,7 +27,7 @@ public class Engine implements Runnable {
     }
 
     private void init() {
-        engineListeners = new LinkedList<>();
+        engineListeners = new HashSet<>();
 
         renderer = new JPanelRenderer(game, this);
         this.addListener(renderer);
@@ -88,13 +88,15 @@ public class Engine implements Runnable {
 
 
     public void addListener(EngineListener listener) {
-        this.engineListeners.add(listener);
+        if (!engineListeners.contains(listener)) {
+            this.engineListeners.add(listener);
+        }
 
     }
 
-    private void updateListeners() {
+    private void updateListeners() { // TODO so this is all single threaded at this point
         for (EngineListener listener : engineListeners) {
-            listener.onUpdate(game.getState()); // TODO replace argument
+            listener.onUpdate(game.getState());
         }
     }
 }

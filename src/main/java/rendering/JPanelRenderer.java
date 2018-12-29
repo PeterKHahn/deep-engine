@@ -5,6 +5,7 @@ import engine.EngineListener;
 import engine.input.GameKeyListener;
 import game.DynamicGameState;
 import game.Game;
+import game.action.PlayerController;
 import game.entity.EntityState;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Floor;
@@ -28,11 +29,16 @@ public class JPanelRenderer extends JPanel implements EngineListener {
 
     private static final String TITLE = "Your Game Rendered";
 
+    private static final int NUM_CONTROLLERS = 2;
+
+
     private Game game;
     private Engine engine;
 
     private BufferedImage image;
     private JFrame frame;
+
+    private PlayerController[] controllers;
 
 
     public JPanelRenderer(Game game, Engine engine) {
@@ -43,6 +49,9 @@ public class JPanelRenderer extends JPanel implements EngineListener {
     }
 
     private void init() {
+
+        controllers = new PlayerController[NUM_CONTROLLERS];
+
 
         frame = new JFrame(TITLE);
         frame.addKeyListener(new GameKeyListener(engine));
@@ -162,5 +171,11 @@ public class JPanelRenderer extends JPanel implements EngineListener {
     public void onUpdate(DynamicGameState gameState) {
         render(gameState);
 
+    }
+
+    public void updateControllers(DynamicGameState gameState) {
+        for (PlayerController controller : controllers) {
+            controller.tick(gameState); // iterate through each controller, and update as promised
+        }
     }
 }

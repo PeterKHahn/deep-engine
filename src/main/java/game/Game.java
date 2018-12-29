@@ -50,7 +50,7 @@ public class Game {
 
         // Iterate over all players for actions
         for (PlayerController controller : controllers) {
-            controller.tick(this);
+            controller.tick(getState());
             controller.administer();
         }
 

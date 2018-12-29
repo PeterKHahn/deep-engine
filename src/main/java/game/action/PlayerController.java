@@ -1,6 +1,6 @@
 package game.action;
 
-import game.Game;
+import game.DynamicGameState;
 import game.entity.Player;
 
 public abstract class PlayerController {
@@ -27,7 +27,7 @@ public abstract class PlayerController {
 
     // TODO we will be making this async in the future, this tick
     // TODO method is temporary.
-    public abstract void tick(Game game);
+    public abstract void tick(DynamicGameState state);
 
     public void administer() {
         getPlayer().act(controller.getHeld());
