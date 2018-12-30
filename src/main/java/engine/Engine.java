@@ -39,6 +39,8 @@ public class Engine implements Runnable {
     }
 
     public void advance() {
+        updateGameState();
+
         game.tick();
         updateListeners();
     }
@@ -77,10 +79,7 @@ public class Engine implements Runnable {
 
     private void tick() {
         if (!paused) {
-            updateGameState();
-
-            game.tick();
-            updateListeners();
+            advance();
 
 
         }
