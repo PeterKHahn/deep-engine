@@ -15,8 +15,6 @@ public class Main {
         System.out.println("Welcome to Deep Engine");
         System.out.println("Building the Map...");
         Game game = Game.builder()
-
-                // TODO add more stuff to the map including static environment objects
                 .insertPlayer(new AiController(
                         new PlayerX(new CollisionEnvironment(
                                 new EnvironmentCollisionBox(new Point(-5, 0))))))
@@ -32,6 +30,7 @@ public class Main {
 
         Engine engine = new Engine(game);
         new Thread(engine).start();
+
 
     }
 }

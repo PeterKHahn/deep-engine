@@ -21,6 +21,8 @@ public class Game {
     private Set<Ceiling> ceilings;
     private Set<Floor> floors;
 
+    private int numPlayers;
+
 
     private Game() {
 
@@ -144,6 +146,9 @@ public class Game {
         return rightWalls;
     }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
 
     public static class GameBuilder {
 
@@ -159,6 +164,11 @@ public class Game {
             game = new Game();
 
 
+        }
+
+        public GameBuilder setNumPlayers(int numPlayers) {
+            game.numPlayers = numPlayers;
+            return this;
         }
 
 
