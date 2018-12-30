@@ -37,7 +37,7 @@ public abstract class Entity {
             }
         }
 
-        updateState();
+        updateState(game);
         updateProjectedPosition();
 
 
@@ -59,7 +59,12 @@ public abstract class Entity {
 
     public abstract boolean collides(Entity e);
 
-    public abstract void updateState();
+    /**
+     * Can update the self state or the state of the game using this method
+     *
+     * @param game
+     */
+    public abstract void updateState(Game game);
 
     public void updateProjectedPosition() {
         environment.updateProjectedPosition();

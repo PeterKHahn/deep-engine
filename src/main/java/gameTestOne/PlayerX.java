@@ -1,5 +1,6 @@
 package gameTestOne;
 
+import game.Game;
 import game.action.ControllerButton;
 import game.entity.Entity;
 import game.entity.Player;
@@ -26,7 +27,7 @@ public class PlayerX extends Player {
     }
 
     @Override
-    public void updateState() {
+    public void updateState(Game game) {
         // TODO
     }
 
