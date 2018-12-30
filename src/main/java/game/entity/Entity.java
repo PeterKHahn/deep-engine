@@ -1,6 +1,10 @@
 package game.entity;
 
+import game.Game;
 import game.environment.CollisionEnvironment;
+import game.environment.GameEnvironment;
+
+import java.util.Collection;
 
 public abstract class Entity {
 
@@ -23,11 +27,30 @@ public abstract class Entity {
     }
 
 
-    public void tick() {
+    public void tick(Game game) {
+
+        Collection<Entity> entities = game.getEntities();
+        GameEnvironment environment = game.getEnvironment();
+        for (Entity e : entities) { // handle collision across entities
+            if (this != e && this.collides(e)) {
+                // TODO fill
+            }
+        }
+
         updateState();
         updateProjectedPosition();
-        environment.updateEcb();
+
+
+        // handle collision across environment
+        environment.actOn(this);
+
+
+        updateEcb();
+
+
         tick++;
+
+
     }
 
     public int currentTick() {

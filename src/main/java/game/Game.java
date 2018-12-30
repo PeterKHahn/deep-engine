@@ -47,24 +47,7 @@ public class Game {
 
 
         for (Entity e : entities) {
-            e.updateState();
-            e.updateProjectedPosition();
-
-
-            // handle collision across environment
-            environment.actOn(e);
-
-
-            e.updateEcb();
-        }
-
-        for (Entity e : entities) {
-
-            for (Entity e1 : entities) { // handle collision across entities
-                if (e != e1 && e.collides(e1)) {
-                    // TODO fill
-                }
-            }
+            e.tick(this);
         }
 
 
@@ -125,9 +108,16 @@ public class Game {
         return environment.getRightWalls();
     }
 
+    public GameEnvironment getEnvironment() {
+        return environment;
+    }
 
+
+    /**
+     * The Game Builder class uses the builder pattern to create Games, also allowing
+     * for input on a Game Environment.
+     */
     public static class GameBuilder {
-
 
         private Game game;
 
@@ -147,7 +137,6 @@ public class Game {
             game.environment = gameEnvironment;
             return this;
         }
-
 
         public GameBuilder insertPlayer(PlayerController controller) {
             Player entity = controller.getPlayer();

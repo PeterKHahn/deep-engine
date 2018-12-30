@@ -23,3 +23,11 @@ Dimensions of a Fighting Game
   Existence:
     - What character you are
       - Do we need a separate training for each character? It is possible
+
+
+
+Spawn Handler:
+  The purpose of a spawn handler is a peice of logic that dictates what spawns
+  where. A Player (or any entity really) can be inserted into the game, but
+  the question of where it belongs is still up in the air. The same logic
+  used to spawn items, npc, and players should be the same. 
