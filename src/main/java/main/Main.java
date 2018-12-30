@@ -12,12 +12,12 @@ public class Main {
         System.out.println("Welcome to Deep Engine");
         System.out.println("Building the Map...");
         Game game = Game.builder()
-                .insertPlayer(new AiController(
+                .insertPlayer(
                         new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Point(-5, 0))))))
-                .insertPlayer(new AiController(
+                                new EnvironmentCollisionBox(new Point(-5, 0)))))
+                .insertPlayer(
                         new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Point(5, 0))))))
+                                new EnvironmentCollisionBox(new Point(5, 0)))))
                 .setEnvironment(
                         GameEnvironment.builder()
                                 .addFloor(new Floor(new Point(-250, -10), 500))
@@ -25,8 +25,15 @@ public class Main {
                 )
                 .build();
 
+        AiController controller1 = new AiController();
+        AiController controller2 = new AiController();
 
         Engine engine = new Engine(game);
+
+        engine.addListener(controller1);
+        engine.addListener(controller2);
+        engine.insertController(0, controller1.getController());
+        engine.insertController(1, controller2.getController());
         new Thread(engine).start();
 
 

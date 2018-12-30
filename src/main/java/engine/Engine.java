@@ -1,6 +1,7 @@
 package engine;
 
 import game.Game;
+import game.action.GameController;
 import rendering.JPanelRenderer;
 
 import java.util.HashSet;
@@ -20,6 +21,8 @@ public class Engine implements Runnable {
 
     private Set<EngineListener> engineListeners;
 
+    private ControllerBoard controllerBoard;
+
 
     public Engine(Game game) {
         this.game = game;
@@ -28,6 +31,7 @@ public class Engine implements Runnable {
 
     private void init() {
         engineListeners = new HashSet<>();
+        controllerBoard = new ControllerBoard(2);
 
         renderer = new JPanelRenderer(game, this);
         this.addListener(renderer);
@@ -77,6 +81,7 @@ public class Engine implements Runnable {
 
     private void tick() {
         if (!paused) {
+            updateGameState();
 
             game.tick();
             updateListeners();
@@ -84,6 +89,10 @@ public class Engine implements Runnable {
 
         }
 
+    }
+
+    private void updateGameState() {
+        game.updateControllers(controllerBoard);
     }
 
 
@@ -98,5 +107,9 @@ public class Engine implements Runnable {
         for (EngineListener listener : engineListeners) {
             listener.onUpdate(game.getState());
         }
+    }
+
+    public void insertController(int port, GameController controller) {
+        controllerBoard.insertController(port, controller);
     }
 }

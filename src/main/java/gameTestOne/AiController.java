@@ -1,26 +1,32 @@
 package gameTestOne;
 
+import engine.EngineListener;
 import game.DynamicGameState;
 import game.action.ControllerButton;
-import game.action.PlayerController;
-import game.entity.Player;
+import game.action.GameController;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class AiController extends PlayerController {
+public class AiController implements EngineListener {
+
+    private GameController controller;
+
     /**
      * A player controller controls a specific player inside of a game.
      * This could be an AI player or an IRL player
-     *
-     * @param player
      */
-    public AiController(Player player) {
-        super(player);
+    public AiController() {
+        init();
     }
 
+    private void init() {
+        controller = new GameController();
+    }
+
+
     @Override
-    public void tick(DynamicGameState state) {
+    public void onUpdate(DynamicGameState gameState) {
         Set<ControllerButton> held = new HashSet<>();
         int xDirection = (int) (Math.random() * 3);
         switch (xDirection) {
@@ -52,5 +58,9 @@ public class AiController extends PlayerController {
         controller.releaseAll();
 
         controller.hold(held);
+    }
+
+    public GameController getController() {
+        return controller;
     }
 }

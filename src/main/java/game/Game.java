@@ -1,6 +1,7 @@
 package game;
 
-import game.action.PlayerController;
+import engine.ControllerBoard;
+import game.action.GameController;
 import game.entity.Entity;
 import game.entity.EntityState;
 import game.entity.Player;
@@ -13,8 +14,8 @@ import java.util.Set;
 
 public class Game {
 
-    private Set<PlayerController> controllers;
     private Set<Entity> entities;
+    private Player[] players;
 
 
     private GameEnvironment environment;
@@ -28,7 +29,6 @@ public class Game {
     private void init() {
 
         entities = new HashSet<>();
-        controllers = new HashSet<>();
 
 
     }
@@ -37,15 +37,19 @@ public class Game {
         return new GameBuilder();
     }
 
+    public void updateControllers(ControllerBoard controllerBoard) {
+        for (int i = 0; i < players.length; i++) {
+            GameController controller = controllerBoard.getController(i);
+
+            if (controller == null) continue;
+
+            players[i].act(controller.getHeld());
+
+        }
+    }
+
 
     public void tick() {
-
-
-        // Iterate over all players for actions
-        for (PlayerController controller : controllers) {
-            controller.tick(getState());
-            controller.administer();
-        }
 
 
         for (Entity e : entities) {
@@ -142,18 +146,19 @@ public class Game {
             return this;
         }
 
-        public GameBuilder insertPlayer(PlayerController controller) {
-            Player entity = controller.getPlayer();
-            game.entities.add(entity);
-            players.add(entity);
-            game.controllers.add(controller);
+        public GameBuilder insertPlayer(Player player) {
+            game.entities.add(player);
+            players.add(player);
             return this;
         }
 
 
         public Game build() {
 
-
+            game.players = new Player[players.size()];
+            for (int i = 0; i < players.size(); i++) {
+                game.players[i] = players.get(i);
+            }
             return game;
         }
 

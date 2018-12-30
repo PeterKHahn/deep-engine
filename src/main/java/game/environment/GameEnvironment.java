@@ -2,9 +2,7 @@ package game.environment;
 
 import game.entity.Entity;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class GameEnvironment {
@@ -17,8 +15,6 @@ public class GameEnvironment {
     private Set<EnvironmentObject> environmentObjects;
 
 
-    private Map<String, Spawn> spawns;
-
     private GameEnvironment() {
         init();
     }
@@ -29,7 +25,6 @@ public class GameEnvironment {
         ceilings = new HashSet<>();
         floors = new HashSet<>();
         environmentObjects = new HashSet<>();
-        spawns = new HashMap<>();
     }
 
     public void actOn(Entity entity) {
@@ -98,10 +93,6 @@ public class GameEnvironment {
             return this;
         }
 
-        public GameEnvironmentBuilder addSpawn(String id, Spawn spawn) {
-            gameEnvironment.spawns.put(id, spawn);
-            return this;
-        }
 
         public GameEnvironment build() {
             return gameEnvironment;
