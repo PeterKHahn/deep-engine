@@ -5,6 +5,7 @@ import game.Game;
 import game.environment.*;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
+import rendering.JPanelRenderer;
 
 public class Main {
 
@@ -28,8 +29,13 @@ public class Main {
         AiController controller1 = new AiController();
         AiController controller2 = new AiController();
 
+
         System.out.println("Initializing the engine");
         Engine engine = new Engine(game);
+
+        JPanelRenderer renderer = new JPanelRenderer(game, engine);
+        engine.addListener(renderer);
+
 
         System.out.println("Adding controllers");
         engine.addListener(controller1);

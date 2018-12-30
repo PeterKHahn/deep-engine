@@ -2,7 +2,6 @@ package engine;
 
 import game.Game;
 import game.action.GameController;
-import rendering.JPanelRenderer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +16,6 @@ public class Engine implements Runnable {
     private int ticks = 0;
     private Game game;
 
-    private JPanelRenderer renderer;
 
     private Set<EngineListener> engineListeners;
 
@@ -33,8 +31,6 @@ public class Engine implements Runnable {
         engineListeners = new HashSet<>();
         controllerBoard = new ControllerBoard(2);
 
-        renderer = new JPanelRenderer(game, this);
-        this.addListener(renderer);
 
     }
 
