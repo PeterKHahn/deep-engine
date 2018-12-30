@@ -107,7 +107,6 @@ public class JPanelRenderer extends JPanel implements EngineListener {
 
             g2.setColor(Color.BLUE);
             g2.drawOval(centerX, centerY, radius, radius);
-            System.out.println(entityState);
 
 
         }

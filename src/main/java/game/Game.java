@@ -6,7 +6,9 @@ import game.entity.EntityState;
 import game.entity.Player;
 import game.environment.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Game {
@@ -120,6 +122,7 @@ public class Game {
     public static class GameBuilder {
 
         private Game game;
+        private List<Player> players;
 
 
         private GameBuilder() {
@@ -128,6 +131,7 @@ public class Game {
 
         private void init() {
             game = new Game();
+            players = new ArrayList<>();
 
 
         }
@@ -141,6 +145,7 @@ public class Game {
         public GameBuilder insertPlayer(PlayerController controller) {
             Player entity = controller.getPlayer();
             game.entities.add(entity);
+            players.add(entity);
             game.controllers.add(controller);
             return this;
         }

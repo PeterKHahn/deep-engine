@@ -30,4 +30,7 @@ Spawn Handler:
   The purpose of a spawn handler is a peice of logic that dictates what spawns
   where. A Player (or any entity really) can be inserted into the game, but
   the question of where it belongs is still up in the air. The same logic
-  used to spawn items, npc, and players should be the same. 
+  used to spawn items, npc, and players should be the same.
+
+  The Spawn Handler needs access to a Factory, capable of creating entities at
+  its disposal.
