@@ -1,19 +1,13 @@
 package game.environment;
 
-public class Spawn extends EnvironmentObject {
-    
-    @Override
-    public void actOn(CollisionEnvironment environment) {
+public class Spawn {
 
+    private Point spawnPoint;
+
+    public Spawn(Point spawnPoint) {
+
+        this.spawnPoint = spawnPoint;
     }
 
-    @Override
-    public Point p1() {
-        return null;
-    }
 
-    @Override
-    public Point p2() {
-        return null;
-    }
 }

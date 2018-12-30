@@ -2,10 +2,7 @@ package main;
 
 import engine.Engine;
 import game.Game;
-import game.environment.CollisionEnvironment;
-import game.environment.EnvironmentCollisionBox;
-import game.environment.Floor;
-import game.environment.Point;
+import game.environment.*;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
 
@@ -21,10 +18,11 @@ public class Main {
                 .insertPlayer(new AiController(
                         new PlayerX(new CollisionEnvironment(
                                 new EnvironmentCollisionBox(new Point(5, 0))))))
-
-
-                .insertFloor(new Floor(new Point(-250, -10), 500))
-
+                .setEnvironment(
+                        GameEnvironment.builder()
+                                .addFloor(new Floor(new Point(-250, -10), 500))
+                                .build()
+                )
                 .build();
 
 

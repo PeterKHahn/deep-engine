@@ -14,14 +14,8 @@ public class Game {
     private Set<PlayerController> controllers;
     private Set<Entity> entities;
 
-    private Set<EnvironmentObject> environmentObjects;
 
-    private Set<LeftWall> leftWalls;
-    private Set<RightWall> rightWalls;
-    private Set<Ceiling> ceilings;
-    private Set<Floor> floors;
-
-    private int numPlayers;
+    private GameEnvironment environment;
 
 
     private Game() {
@@ -30,14 +24,9 @@ public class Game {
     }
 
     private void init() {
+
         entities = new HashSet<>();
         controllers = new HashSet<>();
-        environmentObjects = new HashSet<>();
-
-        leftWalls = new HashSet<>();
-        rightWalls = new HashSet<>();
-        ceilings = new HashSet<>();
-        floors = new HashSet<>();
 
 
     }
@@ -63,9 +52,8 @@ public class Game {
 
 
             // handle collision across environment
-            for (EnvironmentObject obj : environmentObjects) {
-                obj.actOn(e.getEnvironment());
-            }
+            environment.actOn(e);
+
 
             e.updateEcb();
         }
@@ -105,15 +93,6 @@ public class Game {
         }
     }
 
-    private void handleEnvironmentCollision() {
-        for (Entity e : entities) {
-
-            for (EnvironmentObject obj : environmentObjects) {
-                obj.actOn(e.getEnvironment());
-            }
-
-        }
-    }
 
     public void printState() {
         System.out.println("Printing Game State");
@@ -127,28 +106,25 @@ public class Game {
     }
 
     public Set<EnvironmentObject> getEnvironmentObjects() {
-        return environmentObjects;
+        return environment.getEnvironmentObjects();
     }
 
     public Set<Floor> getFloors() {
-        return floors;
+        return environment.getFloors();
     }
 
     public Set<Ceiling> getCeilings() {
-        return ceilings;
+        return environment.getCeilings();
     }
 
     public Set<LeftWall> getLeftWalls() {
-        return leftWalls;
+        return environment.getLeftWalls();
     }
 
     public Set<RightWall> getRightWalls() {
-        return rightWalls;
+        return environment.getRightWalls();
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
 
     public static class GameBuilder {
 
@@ -166,8 +142,9 @@ public class Game {
 
         }
 
-        public GameBuilder setNumPlayers(int numPlayers) {
-            game.numPlayers = numPlayers;
+
+        public GameBuilder setEnvironment(GameEnvironment gameEnvironment) {
+            game.environment = gameEnvironment;
             return this;
         }
 
@@ -176,30 +153,6 @@ public class Game {
             Player entity = controller.getPlayer();
             game.entities.add(entity);
             game.controllers.add(controller);
-            return this;
-        }
-
-        public GameBuilder insertCeiling(Ceiling ceiling) {
-            game.environmentObjects.add(ceiling);
-            game.ceilings.add(ceiling);
-            return this;
-        }
-
-        public GameBuilder insertFloor(Floor floor) {
-            game.environmentObjects.add(floor);
-            game.floors.add(floor);
-            return this;
-        }
-
-        public GameBuilder insertRightWall(RightWall rightWall) {
-            game.environmentObjects.add(rightWall);
-            game.rightWalls.add(rightWall);
-            return this;
-        }
-
-        public GameBuilder insertLeftWall(LeftWall leftWall) {
-            game.environmentObjects.add(leftWall);
-            game.leftWalls.add(leftWall);
             return this;
         }
 
