@@ -7,18 +7,48 @@ import os
 import neat
 import visualize
 
+import gym
+import numpy as np
+
 # 2-input XOR inputs and expected outputs.
 xor_inputs = [(0.0, 0.0), (0.0, 1.0), (1.0, 0.0), (1.0, 1.0)]
 xor_outputs = [   (0.0,),     (1.0,),     (1.0,),     (0.0,)]
 
+game = gym.make('CartPole-v1')
+
+def fitness(genome, config):
+    net = neat.nn.FeedForwardNetwork.create(genome, config)
+
+    st = game.reset()
+    total_reward = 0
+
+
+
+    for j in range(999):
+
+        action_probs = net.activate(st)
+        action = np.argmax(action_probs)
+
+        st1, reward, done, _ = game.step(action)
+        total_reward += reward
+
+        if True:
+            game.render()
+
+        st = st1
+
+        if done:
+
+            break
+
+    return total_reward
+
 
 def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
-        genome.fitness = 4.0
-        net = neat.nn.FeedForwardNetwork.create(genome, config)
-        for xi, xo in zip(xor_inputs, xor_outputs):
-            output = net.activate(xi)
-            genome.fitness -= (output[0] - xo[0]) ** 2
+
+
+        genome.fitness = fitness(genome, config)
 
 
 def run(config_file):
@@ -44,18 +74,10 @@ def run(config_file):
 
     # Show output of the most fit genome against training data.
     print('\nOutput:')
-    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-    for xi, xo in zip(xor_inputs, xor_outputs):
-        output = winner_net.activate(xi)
-        print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
+    output = fitness(winner, config)
+    print("The winner got a score of ", output)
 
-    node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
-    visualize.draw_net(config, winner, True, node_names=node_names)
-    visualize.plot_stats(stats, ylog=False, view=True)
-    visualize.plot_species(stats, view=True)
 
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    p.run(eval_genomes, 10)
 
 
 if __name__ == '__main__':
@@ -64,4 +86,6 @@ if __name__ == '__main__':
     # current working directory.
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward')
+    print(config_path)
     run(config_path)
+    game.close()

@@ -1,0 +1,17 @@
+digraph {
+	node [fontsize=9 height=0.2 shape=circle width=0.2]
+	A [fillcolor=lightgray shape=box style=filled]
+	B [fillcolor=lightgray shape=box style=filled]
+	C [fillcolor=lightgray shape=box style=filled]
+	D [fillcolor=lightgray shape=box style=filled]
+	Action1 [fillcolor=lightblue style=filled]
+	Action2 [fillcolor=lightblue style=filled]
+	A -> Action1 [color=red penwidth=0.16229080016718012 style=solid]
+	A -> Action2 [color=green penwidth=0.18583810672648596 style=solid]
+	B -> Action1 [color=green penwidth=0.18541654731434257 style=solid]
+	B -> Action2 [color=red penwidth=0.32253753156268067 style=solid]
+	C -> Action1 [color=red penwidth=0.25450840398459007 style=solid]
+	C -> Action2 [color=green penwidth=0.3367325515545344 style=solid]
+	D -> Action1 [color=green penwidth=0.22844227721027677 style=solid]
+	D -> Action2 [color=green penwidth=0.34092807225959143 style=solid]
+}
