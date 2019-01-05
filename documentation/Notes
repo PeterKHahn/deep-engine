@@ -34,3 +34,10 @@ Spawn Handler:
 
   The Spawn Handler needs access to a Factory, capable of creating entities at
   its disposal.
+
+
+NEAT and NeuroEvolution
+NEAT worked really well on cartpole, but not at at all on mountaincar.
+This is likely because the statespace wasn't well explored with mountaincar,
+but because of the continuous reward of cartpole, it was able to learn
+the space well to achieve optimum strategy. 

@@ -7,69 +7,27 @@ import os
 import neat
 import visualize
 
-import gym
-import numpy as np
-
 # 2-input XOR inputs and expected outputs.
 xor_inputs = [(0.0, 0.0), (0.0, 1.0), (1.0, 0.0), (1.0, 1.0)]
 xor_outputs = [   (0.0,),     (1.0,),     (1.0,),     (0.0,)]
 
-game = gym.make('MountainCar-v0')
-game._max_episode_steps = 1000
-
-print("outputs", game.action_space.n)
-print("inputs", game.observation_space.shape[0])
-
-def discounted_reward(ls, lam=0.99):
-    new_ls = reversed(ls)
-    total = 0
-    for i in new_ls:
-        total = total * lam + i
-
-    return total
-
-
-
-def fitness(genome, config, render=False):
-    net = neat.nn.FeedForwardNetwork.create(genome, config)
-
-    st = game.reset()
-    total_reward = []
-
-
-
-    for j in range(999):
-
-        action_probs = net.activate(st)
-        action = np.argmax(action_probs)
-
-        st1, reward, done, _ = game.step(action)
-        total_reward.append(reward)
-
-        if render:
-            game.render()
-
-        st = st1
-
-        if done:
-
-            break
-
-    res =  sum(total_reward) #discounted_reward(total_reward)
-    return res
-
 
 def eval_genomes(genomes, config):
-    last = None
-
     for genome_id, genome in genomes:
+        genome.fitness = 4.0
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+        for xi, xo in zip(xor_inputs, xor_outputs):
+            output = net.activate(xi)
+            genome.fitness -= (output[0] - xo[0]) ** 2
 
 
-        genome.fitness = fitness(genome, config)
-        last = genome
-
-    last.fitness = fitness(last, config, render=True)
-
+def eval_genomes2(genomes, config):
+    for genome_id, genome in genomes:
+        genome.fitness = 4.0
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+        for xi, xo in zip(xor_inputs, xor_outputs):
+            output = net.activate(xi)
+            genome.fitness -= (output[0] - xo[0]) ** 2
 
 def run(config_file):
     # Load configuration.
@@ -86,18 +44,26 @@ def run(config_file):
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(5))
 
-    # Run for up to 1000 generations.
-    winner = p.run(eval_genomes, 10000)
+    # Run for up to 300 generations.
+    winner = p.run(eval_genomes, 300)
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
 
     # Show output of the most fit genome against training data.
     print('\nOutput:')
-    output = fitness(winner, config, render=True)
-    print("The winner got a score of ", output)
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    for xi, xo in zip(xor_inputs, xor_outputs):
+        output = winner_net.activate(xi)
+        print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
 
+    node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
+    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
 
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    p.run(eval_genomes, 10)
 
 
 if __name__ == '__main__':
@@ -108,4 +74,3 @@ if __name__ == '__main__':
     config_path = os.path.join(local_dir, 'config-feedforward')
     print(config_path)
     run(config_path)
-    game.close()
