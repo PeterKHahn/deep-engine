@@ -5,6 +5,7 @@ import game.environment.EnvironmentCollisionBox;
 public class EntityState {
 
     private int tick;
+    private double damage;
     private EnvironmentCollisionBox ecb;
 
     private boolean grounded;
@@ -61,6 +62,11 @@ public class EntityState {
 
         public EntityStateBuilder grounded(boolean grounded) {
             state.grounded = grounded;
+            return this;
+        }
+
+        public EntityStateBuilder damage(double damage) {
+            state.damage = damage;
             return this;
         }
 

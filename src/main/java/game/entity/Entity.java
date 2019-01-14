@@ -3,7 +3,8 @@ package game.entity;
 import game.Game;
 import game.environment.CollisionEnvironment;
 import game.environment.GameEnvironment;
-import game.physics.collision.hitbox.Box;
+import game.physics.collision.hitbox.HitBox;
+import game.physics.collision.hitbox.HurtBox;
 
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ public abstract class Entity {
 
 
     private CollisionEnvironment environment;
+    private double damage = 0;
 
 
     private int tick = 0;
@@ -32,10 +34,12 @@ public abstract class Entity {
 
         Collection<Entity> entities = game.getEntities();
         GameEnvironment environment = game.getEnvironment();
-        if (hitboxActive()) {
-            for (Entity e : entities) { // handle collision across entities
-                if (this != e && this.hitbox().collides(e.hurtbox())) {
+
+        if (hitboxActive()) {// handle hitbox to hurtbox collision across entities
+            for (Entity e : entities) {
+                if (this != e && this.hitBox().collides(e.hurtBox())) {
                     // TODO fill
+                    e.damage += this.hitBox().getDamage();
                 }
             }
         }
@@ -59,9 +63,9 @@ public abstract class Entity {
 
     public abstract boolean hitboxActive();
 
-    public abstract Box hitbox();
+    public abstract HitBox hitBox();
 
-    public abstract Box hurtbox();
+    public abstract HurtBox hurtBox();
 
     public int currentTick() {
         return tick;
@@ -130,6 +134,7 @@ public abstract class Entity {
     public EntityState getState() {
         return EntityState.builder()
                 .tick(tick)
+                .damage(damage)
                 .grounded(environment.grounded())
                 .ecb(environment.getEcb())
                 .build();

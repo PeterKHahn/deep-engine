@@ -8,7 +8,7 @@ public class Box {
     private double radius;
     private Point center;
 
-    public Box(double radius, Point center) {
+    public Box(Point center, double radius) {
         this.radius = radius;
         this.center = center;
     }
