@@ -37,7 +37,7 @@ public class HurtBox {
         private Point center;
         private double radius;
 
-        private HitBoxBuilder() {
+        private HurtBoxBuilder() {
             this.hurtBox = new HurtBox();
         }
 
