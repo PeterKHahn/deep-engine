@@ -2,24 +2,24 @@ package game.environment;
 
 public class Floor extends EnvironmentObject {
 
-    private final Point left;
-    private final Point right;
+    private final Vector left;
+    private final Vector right;
     private final double length;
     private final double height;
 
-    public Floor(Point left, double length) {
+    public Floor(Vector left, double length) {
 
         this.left = left;
         this.length = length;
         this.height = left.y;
-        this.right = new Point(left.x + length, left.y);
+        this.right = new Vector(left.x + length, left.y);
     }
 
 
     @Override
     public void actOn(CollisionEnvironment environment) {
-        Point previous = environment.getPreviousEcb().bottom();
-        Point projected = environment.getProjectedEcb().bottom();
+        Vector previous = environment.getPreviousEcb().bottom();
+        Vector projected = environment.getProjectedEcb().bottom();
 
         if (previous.y < height || projected.y > height) {
             return;
@@ -43,12 +43,12 @@ public class Floor extends EnvironmentObject {
     }
 
     @Override
-    public Point p1() {
+    public Vector p1() {
         return left;
     }
 
     @Override
-    public Point p2() {
+    public Vector p2() {
         return right;
     }
 }

@@ -1,6 +1,6 @@
 package game.physics.collision.hitbox;
 
-import game.environment.Point;
+import game.environment.Vector;
 
 public class HitBox {
 
@@ -33,14 +33,14 @@ public class HitBox {
     public static class HitBoxBuilder {
 
         private HitBox hitBox;
-        private Point center;
+        private Vector center;
         private double radius;
 
         private HitBoxBuilder() {
             this.hitBox = new HitBox();
         }
 
-        public HitBoxBuilder setCenter(Point center) {
+        public HitBoxBuilder setCenter(Vector center) {
             this.center = center;
             return this;
         }

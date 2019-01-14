@@ -1,6 +1,6 @@
 package game.physics.math;
 
-import game.environment.Point;
+import game.environment.Vector;
 import org.junit.Test;
 
 import static game.physics.math.Geom2D.distance;
@@ -12,10 +12,10 @@ public class Geom2DTest {
     @Test
     public void testDistance() {
 
-        Point p1 = new Point(3, 4);
-        Point p2 = new Point(0, 0);
+        Vector p1 = new Vector(3, 4);
+        Vector p2 = new Vector(0, 0);
 
-        Point p3 = new Point(-3, -4);
+        Vector p3 = new Vector(-3, -4);
 
         assertEquals(distance(p1, p2), 5, 0.001);
         assertEquals(distanceSquared(p1, p2), 25, 0.0001);

@@ -15,13 +15,13 @@ public class Main {
         Game game = Game.builder()
                 .insertPlayer(
                         new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Point(-5, 0)))))
+                                new EnvironmentCollisionBox(new Vector(-5, 0)))))
                 .insertPlayer(
                         new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Point(5, 0)))))
+                                new EnvironmentCollisionBox(new Vector(5, 0)))))
                 .setEnvironment(
                         GameEnvironment.builder()
-                                .addFloor(new Floor(new Point(-250, -10), 500))
+                                .addFloor(new Floor(new Vector(-250, -10), 500))
                                 .build()
                 )
                 .build();

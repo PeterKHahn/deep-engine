@@ -8,43 +8,43 @@ public class EnvironmentCollisionBox {
 
 
     // Also known as top-n or base point star
-    private final Point bps;
+    private final Vector bps;
 
 
-    private final Point ecbTop;
-    private final Point ecbBottom;
-    private final Point ecbRight;
-    private final Point ecbLeft;
+    private final Vector ecbTop;
+    private final Vector ecbBottom;
+    private final Vector ecbRight;
+    private final Vector ecbLeft;
 
 
-    public EnvironmentCollisionBox(Point bps) {
+    public EnvironmentCollisionBox(Vector bps) {
         // TODO fix from default
         this.bps = bps;
-        this.ecbBottom = new Point(bps);
-        this.ecbTop = new Point(bps.x, bps.y + 32);
-        this.ecbLeft = new Point(bps.x - 16, bps.y + 16);
-        this.ecbRight = new Point(bps.x + 16, bps.y + 16);
+        this.ecbBottom = new Vector(bps);
+        this.ecbTop = new Vector(bps.x, bps.y + 32);
+        this.ecbLeft = new Vector(bps.x - 16, bps.y + 16);
+        this.ecbRight = new Vector(bps.x + 16, bps.y + 16);
 
     }
 
-    public Point top() {
+    public Vector top() {
         return ecbTop;
     }
 
-    public Point bottom() {
+    public Vector bottom() {
         return ecbBottom;
     }
 
-    public Point left() {
+    public Vector left() {
         return ecbLeft;
     }
 
-    public Point right() {
+    public Vector right() {
         return ecbRight;
     }
 
 
-    public Point bps() {
+    public Vector bps() {
         return bps;
     }
 

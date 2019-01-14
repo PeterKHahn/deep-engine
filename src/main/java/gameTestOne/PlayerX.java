@@ -16,19 +16,25 @@ public class PlayerX extends Player {
     private int lastFire = -1;
 
     private HitBox hitBox;
+    private boolean hitBoxActive;
     private HurtBox hurtBox;
 
 
     public PlayerX(CollisionEnvironment environment) {
 
         super(environment, 0, 0, 0, -2.0);
-        this.hurtBox =
+        this.hurtBox = HurtBox.builder()
+                .setCenter(environment.getEcb().bps())
+                .setRadius(5)
+                .build();
+        this.hitBoxActive = false;
+
     }
 
 
     @Override
     public boolean hitboxActive() {
-        return false;
+        return hitBoxActive;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class PlayerX extends Player {
         }
         if (getEnvironment().grounded() && tmpYVelocity > 0) {
             getEnvironment().setGrounded(false);
-            // TODO fix this
+
         }
 
         getEnvironment().setXVel(tmpXVelocity);

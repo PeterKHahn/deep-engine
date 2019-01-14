@@ -1,14 +1,14 @@
 package game.physics.collision.hitbox;
 
-import game.environment.Point;
+import game.environment.Vector;
 import game.physics.math.Geom2D;
 
 public class Box {
 
     private double radius;
-    private Point center;
+    private Vector center;
 
-    public Box(Point center, double radius) {
+    public Box(Vector center, double radius) {
         this.radius = radius;
         this.center = center;
     }
@@ -17,11 +17,11 @@ public class Box {
         return radius;
     }
 
-    public Point getCenter() {
+    public Vector getCenter() {
         return center;
     }
 
-    public void setCenter(Point center) {
+    public void setCenter(Vector center) {
         this.center = center;
     }
 
