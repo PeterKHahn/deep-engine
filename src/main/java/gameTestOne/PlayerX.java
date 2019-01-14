@@ -2,9 +2,10 @@ package gameTestOne;
 
 import game.Game;
 import game.action.ControllerButton;
-import game.entity.Entity;
 import game.entity.Player;
 import game.environment.CollisionEnvironment;
+import game.physics.collision.hitbox.HitBox;
+import game.physics.collision.hitbox.HurtBox;
 
 import java.util.Set;
 
@@ -14,21 +15,35 @@ public class PlayerX extends Player {
 
     private int lastFire = -1;
 
+    private HitBox hitBox;
+    private HurtBox hurtBox;
+
 
     public PlayerX(CollisionEnvironment environment) {
 
         super(environment, 0, 0, 0, -2.0);
+        this.hurtBox =
     }
 
 
     @Override
-    public boolean collides(Entity e) {
+    public boolean hitboxActive() {
         return false;
     }
 
     @Override
+    public HitBox hitBox() {
+        return hitBox;
+    }
+
+    @Override
+    public HurtBox hurtBox() {
+        return hurtBox;
+    }
+
+    @Override
     public void updateState(Game game) {
-        // TODO
+        // TODO lmao forgot what this is supposed to do
     }
 
 
