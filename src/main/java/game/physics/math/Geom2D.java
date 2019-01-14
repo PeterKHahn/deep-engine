@@ -1,4 +1,4 @@
-package engine.physics.math;
+package game.physics.math;
 
 
 import game.environment.Point;
