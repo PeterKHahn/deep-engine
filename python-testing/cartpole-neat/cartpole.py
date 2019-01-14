@@ -9,66 +9,62 @@ import visualize
 
 import gym
 import numpy as np
+import pickle
 
-# 2-input XOR inputs and expected outputs.
-xor_inputs = [(0.0, 0.0), (0.0, 1.0), (1.0, 0.0), (1.0, 1.0)]
-xor_outputs = [   (0.0,),     (1.0,),     (1.0,),     (0.0,)]
+
 
 game = gym.make('MountainCar-v0')
-game._max_episode_steps = 1000
+game._max_episode_steps = 200
 
 print("outputs", game.action_space.n)
 print("inputs", game.observation_space.shape[0])
 
-def discounted_reward(ls, lam=0.99):
-    new_ls = reversed(ls)
-    total = 0
-    for i in new_ls:
-        total = total * lam + i
-
-    return total
 
 
-
-def fitness(genome, config, render=False):
+def fitness(genome, config, iterations=10, render=False):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
 
-    st = game.reset()
-    total_reward = []
+    total_reward = 0
 
+    for i in range(iterations):
+        st = game.reset()
 
+        for j in range(999):
 
-    for j in range(999):
+            action_probs = net.activate(st)
+            action = np.argmax(action_probs)
 
-        action_probs = net.activate(st)
-        action = np.argmax(action_probs)
+            st1, reward, done, _ = game.step(action)
+            total_reward += reward
 
-        st1, reward, done, _ = game.step(action)
-        total_reward.append(reward)
+            if render:
+                game.render()
 
-        if render:
-            game.render()
+            st = st1
 
-        st = st1
+            if done:
 
-        if done:
+                break
 
-            break
-
-    res =  sum(total_reward) #discounted_reward(total_reward)
+    res =  total_reward / iterations # average reward over the iterations
     return res
 
 
 def eval_genomes(genomes, config):
-    last = None
+    most_fit = None
+    winning = None
 
     for genome_id, genome in genomes:
 
+        fit = fitness(genome, config)
+        if most_fit == None or fit > most_fit:
+            most_fit = fit
+            winning = genome
 
-        genome.fitness = fitness(genome, config)
-        last = genome
+        genome.fitness = fit
 
-    last.fitness = fitness(last, config, render=True)
+
+    fitness(winning, config, render=True)
 
 
 def run(config_file):
@@ -84,10 +80,13 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(5))
 
     # Run for up to 1000 generations.
     winner = p.run(eval_genomes, 10000)
+    pickle.dump(winner, open("winner.p", "wb"))
+
+    #loaded_winner = pickle.load("winner.p", "rb")
+
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
