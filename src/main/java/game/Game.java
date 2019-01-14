@@ -70,18 +70,6 @@ public class Game {
                 .build();
     }
 
-    private void handleCollision() {
-        for (Entity e : entities) {
-
-            for (Entity e1 : entities) {
-                if (e != e1 && e.collides(e1)) {
-                    // TODO Fill
-                }
-            }
-
-        }
-    }
-
 
     public void printState() {
         System.out.println("Printing Game State");

@@ -3,6 +3,7 @@ package game.entity;
 import game.Game;
 import game.environment.CollisionEnvironment;
 import game.environment.GameEnvironment;
+import game.physics.collision.hitbox.Box;
 
 import java.util.Collection;
 
@@ -31,11 +32,14 @@ public abstract class Entity {
 
         Collection<Entity> entities = game.getEntities();
         GameEnvironment environment = game.getEnvironment();
-        for (Entity e : entities) { // handle collision across entities
-            if (this != e && this.collides(e)) {
-                // TODO fill
+        if (hitboxActive()) {
+            for (Entity e : entities) { // handle collision across entities
+                if (this != e && this.hitbox().collides(e.hurtbox())) {
+                    // TODO fill
+                }
             }
         }
+
 
         updateState(game);
         updateProjectedPosition();
@@ -53,11 +57,16 @@ public abstract class Entity {
 
     }
 
+    public abstract boolean hitboxActive();
+
+    public abstract Box hitbox();
+
+    public abstract Box hurtbox();
+
     public int currentTick() {
         return tick;
     }
 
-    public abstract boolean collides(Entity e);
 
     /**
      * Can update the self state or the state of the game using this method
