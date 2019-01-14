@@ -7,9 +7,6 @@ public class HurtBox {
     private Box box; // TODO fill
 
 
-    private double damage;
-
-
     private HurtBox() {
 
     }
@@ -22,9 +19,6 @@ public class HurtBox {
         return box;
     }
 
-    public double getDamage() {
-        return damage;
-    }
 
     public static HurtBoxBuilder builder() {
         return new HurtBoxBuilder();
