@@ -39,7 +39,7 @@ public abstract class Entity {
             for (Entity e : entities) {
                 if (this != e && this.hitBox().collides(e.hurtBox())) {
                     // TODO fill
-                    e.damage += this.hitBox().getDamage();
+                    e.damage += this.hitBox().damage;
                 }
             }
         }

@@ -37,6 +37,8 @@ public class HitBox extends Box {
         }
 
         private HitBoxBuilder(HitBox of) {
+            if (of == null) return;
+
             this.origin = of.origin;
             this.offset = of.offset;
             this.radius = of.radius;

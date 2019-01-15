@@ -55,8 +55,8 @@ public class CollisionEnvironment {
         xAdjustment = 0;
         yAdjustment = 0;
 
-        hitBox.setOrigin(newVector); // adjusts the hitbox to update with BPS
-        hurtBox.setOrigin(newVector);
+        hitBox = HitBox.builder(hitBox).setOrigin(newVector).build(); // adjusts the hitbox with the bps
+        hurtBox = HurtBox.builder(hurtBox).setOrigin(newVector).build();
 
 
     }
@@ -125,6 +125,14 @@ public class CollisionEnvironment {
 
     public EnvironmentCollisionBox getEcb() {
         return ecb;
+    }
+
+    public HitBox getHitBox() {
+        return hitBox;
+    }
+
+    public HurtBox getHurtBox() {
+        return hurtBox;
     }
 
     public EnvironmentCollisionBox getPreviousEcb() {

@@ -4,6 +4,7 @@ import game.Game;
 import game.action.ControllerButton;
 import game.entity.Player;
 import game.environment.CollisionEnvironment;
+import game.environment.Vector;
 import game.physics.collision.hitbox.HitBox;
 import game.physics.collision.hitbox.HurtBox;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 public class PlayerX extends Player {
 
     private static final int FIRE_COOLDOWN = 30;
+
 
     private int lastFire = -1;
 
@@ -23,8 +25,10 @@ public class PlayerX extends Player {
     public PlayerX(CollisionEnvironment environment) {
 
         super(environment, 0, 0, 0, -2.0);
+
         this.hurtBox = HurtBox.builder()
-                .setCenter(environment.getEcb().bps())
+                .setOrigin(environment.getEcb().bps())
+                .setOffset(new Vector(0, 0))
                 .setRadius(5)
                 .build();
         this.hitBoxActive = false;

@@ -96,17 +96,7 @@ public class JPanelRenderer extends JPanel implements EngineListener {
 
             Color c2 = new Color(255, 116, 0, 255);
 
-
-            int x = convertX(ecb.bps().x);
-            int y = convertY(ecb.bps().y);
-            int radius = 6;
-
-
-            int centerX = x - (radius / 2);
-            int centerY = y - (radius / 2);
-
-            g2.setColor(Color.BLUE);
-            g2.drawOval(centerX, centerY, radius, radius);
+            drawCircle(ecb.bps().x, ecb.bps().y, 6.0, g2, Color.BLUE);
 
 
         }
@@ -136,6 +126,15 @@ public class JPanelRenderer extends JPanel implements EngineListener {
         bs.show();
 
 
+    }
+
+    private void drawCircle(double x, double y, double radius, Graphics g, Color c) {
+        int xInt = convertX(x);
+        int yInt = convertY(y);
+        int centerX = xInt - (int) (radius / 2);
+        int centerY = yInt - (int) (radius / 2);
+        g.setColor(c);
+        g.drawOval(centerX, centerY, (int) radius, (int) radius);
     }
 
 

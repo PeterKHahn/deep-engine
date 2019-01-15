@@ -14,7 +14,7 @@ public class HurtBox extends Box {
         return new HurtBoxBuilder();
     }
 
-    public static HurtBoxBuilder(HurtBox of) {
+    public static HurtBoxBuilder builder(HurtBox of) {
         return new HurtBoxBuilder(of);
     }
 
@@ -29,6 +29,7 @@ public class HurtBox extends Box {
         }
 
         private HurtBoxBuilder(HurtBox of) {
+            if (of == null) return;
             this.origin = of.origin;
             this.offset = of.offset;
             this.radius = of.radius;
