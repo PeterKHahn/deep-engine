@@ -6,6 +6,7 @@ import game.entity.Entity;
 import game.entity.EntityState;
 import game.entity.Player;
 import game.environment.*;
+import game.environment.environmentObject.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;

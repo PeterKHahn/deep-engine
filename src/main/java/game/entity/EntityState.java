@@ -14,6 +14,7 @@ public class EntityState {
     private HurtBox hurtBox;
 
     private boolean grounded;
+    private boolean hitBoxActive;
 
     private EntityState() {
     }
@@ -28,6 +29,10 @@ public class EntityState {
 
     public EnvironmentCollisionBox getEcb() {
         return ecb;
+    }
+
+    public boolean getHitBoxActive() {
+        return hitBoxActive;
     }
 
     public HitBox getHitBox() {
@@ -90,6 +95,11 @@ public class EntityState {
 
         public EntityStateBuilder damage(double damage) {
             state.damage = damage;
+            return this;
+        }
+
+        public EntityStateBuilder hitBoxActive(boolean active) {
+            state.hitBoxActive = active;
             return this;
         }
 

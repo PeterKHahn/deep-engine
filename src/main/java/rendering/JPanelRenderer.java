@@ -8,8 +8,9 @@ import game.action.ControllerButton;
 import game.action.GameController;
 import game.entity.EntityState;
 import game.environment.EnvironmentCollisionBox;
-import game.environment.Floor;
 import game.environment.Vector;
+import game.environment.environmentObject.Floor;
+import game.physics.collision.hitbox.HitBox;
 import game.physics.collision.hitbox.HurtBox;
 
 import javax.swing.*;
@@ -106,9 +107,16 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
 
             drawCircle(ecb.bps().x, ecb.bps().y, 6.0, g2, Color.BLUE);
             HurtBox hurtBox = entityState.getHurtBox();
+            HitBox hitBox = entityState.getHitBox();
             if (hurtBox != null) {
                 Vector center = hurtBox.center();
                 drawCircle(center.x, center.y, hurtBox.radius, g2, new Color(255, 254, 0, 255));
+            }
+
+            if (entityState.getHitBoxActive() && hitBox != null) {
+
+                Vector center = hitBox.center();
+                drawCircle(center.x, center.y, hitBox.radius, g2, new Color(255, 0, 0, 255));
             }
 
 
@@ -223,12 +231,21 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
             buttons.add(ControllerButton.RIGHT);
 
         }
+        if (e.getKeyChar() == 'j') {
+            buttons.add(ControllerButton.A);
+
+        }
+        if (e.getKeyChar() == 'k') {
+            buttons.add(ControllerButton.B);
+
+        }
 
         controllers[0].hold(buttons);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
         // Game Mechanics, Controller Port 1
 
         Set<ControllerButton> buttons = new HashSet<>();
@@ -246,6 +263,14 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
         }
         if (e.getKeyChar() == 'd') {
             buttons.add(ControllerButton.RIGHT);
+
+        }
+        if (e.getKeyChar() == 'j') {
+            buttons.add(ControllerButton.A);
+
+        }
+        if (e.getKeyChar() == 'k') {
+            buttons.add(ControllerButton.B);
 
         }
 

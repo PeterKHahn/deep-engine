@@ -19,6 +19,16 @@ public class PlayerX extends Player {
             .setOffset(new Vector(0, 10))
             .setRadius(20);
 
+    private static final HitBox.HitBoxBuilder leftHitBox = HitBox.builder()
+            .setDamage(1)
+            .setOffset(new Vector(-10, 0))
+            .setRadius(20);
+
+    private static final HitBox.HitBoxBuilder rightHitBox = HitBox.builder()
+            .setDamage(1)
+            .setOffset(new Vector(10, 0))
+            .setRadius(20);
+
 
     private int lastFire = -1;
 
@@ -73,7 +83,11 @@ public class PlayerX extends Player {
             tmpXVelocity += 1;
         }
         if (actionSet.contains(ControllerButton.A)) {
-            fire();
+            fireLeft();
+        } else if (actionSet.contains(ControllerButton.B)) {
+            fireRight();
+        } else {
+            getEnvironment().setHitBoxActive(false);
         }
         if (getEnvironment().grounded() && tmpYVelocity > 0) {
             getEnvironment().setGrounded(false);
@@ -86,11 +100,14 @@ public class PlayerX extends Player {
 
     }
 
-    private void fire() {
-        if (lastFire < 0 || currentTick() - lastFire > FIRE_COOLDOWN) {
-            lastFire = currentTick();
-            // TODO add fire effects
-        }
+    private void fireLeft() {
+        getEnvironment().setHitBox(leftHitBox.setOrigin(getEnvironment().getEcb().bps()).build());
+        getEnvironment().setHitBoxActive(true);
+    }
+
+    private void fireRight() {
+        getEnvironment().setHitBox(rightHitBox.setOrigin(getEnvironment().getEcb().bps()).build());
+        getEnvironment().setHitBoxActive(true);
 
     }
 

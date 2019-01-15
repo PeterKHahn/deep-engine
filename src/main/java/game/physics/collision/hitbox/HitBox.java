@@ -33,7 +33,10 @@ public class HitBox extends Box {
 
 
         private HitBoxBuilder() {
-
+            this.origin = Vector.ORIGIN;
+            this.offset = Vector.ORIGIN;
+            this.radius = 0;
+            this.damage = 0;
         }
 
         private HitBoxBuilder(HitBox of) {

@@ -25,7 +25,9 @@ public class HurtBox extends Box {
         private double radius;
 
         private HurtBoxBuilder() {
-
+            this.origin = Vector.ORIGIN;
+            this.offset = Vector.ORIGIN;
+            this.radius = 0;
         }
 
         private HurtBoxBuilder(HurtBox of) {

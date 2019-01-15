@@ -138,6 +138,14 @@ public class CollisionEnvironment {
         return hurtBox;
     }
 
+    public void setHitBox(HitBox hitbox) {
+        this.hitBox = hitbox;
+    }
+
+    public void setHitBoxActive(boolean active) {
+        this.hitBoxActive = active;
+    }
+
     public boolean hitBoxActive() {
         return hitBoxActive;
     }

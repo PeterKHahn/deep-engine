@@ -1,6 +1,7 @@
 package game.environment;
 
 import game.entity.Entity;
+import game.environment.environmentObject.*;
 
 import java.util.HashSet;
 import java.util.Set;

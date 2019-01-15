@@ -14,7 +14,6 @@ public abstract class Entity {
     private CollisionEnvironment environment;
     private double damage = 0;
 
-
     private int tick = 0;
 
 
@@ -138,6 +137,8 @@ public abstract class Entity {
                 .grounded(environment.grounded())
                 .ecb(environment.getEcb())
                 .hurtBox(environment.getHurtBox())
+                .hitBox(environment.getHitBox())
+                .hitBoxActive(environment.hitBoxActive())
                 .build();
     }
 

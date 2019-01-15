@@ -2,7 +2,7 @@ package main;
 
 import engine.Engine;
 import game.Game;
-import game.environment.Floor;
+import game.environment.environmentObject.Floor;
 import game.environment.GameEnvironment;
 import game.environment.Vector;
 import gameTestOne.AiController;

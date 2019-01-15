@@ -1,4 +1,7 @@
-package game.environment;
+package game.environment.environmentObject;
+
+import game.environment.CollisionEnvironment;
+import game.environment.Vector;
 
 public class Floor extends EnvironmentObject {
 
