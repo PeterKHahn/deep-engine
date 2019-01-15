@@ -26,11 +26,27 @@ public class GameKeyListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyChar() + " CJ");
+        if (e.getKeyChar() == 'w') {
+
+        }
+        if (e.getKeyChar() == 'a') {
+
+        }
+        if (e.getKeyChar() == 's') {
+
+        }
+        if (e.getKeyChar() == 'd') {
+
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyChar() == 'a') {
 
+        }
+        if (e.getKeyChar() == 'd') {
+
+        }
     }
 }

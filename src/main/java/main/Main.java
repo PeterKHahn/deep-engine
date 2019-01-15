@@ -40,7 +40,7 @@ public class Main {
         System.out.println("Adding controllers");
         engine.addListener(controller1);
         engine.addListener(controller2);
-        engine.insertController(0, controller1.getController());
+        engine.insertController(0, renderer.getController(0));
         engine.insertController(1, controller2.getController());
         new Thread(engine).start();
 

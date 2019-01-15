@@ -2,10 +2,10 @@ package rendering;
 
 import engine.Engine;
 import engine.EngineListener;
-import engine.input.GameKeyListener;
 import game.DynamicGameState;
 import game.Game;
-import game.action.PlayerController;
+import game.action.ControllerButton;
+import game.action.GameController;
 import game.entity.EntityState;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Floor;
@@ -14,11 +14,14 @@ import game.physics.collision.hitbox.HurtBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 import java.util.Set;
 
-public class JPanelRenderer extends JPanel implements EngineListener {
+public class JPanelRenderer extends JPanel implements EngineListener, KeyListener {
     // TODO potentilly make this not extends JPanel
 
     // TODO move this elsewhere
@@ -40,7 +43,7 @@ public class JPanelRenderer extends JPanel implements EngineListener {
     private BufferedImage image;
     private JFrame frame;
 
-    private PlayerController[] controllers;
+    private GameController[] controllers;
 
 
     public JPanelRenderer(Game game, Engine engine) {
@@ -52,11 +55,14 @@ public class JPanelRenderer extends JPanel implements EngineListener {
 
     private void init() {
 
-        controllers = new PlayerController[NUM_CONTROLLERS];
+        controllers = new GameController[NUM_CONTROLLERS];
+        for (int i = 0; i < NUM_CONTROLLERS; i++) {
+            controllers[i] = new GameController();
+        }
 
 
         frame = new JFrame(TITLE);
-        frame.addKeyListener(new GameKeyListener(engine));
+        frame.addKeyListener(this);
 
         image = new BufferedImage(PREFERRED_WIDTH, PREFERRED_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
@@ -178,9 +184,72 @@ public class JPanelRenderer extends JPanel implements EngineListener {
 
     }
 
-    public void updateControllers(DynamicGameState gameState) {
-        for (PlayerController controller : controllers) {
-            controller.tick(gameState); // iterate through each controller, and update as promised
+    public GameController getController(int port) {
+        return controllers[port]; // TODO check for array bounds
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Meta Engine Mechanics
+        if (e.getKeyChar() == 'p') {
+            engine.pause();
         }
+        if (e.getKeyChar() == 'd') {
+            engine.advance();
+        }
+
+        // Game Mechanics, Controller Port 1
+
+        Set<ControllerButton> buttons = new HashSet<>();
+
+        if (e.getKeyChar() == 'w') {
+            buttons.add(ControllerButton.UP);
+        }
+        if (e.getKeyChar() == 'a') {
+            buttons.add(ControllerButton.LEFT);
+
+        }
+        if (e.getKeyChar() == 's') {
+            buttons.add(ControllerButton.DOWN);
+
+        }
+        if (e.getKeyChar() == 'd') {
+            buttons.add(ControllerButton.RIGHT);
+
+        }
+
+        controllers[0].hold(buttons);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // Game Mechanics, Controller Port 1
+
+        Set<ControllerButton> buttons = new HashSet<>();
+
+        if (e.getKeyChar() == 'w') {
+            buttons.add(ControllerButton.UP);
+        }
+        if (e.getKeyChar() == 'a') {
+            buttons.add(ControllerButton.LEFT);
+
+        }
+        if (e.getKeyChar() == 's') {
+            buttons.add(ControllerButton.DOWN);
+
+        }
+        if (e.getKeyChar() == 'd') {
+            buttons.add(ControllerButton.RIGHT);
+
+        }
+
+        controllers[0].release(buttons);
+
     }
 }
