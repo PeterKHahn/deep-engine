@@ -22,6 +22,11 @@ public class Vector {
         this.y = v.y + dy;
     }
 
+    public Vector(Vector v, Vector offset) {
+        this.x = v.x + offset.x;
+        this.y = v.y + offset.y;
+    }
+
 
     @Override
     public String toString() {

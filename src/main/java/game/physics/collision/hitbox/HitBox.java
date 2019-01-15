@@ -2,46 +2,54 @@ package game.physics.collision.hitbox;
 
 import game.environment.Vector;
 
-public class HitBox {
-
-    private Box box;
-
-    private double damage;
+public class HitBox extends Box {
 
 
-    private HitBox() {
+    public final double damage;
+
+
+    private HitBox(Vector origin, Vector offset, double radius, double damage) {
+        super(origin, offset, radius);
+        this.damage = damage;
 
     }
 
-    public boolean collides(HurtBox hurtBox) {
-        return box.collides(hurtBox.getBox());
-    }
-
-    public Box getBox() {
-        return box;
-    }
-
-    public double getDamage() {
-        return damage;
-    }
 
     public static HitBoxBuilder builder() {
         return new HitBoxBuilder();
     }
 
+    public static HitBoxBuilder builder(HitBox of) {
+        return new HitBoxBuilder(of);
+    }
+
 
     public static class HitBoxBuilder {
 
-        private HitBox hitBox;
-        private Vector center;
+        private Vector origin;
+        private Vector offset;
         private double radius;
+        private double damage;
+
 
         private HitBoxBuilder() {
-            this.hitBox = new HitBox();
+
         }
 
-        public HitBoxBuilder setCenter(Vector center) {
-            this.center = center;
+        private HitBoxBuilder(HitBox of) {
+            this.origin = of.origin;
+            this.offset = of.offset;
+            this.radius = of.radius;
+            this.damage = of.damage;
+        }
+
+        public HitBoxBuilder setOrigin(Vector origin) {
+            this.origin = origin;
+            return this;
+        }
+
+        public HitBoxBuilder setOffset(Vector offset) {
+            this.offset = offset;
             return this;
         }
 
@@ -51,13 +59,12 @@ public class HitBox {
         }
 
         public HitBoxBuilder setDamage(double damage) {
-            hitBox.damage = damage;
+            this.damage = damage;
             return this;
         }
 
         public HitBox build() {
-            hitBox.box = new Box(center, radius);
-            return hitBox;
+            return new HitBox(origin, offset, radius, damage);
         }
     }
 }

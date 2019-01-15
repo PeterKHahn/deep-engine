@@ -5,33 +5,21 @@ import game.physics.math.Geom2D;
 
 public class Box {
 
-    private double radius;
-    private Vector center;
 
-    public Box(Vector center, double radius) {
-        this.radius = radius;
-        this.center = center;
-    }
+    public final Vector origin;
+    public final Vector offset;
+    public final double radius;
 
-    public double getRadius() {
-        return radius;
-    }
-
-    public Vector getCenter() {
-        return center;
-    }
-
-    public void setCenter(Vector center) {
-        this.center = center;
-    }
-
-    public void setRadius(double radius) {
+    public Box(Vector origin, Vector offset, double radius) {
+        this.origin = origin;
+        this.offset = offset;
         this.radius = radius;
     }
+
 
     public boolean collides(Box other) {
 
-        double distSq = Geom2D.distanceSquared(this.center, other.center);
+        double distSq = Geom2D.distanceSquared(origin, offset, other.origin, other.offset);
         double radSum = (this.radius + other.radius);
         return distSq < radSum * radSum;
     }

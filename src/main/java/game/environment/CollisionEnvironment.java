@@ -1,12 +1,16 @@
 package game.environment;
 
+import game.physics.collision.hitbox.HitBox;
+import game.physics.collision.hitbox.HurtBox;
+
 public class CollisionEnvironment {
 
     private EnvironmentCollisionBox previousEcb;
-
     private EnvironmentCollisionBox ecb;
-
     private EnvironmentCollisionBox projectedEcb;
+
+    private HitBox hitBox;
+    private HurtBox hurtBox;
 
 
     private boolean grounded;
@@ -41,7 +45,7 @@ public class CollisionEnvironment {
 
     }
 
-    public void updateEcb() {
+    public void updateEnvironment() {
         // TODO does not handle affect changes such as airborn or whatnot.
         Vector newVector = new Vector(projectedEcb.bps(), xAdjustment, yAdjustment);
 
@@ -50,6 +54,11 @@ public class CollisionEnvironment {
 
         xAdjustment = 0;
         yAdjustment = 0;
+
+        hitBox.setOrigin(newVector); // adjusts the hitbox to update with BPS
+        hurtBox.setOrigin(newVector);
+
+
     }
 
 

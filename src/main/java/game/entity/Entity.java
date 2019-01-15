@@ -53,7 +53,7 @@ public abstract class Entity {
         environment.actOn(this);
 
 
-        updateEcb();
+        updateEnvironment();
 
 
         tick++;
@@ -84,8 +84,8 @@ public abstract class Entity {
 
     }
 
-    public void updateEcb() {
-        environment.updateEcb();
+    public void updateEnvironment() {
+        environment.updateEnvironment();
     }
 
 

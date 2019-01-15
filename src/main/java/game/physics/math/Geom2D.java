@@ -13,5 +13,9 @@ public class Geom2D {
         return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
     }
 
+    public static double distanceSquared(Vector origin1, Vector offset1, Vector origin2, Vector offset2) {
+        return distanceSquared(new Vector(origin1, offset1), new Vector(origin2, offset2));
+    }
+
 
 }
