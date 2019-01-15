@@ -1,5 +1,7 @@
 package ai.neat.parameters;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
+
 import java.util.Set;
 
 public class NeatParameters {
@@ -80,5 +82,63 @@ public class NeatParameters {
     private double weightMutatePower;
     private double weightMutateRate;
     private double weightReplaceRate;
+
+
+    private NormalDistribution weightMutationDistribution;
+    private NormalDistribution weightInitDistribution;
+
+    private void init() {
+        weightMutationDistribution = new NormalDistribution(0, weightMutatePower);
+        // TODO take into account that weightInitDistribution might not be normal.
+        // TODO we are going to have to abstract this using the Distribution class we made
+        weightInitDistribution = new NormalDistribution(weightInitMean, weightInitStdev);
+
+    }
+
+    private double weightMutationSample() {
+        return weightMutationDistribution.sample();
+    }
+
+    public double mutateWeight(double weight) {
+        double weightMutation = weightMutationSample();
+        return clampWeight(weight + weightMutation);
+
+    }
+
+    public double generateWeight() {
+        return clampWeight(weightInitDistribution.sample());
+    }
+
+
+    public double clampBias(double val) {
+        if (val < biasMinValue) {
+            return biasMaxValue;
+        } else if (val > biasMaxValue) {
+            return biasMaxValue;
+        } else {
+            return val;
+        }
+    }
+
+    public double clampResponse(double val) {
+        if (val < responseMinValue) {
+            return responseMinValue;
+        } else if (val > responseMaxValue) {
+            return responseMaxValue;
+        } else {
+            return val;
+        }
+    }
+
+    public double clampWeight(double val) {
+        if (val < weightMinValue) {
+            return weightMinValue;
+        } else if (val > weightMaxValue) {
+            return weightMaxValue;
+        } else {
+            return val;
+        }
+    }
+
 
 }
