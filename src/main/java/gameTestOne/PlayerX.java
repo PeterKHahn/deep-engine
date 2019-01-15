@@ -24,7 +24,7 @@ public class PlayerX extends Player {
                         new EnvironmentCollisionBox(
                                 spawn),
                         HurtBox.builder()
-                                .setOffset(new Vector(0, 0))
+                                .setOffset(new Vector(0, 10))
                                 .setOrigin(spawn)
                                 .setRadius(20)
                                 .build()),

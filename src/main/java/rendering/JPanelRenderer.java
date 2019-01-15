@@ -102,7 +102,7 @@ public class JPanelRenderer extends JPanel implements EngineListener {
             HurtBox hurtBox = entityState.getHurtBox();
             if (hurtBox != null) {
                 Vector center = hurtBox.center();
-                drawCircle(center.x, center.y, hurtBox.radius, g2, Color.YELLOW);
+                drawCircle(center.x, center.y, hurtBox.radius, g2, new Color(255, 254, 0, 255));
             }
 
 
@@ -141,7 +141,7 @@ public class JPanelRenderer extends JPanel implements EngineListener {
         int centerX = xInt - (int) (radius / 2);
         int centerY = yInt - (int) (radius / 2);
         g.setColor(c);
-        g.drawOval(centerX, centerY, (int) radius, (int) radius);
+        g.fillOval(centerX, centerY, (int) radius, (int) radius);
     }
 
 
