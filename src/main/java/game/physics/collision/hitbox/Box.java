@@ -19,7 +19,7 @@ public class Box {
 
     public boolean collides(Box other) {
 
-        double distSq = Geom2D.distanceSquared(origin, offset, other.origin, other.offset);
+        double distSq = Geom2D.distanceSquared(this.center(), other.center());
         double radSum = (this.radius + other.radius);
         return distSq < radSum * radSum;
     }

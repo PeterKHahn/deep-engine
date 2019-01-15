@@ -37,7 +37,7 @@ public abstract class Entity {
         if (hitboxActive()) {// handle hitbox to hurtbox collision across entities
             for (Entity e : entities) {
                 if (this != e && this.hitBox().collides(e.hurtBox())) {
-                    // TODO fill
+                    System.out.println("HIT");
                     e.damage += this.hitBox().damage;
                 }
             }

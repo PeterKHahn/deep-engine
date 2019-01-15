@@ -110,7 +110,7 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
             HitBox hitBox = entityState.getHitBox();
             if (hurtBox != null) {
                 Vector center = hurtBox.center();
-                drawCircle(center.x, center.y, hurtBox.radius, g2, new Color(255, 254, 0, 255));
+                drawCircle(center.x, center.y, hurtBox.radius, g2, new Color(255, 254, 0, 128));
             }
 
             if (entityState.getHitBoxActive() && hitBox != null) {
@@ -152,10 +152,10 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
     private void drawCircle(double x, double y, double radius, Graphics g, Color c) {
         int xInt = convertX(x);
         int yInt = convertY(y);
-        int centerX = xInt - (int) (radius / 2);
-        int centerY = yInt - (int) (radius / 2);
+        int centerX = xInt - (int) (radius);
+        int centerY = yInt - (int) (radius);
         g.setColor(c);
-        g.fillOval(centerX, centerY, (int) radius, (int) radius);
+        g.fillOval(centerX, centerY, (int) (radius * 2), (int) (radius * 2));
     }
 
 
