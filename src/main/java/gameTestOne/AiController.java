@@ -2,8 +2,8 @@ package gameTestOne;
 
 import engine.EngineListener;
 import game.DynamicGameState;
-import game.action.ControllerButton;
-import game.action.GameController;
+import game.controller.ControllerButton;
+import game.controller.GameController;
 
 import java.util.HashSet;
 import java.util.Set;

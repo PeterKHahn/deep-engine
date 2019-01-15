@@ -1,4 +1,4 @@
-package game.action;
+package game.controller;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -4,8 +4,8 @@ import engine.Engine;
 import engine.EngineListener;
 import game.DynamicGameState;
 import game.Game;
-import game.action.ControllerButton;
-import game.action.GameController;
+import game.controller.ControllerButton;
+import game.controller.GameController;
 import game.entity.EntityState;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Vector;
@@ -116,7 +116,7 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
             if (entityState.getHitBoxActive() && hitBox != null) {
 
                 Vector center = hitBox.center();
-                drawCircle(center.x, center.y, hitBox.radius, g2, new Color(255, 0, 0, 255));
+                drawCircle(center.x, center.y, hitBox.radius, g2, new Color(255, 0, 0, 128));
             }
 
 

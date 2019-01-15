@@ -1,6 +1,6 @@
 package engine;
 
-import game.action.GameController;
+import game.controller.GameController;
 
 public class ControllerBoard {
 

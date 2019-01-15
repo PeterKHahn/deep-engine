@@ -1,7 +1,7 @@
 package engine;
 
 import game.Game;
-import game.action.GameController;
+import game.controller.GameController;
 
 import java.util.HashSet;
 import java.util.Set;

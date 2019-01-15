@@ -1,6 +1,6 @@
 package game.entity;
 
-import game.action.ControllerButton;
+import game.controller.ControllerButton;
 import game.environment.CollisionEnvironment;
 
 import java.util.Set;

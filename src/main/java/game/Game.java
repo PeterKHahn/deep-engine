@@ -1,7 +1,7 @@
 package game;
 
 import engine.ControllerBoard;
-import game.action.GameController;
+import game.controller.GameController;
 import game.entity.Entity;
 import game.entity.EntityState;
 import game.entity.Player;

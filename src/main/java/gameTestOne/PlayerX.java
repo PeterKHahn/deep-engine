@@ -1,7 +1,7 @@
 package gameTestOne;
 
 import game.Game;
-import game.action.ControllerButton;
+import game.controller.ControllerButton;
 import game.entity.Player;
 import game.environment.CollisionEnvironment;
 import game.environment.EnvironmentCollisionBox;
