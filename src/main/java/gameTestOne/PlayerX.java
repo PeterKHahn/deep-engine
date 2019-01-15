@@ -15,6 +15,10 @@ public class PlayerX extends Player {
 
     private static final int FIRE_COOLDOWN = 30;
 
+    private static final HurtBox.HurtBoxBuilder builder = HurtBox.builder()
+            .setOffset(new Vector(0, 10))
+            .setRadius(20);
+
 
     private int lastFire = -1;
 
@@ -23,11 +27,7 @@ public class PlayerX extends Player {
         super(new CollisionEnvironment(
                         new EnvironmentCollisionBox(
                                 spawn),
-                        HurtBox.builder()
-                                .setOffset(new Vector(0, 10))
-                                .setOrigin(spawn)
-                                .setRadius(20)
-                                .build()),
+                        builder.setOrigin(spawn).build()),
                 0, 0, 0, -2.0);
 
 
