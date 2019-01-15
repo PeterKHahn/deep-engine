@@ -12,6 +12,8 @@ public class CollisionEnvironment {
     private HitBox hitBox;
     private HurtBox hurtBox;
 
+    private boolean hitBoxActive = false;
+
 
     private boolean grounded;
 
@@ -24,10 +26,11 @@ public class CollisionEnvironment {
     private double xAdjustment;
     private double yAdjustment;
 
-    public CollisionEnvironment(EnvironmentCollisionBox ecb) {
+    public CollisionEnvironment(EnvironmentCollisionBox ecb, HurtBox hurtBox) {
         this.previousEcb = ecb;
         this.ecb = ecb;
         this.projectedEcb = ecb;
+        this.hurtBox = hurtBox;
     }
 
 
@@ -133,6 +136,10 @@ public class CollisionEnvironment {
 
     public HurtBox getHurtBox() {
         return hurtBox;
+    }
+
+    public boolean hitBoxActive() {
+        return hitBoxActive;
     }
 
     public EnvironmentCollisionBox getPreviousEcb() {

@@ -2,7 +2,9 @@ package main;
 
 import engine.Engine;
 import game.Game;
-import game.environment.*;
+import game.environment.Floor;
+import game.environment.GameEnvironment;
+import game.environment.Vector;
 import gameTestOne.AiController;
 import gameTestOne.PlayerX;
 import rendering.JPanelRenderer;
@@ -14,11 +16,9 @@ public class Main {
         System.out.println("Building the Map...");
         Game game = Game.builder()
                 .insertPlayer(
-                        new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Vector(-5, 0)))))
+                        new PlayerX(new Vector(-5, 0)))
                 .insertPlayer(
-                        new PlayerX(new CollisionEnvironment(
-                                new EnvironmentCollisionBox(new Vector(5, 0)))))
+                        new PlayerX(new Vector(5, 0)))
                 .setEnvironment(
                         GameEnvironment.builder()
                                 .addFloor(new Floor(new Vector(-250, -10), 500))

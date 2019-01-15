@@ -23,4 +23,8 @@ public class Box {
         double radSum = (this.radius + other.radius);
         return distSq < radSum * radSum;
     }
+
+    public Vector center() {
+        return new Vector(origin, offset);
+    }
 }

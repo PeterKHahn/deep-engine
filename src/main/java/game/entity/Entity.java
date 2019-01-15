@@ -137,6 +137,7 @@ public abstract class Entity {
                 .damage(damage)
                 .grounded(environment.grounded())
                 .ecb(environment.getEcb())
+                .hurtBox(environment.getHurtBox())
                 .build();
     }
 

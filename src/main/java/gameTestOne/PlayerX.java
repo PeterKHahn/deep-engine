@@ -4,6 +4,7 @@ import game.Game;
 import game.action.ControllerButton;
 import game.entity.Player;
 import game.environment.CollisionEnvironment;
+import game.environment.EnvironmentCollisionBox;
 import game.environment.Vector;
 import game.physics.collision.hitbox.HitBox;
 import game.physics.collision.hitbox.HurtBox;
@@ -17,38 +18,35 @@ public class PlayerX extends Player {
 
     private int lastFire = -1;
 
-    private HitBox hitBox;
-    private boolean hitBoxActive;
-    private HurtBox hurtBox;
 
+    public PlayerX(Vector spawn) {
+        super(new CollisionEnvironment(
+                        new EnvironmentCollisionBox(
+                                spawn),
+                        HurtBox.builder()
+                                .setOffset(new Vector(0, 0))
+                                .setOrigin(spawn)
+                                .setRadius(20)
+                                .build()),
+                0, 0, 0, -2.0);
 
-    public PlayerX(CollisionEnvironment environment) {
-
-        super(environment, 0, 0, 0, -2.0);
-
-        this.hurtBox = HurtBox.builder()
-                .setOrigin(environment.getEcb().bps())
-                .setOffset(new Vector(0, 0))
-                .setRadius(5)
-                .build();
-        this.hitBoxActive = false;
 
     }
 
 
     @Override
     public boolean hitboxActive() {
-        return hitBoxActive;
+        return getEnvironment().hitBoxActive();
     }
 
     @Override
     public HitBox hitBox() {
-        return hitBox;
+        return getEnvironment().getHitBox();
     }
 
     @Override
     public HurtBox hurtBox() {
-        return hurtBox;
+        return getEnvironment().getHurtBox();
     }
 
     @Override

@@ -9,6 +9,8 @@ import game.action.PlayerController;
 import game.entity.EntityState;
 import game.environment.EnvironmentCollisionBox;
 import game.environment.Floor;
+import game.environment.Vector;
+import game.physics.collision.hitbox.HurtBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -97,6 +99,11 @@ public class JPanelRenderer extends JPanel implements EngineListener {
             Color c2 = new Color(255, 116, 0, 255);
 
             drawCircle(ecb.bps().x, ecb.bps().y, 6.0, g2, Color.BLUE);
+            HurtBox hurtBox = entityState.getHurtBox();
+            if (hurtBox != null) {
+                Vector center = hurtBox.center();
+                drawCircle(center.x, center.y, hurtBox.radius, g2, Color.YELLOW);
+            }
 
 
         }
