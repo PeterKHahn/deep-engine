@@ -1,5 +1,6 @@
 package ai.neat.parameters;
 
+import ai.neat.graph.Connection;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.util.Set;
@@ -46,8 +47,8 @@ public class NeatParameters {
     private double compatibilityDisjointCoefficient;
     private double compatibilityWeightCoefficient;
 
-    private double connectionAddProbability;
-    private double connectionDeleteProbability;
+    public double connectionAddProbability;
+    public double connectionDeleteProbability;
 
     private boolean enabledDefault;
     private double enabledMutationRate;
@@ -58,8 +59,8 @@ public class NeatParameters {
 
     private InitialConnection initialConnection;
 
-    private double nodeAddProb;
-    private double nodeDeleteProb;
+    public double nodeAddProbability;
+    public double nodeDeleteProbability;
     private int numHidden;
     private int numInputs;
     private int numOutputs;
@@ -94,6 +95,29 @@ public class NeatParameters {
         weightInitDistribution = new NormalDistribution(weightInitMean, weightInitStdev);
 
     }
+
+    /**
+     * Controls the mutation of a given connection given the parameters defined in this
+     * object.
+     *
+     * @param c the connection to be changed
+     * @author Peter Hahn
+     */
+    public void changeConnection(Connection c) {
+        double weight = c.getWeight();
+
+        double random = Math.random();
+        if (random < weightMutateRate) {
+            // Mutate this particular connection
+            double newWeight = mutateWeight(weight);
+            c.setWeight(newWeight);
+
+        } else if (random < weightMutateRate + weightReplaceRate) {
+            // Replace this particular connection
+            c.setWeight(generateWeight());
+        }
+    }
+
 
     private double weightMutationSample() {
         return weightMutationDistribution.sample();

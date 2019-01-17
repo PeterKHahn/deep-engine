@@ -2,14 +2,14 @@ package ai.neat.graph;
 
 public class Connection {
 
-    private int inNode;
-    private int outNode;
+    private Node inNode;
+    private Node outNode;
 
     private double weight;
     private boolean enabled;
     private int innovationNumber;
 
-    public Connection(int inNode, int outNode, double weight, boolean enabled, int innovationNumber) {
+    public Connection(Node inNode, Node outNode, double weight, boolean enabled, int innovationNumber) {
 
         this.inNode = inNode;
         this.outNode = outNode;
@@ -25,6 +25,14 @@ public class Connection {
 
     public double getWeight() {
         return weight;
+    }
+
+    public Node getInNode() {
+        return inNode;
+    }
+
+    public Node getOutNode() {
+        return outNode;
     }
 
 
