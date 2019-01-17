@@ -13,6 +13,12 @@ public class Random {
         return list.get(random);
     }
 
+    public static <T> T choiceRemove(List<T> list) {
+        int random = randInt(list.size() - 1);
+
+        return list.remove(random);
+    }
+
     public static <T> T choice(List<T> list1, List<T> list2) {
         int size = list1.size() + list2.size();
 

@@ -119,6 +119,7 @@ public class Graph {
         Connection newConnection = new Connection(from, to, weight, true, -1);
         connections.add(newConnection);
         from.addOutConnection(newConnection);
+        to.addInConnection(newConnection);
     }
 
 
@@ -126,13 +127,17 @@ public class Graph {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
             int index = Random.randInt(connections.size() - 1);
-            Connection c = connections.get(index);
+            Connection c = Random.choiceRemove(connections); // TODO this in linear time operation, find a faster way to do this or whatever
 
-            c.getInNode().removeOutConnection(c);
-            connections.remove(index); // TODO this in linear time operation, find a faster way to do this or whatever
+            clearConnection(c);
 
 
         }
+    }
+
+    private void clearConnection(Connection c) {
+        c.getInNode().removeOutConnection(c);
+        c.getOutNode().removeInConnection(c);
     }
 
     private void mutateAddNode() {
@@ -155,6 +160,17 @@ public class Graph {
     private void mutateDeleteNode() {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
+            if (hiddenNodes.isEmpty()) {
+                return;
+            } else {
+                Node n = Random.choiceRemove(hiddenNodes);
+                connections.removeAll(n.getInConnections());
+                connections.removeAll(n.getOutConnections());
+
+                n.clear();
+
+            }
+
 
         }
     }

@@ -1,6 +1,7 @@
 package ai.neat.graph;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,8 +10,10 @@ public class Node {
     private int number;
     private NodeType type;
 
+    private List<Connection> inConnections;
     private List<Connection> outConnections;
 
+    private Set<Node> inNodes;
     private Set<Node> outNodes;
 
     public Node(int number, NodeType type) {
@@ -21,7 +24,11 @@ public class Node {
     }
 
     private void init() {
+        inConnections = new ArrayList<>();
         outConnections = new ArrayList<>();
+
+        inNodes = new HashSet<>();
+        outNodes = new HashSet<>();
     }
 
     public void addOutConnection(Connection c) {
@@ -35,10 +42,25 @@ public class Node {
 
     }
 
+    public void addInConnection(Connection c) {
+        Node inNode = c.getInNode();
+        if (!inNodes.contains(inNode)) {
+            // Only add if the connection does not exist
+            inConnections.add(c);
+            inNodes.add(inNode);
+        }
+    }
+
     public void removeOutConnection(Connection c) {
         Node outNode = c.getOutNode();
         outNodes.remove(outNode);
         outConnections.remove(c);
+    }
+
+    public void removeInConnection(Connection c) {
+        Node inNode = c.getInNode();
+        inNodes.remove(inNode);
+        inConnections.remove(c);
     }
 
     public boolean containsOutNode(Node node) {
@@ -53,4 +75,27 @@ public class Node {
     public Set<Node> getOutNodes() {
         return outNodes;
     }
+
+    public Set<Node> getInNodes() {
+        return inNodes;
+    }
+
+    public List<Connection> getInConnections() {
+        return inConnections;
+    }
+
+    public List<Connection> getOutConnections() {
+        return outConnections;
+    }
+
+    public void clear() {
+        for (Connection c : inConnections) {
+            c.getInNode().removeOutConnection(c);
+        }
+        for (Connection c : outConnections) {
+            c.getOutNode().removeInConnection(c);
+
+        }
+    }
 }
+
