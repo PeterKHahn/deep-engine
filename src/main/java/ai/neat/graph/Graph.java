@@ -6,6 +6,8 @@ import java.util.*;
 
 public class Graph {
 
+    // TODO add an innovation number mechanic
+
     private final int numInputNodes;
     private final int numOutputNodes;
     private NeatParameters parameters;
@@ -56,7 +58,9 @@ public class Graph {
 
         // Retrieving nodes from input nodes or hidden nodes
         int size = inputNodes.size() + hiddenNodes.size();
-        int index = randInt(size);
+
+
+        int index = randInt(size - 1);
         if (index < inputNodes.size()) {
             return inputNodes.get(index);
         } else {
@@ -120,12 +124,22 @@ public class Graph {
     }
 
     private void createAndAddNewConnection(Node from, Node to) {
-        // TODO fill
+        double randomWeight = 0;
+        // TODO fix the innovation number
+        Connection newConnection = new Connection(from, to, randomWeight, true, -1);
+        connections.add(newConnection);
+        from.addOutConnection(newConnection);
     }
 
     private void mutateDeleteConnection() {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
+            int index = randInt(connections.size() - 1);
+            Connection c = connections.get(index);
+
+            c.getInNode().removeOutConnection(c);
+            connections.remove(index); // TODO this in linear time operation, find a faster way to do this or whatever
+
 
         }
     }

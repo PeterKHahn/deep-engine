@@ -10,7 +10,6 @@ public class Node {
     private NodeType type;
 
     private List<Connection> outConnections;
-    private List<Connection> inConnections;
 
     private Set<Node> outNodes;
 
@@ -23,7 +22,6 @@ public class Node {
 
     private void init() {
         outConnections = new ArrayList<>();
-        inConnections = new ArrayList<>();
     }
 
     public void addOutConnection(Connection c) {
@@ -35,6 +33,12 @@ public class Node {
             outNodes.add(outNode);
         }
 
+    }
+
+    public void removeOutConnection(Connection c) {
+        Node outNode = c.getOutNode();
+        outNodes.remove(outNode);
+        outConnections.remove(c);
     }
 
     public boolean containsOutNode(Node node) {
