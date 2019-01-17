@@ -7,7 +7,8 @@ import java.util.*;
 
 public class Graph {
 
-    // TODO add an innovation number mechanic
+
+    private int innovationCounter;
 
     private final int numInputNodes;
     private final int numOutputNodes;
@@ -38,14 +39,16 @@ public class Graph {
         nodes = new ArrayList<>();
         connections = new ArrayList<>();
 
+        innovationCounter = 1;
+
         // Initializing input nodes
-        for (int i = 0; i < numInputNodes; i++, nodeCounter++) {
-            nodes.add(new Node(nodeCounter, Node.NodeType.SENSOR));
+        for (int i = 0; i < numInputNodes; i++) {
+            nodes.add(new Node(getNextNode(), Node.NodeType.SENSOR));
         }
 
         // Initializing Output nodes
-        for (int i = 0; i < numOutputNodes; i++, nodeCounter++) {
-            nodes.add(new Node(nodeCounter, Node.NodeType.OUTPUT));
+        for (int i = 0; i < numOutputNodes; i++) {
+            nodes.add(new Node(getNextNode(), Node.NodeType.OUTPUT));
         }
 
 
@@ -114,9 +117,7 @@ public class Graph {
     }
 
     private void createAndAddNewConnection(Node from, Node to, double weight) {
-        // TODO fix the innovation number
-
-        Connection newConnection = new Connection(from, to, weight, true, -1);
+        Connection newConnection = new Connection(from, to, weight, true, getNextInnovation());
         connections.add(newConnection);
         from.addOutConnection(newConnection);
         to.addInConnection(newConnection);
@@ -146,12 +147,11 @@ public class Graph {
             Connection c = Random.choice(connections);
             c.setEnabled(false);
 
-            Node newNode = createNewNode();
+            Node newNode = createNewNode(Node.NodeType.HIDDEN);
 
             createAndAddNewConnection(c.getInNode(), newNode, 1);
             createAndAddNewConnection(newNode, c.getOutNode());
-
-
+            
         }
 
 
@@ -202,9 +202,28 @@ public class Graph {
         return false;
     }
 
-    private Node createNewNode() {
-        // TODO fill
-        return null;
+    private Node createNewNode(Node.NodeType type) {
+        return new Node(getNextNode(), type);
+    }
+
+    private int peekNextInnovation() {
+        return innovationCounter;
+    }
+
+    private int getNextInnovation() {
+        int tmp = innovationCounter;
+        innovationCounter++;
+        return tmp;
+    }
+
+    private int peekNextNode() {
+        return nodeCounter;
+    }
+
+    private int getNextNode() {
+        int tmp = nodeCounter;
+        nodeCounter++;
+        return tmp;
     }
 
 
