@@ -36,4 +36,9 @@ public class Connection {
     }
 
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
 }

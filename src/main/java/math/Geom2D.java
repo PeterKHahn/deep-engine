@@ -1,4 +1,4 @@
-package game.physics.math;
+package math;
 
 
 import game.environment.Vector;

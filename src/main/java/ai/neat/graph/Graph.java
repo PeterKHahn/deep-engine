@@ -1,6 +1,7 @@
 package ai.neat.graph;
 
 import ai.neat.parameters.NeatParameters;
+import math.Random;
 
 import java.util.*;
 
@@ -50,36 +51,19 @@ public class Graph {
 
     }
 
-    private int randInt(int range) {
-        return (int) (Math.random() * range);
-    }
 
     private Node retrieveInputConnectionNode() {
 
         // Retrieving nodes from input nodes or hidden nodes
-        int size = inputNodes.size() + hiddenNodes.size();
+        return Random.choice(inputNodes, hiddenNodes);
 
-
-        int index = randInt(size - 1);
-        if (index < inputNodes.size()) {
-            return inputNodes.get(index);
-        } else {
-            int newIndex = index - inputNodes.size();
-            return hiddenNodes.get(newIndex);
-        }
 
     }
 
     private Node retrieveOutputConnectionNode() {
         // Retrieving nodes from hidden nodes or output nodes
-        int size = hiddenNodes.size() + outputNodes.size();
-        int index = randInt(size);
-        if (index < hiddenNodes.size()) {
-            return hiddenNodes.get(index);
-        } else {
-            int newIndex = index - hiddenNodes.size();
-            return outputNodes.get(newIndex);
-        }
+
+        return Random.choice(hiddenNodes, outputNodes);
     }
 
     private void mutateConnections() {
@@ -124,17 +108,24 @@ public class Graph {
     }
 
     private void createAndAddNewConnection(Node from, Node to) {
-        double randomWeight = 0;
+        double randomWeight = parameters.generateWeight();
+        createAndAddNewConnection(from, to, randomWeight);
+
+    }
+
+    private void createAndAddNewConnection(Node from, Node to, double weight) {
         // TODO fix the innovation number
-        Connection newConnection = new Connection(from, to, randomWeight, true, -1);
+
+        Connection newConnection = new Connection(from, to, weight, true, -1);
         connections.add(newConnection);
         from.addOutConnection(newConnection);
     }
 
+
     private void mutateDeleteConnection() {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
-            int index = randInt(connections.size() - 1);
+            int index = Random.randInt(connections.size() - 1);
             Connection c = connections.get(index);
 
             c.getInNode().removeOutConnection(c);
@@ -147,6 +138,14 @@ public class Graph {
     private void mutateAddNode() {
         double random = Math.random();
         if (random < parameters.nodeAddProbability) {
+            Connection c = Random.choice(connections);
+            c.setEnabled(false);
+
+            Node newNode = createNewNode();
+
+            createAndAddNewConnection(c.getInNode(), newNode, 1);
+            createAndAddNewConnection(newNode, c.getOutNode());
+
 
         }
 
@@ -186,4 +185,11 @@ public class Graph {
 
         return false;
     }
+
+    private Node createNewNode() {
+        // TODO fill
+        return null;
+    }
+
+
 }

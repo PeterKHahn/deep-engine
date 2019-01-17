@@ -1,7 +1,7 @@
 package game.physics.collision.hitbox;
 
 import game.environment.Vector;
-import game.physics.math.Geom2D;
+import math.Geom2D;
 
 public class Box {
 

@@ -1,10 +1,10 @@
-package game.physics.math;
+package math;
 
 import game.environment.Vector;
 import org.junit.Test;
 
-import static game.physics.math.Geom2D.distance;
-import static game.physics.math.Geom2D.distanceSquared;
+import static math.Geom2D.distance;
+import static math.Geom2D.distanceSquared;
 import static org.junit.Assert.assertEquals;
 
 public class Geom2DTest {
