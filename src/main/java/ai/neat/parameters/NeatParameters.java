@@ -1,6 +1,6 @@
 package ai.neat.parameters;
 
-import ai.neat.graph.Connection;
+import ai.neat.network.Connection;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.util.Set;

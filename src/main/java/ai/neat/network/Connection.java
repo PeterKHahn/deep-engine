@@ -1,4 +1,4 @@
-package ai.neat.graph;
+package ai.neat.network;
 
 public class Connection {
 

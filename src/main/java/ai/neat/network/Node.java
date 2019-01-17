@@ -1,4 +1,4 @@
-package ai.neat.graph;
+package ai.neat.network;
 
 import java.util.ArrayList;
 import java.util.HashSet;

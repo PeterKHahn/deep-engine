@@ -1,11 +1,11 @@
-package ai.neat.graph;
+package ai.neat.network;
 
 import ai.neat.parameters.NeatParameters;
 import math.Random;
 
 import java.util.*;
 
-public class Graph {
+public class NeuralNetwork {
 
 
     private int innovationCounter;
@@ -26,7 +26,7 @@ public class Graph {
     private List<Connection> connections;
 
 
-    public Graph(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
+    public NeuralNetwork(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
 
         this.numInputNodes = numInputNodes;
         this.numOutputNodes = numOutputNodes;
@@ -38,6 +38,10 @@ public class Graph {
     private void init() {
         nodes = new ArrayList<>();
         connections = new ArrayList<>();
+
+        inputNodes = new ArrayList<>();
+        hiddenNodes = new ArrayList<>();
+        outputNodes = new ArrayList<>();
 
         innovationCounter = 1;
 
@@ -55,21 +59,7 @@ public class Graph {
     }
 
 
-    private Node retrieveInputConnectionNode() {
-
-        // Retrieving nodes from input nodes or hidden nodes
-        return Random.choice(inputNodes, hiddenNodes);
-
-
-    }
-
-    private Node retrieveOutputConnectionNode() {
-        // Retrieving nodes from hidden nodes or output nodes
-
-        return Random.choice(hiddenNodes, outputNodes);
-    }
-
-    private void mutateConnections() {
+    public void mutateConnections() {
 
         for (Connection c : connections) {
             parameters.changeConnection(c);
@@ -77,11 +67,11 @@ public class Graph {
     }
 
 
-    private void mutateAddConnection() {
+    public void mutateAddConnection() {
         double random = Math.random();
         if (random < parameters.connectionAddProbability) {
-            Node connectionFrom = retrieveInputConnectionNode();
-            Node connectionTo = retrieveOutputConnectionNode();
+            Node connectionFrom = Random.choice(inputNodes, hiddenNodes);
+            Node connectionTo = Random.choice(hiddenNodes, outputNodes);
 
             // A few considerations here
 
@@ -124,25 +114,23 @@ public class Graph {
     }
 
 
-    private void mutateDeleteConnection() {
+    public void mutateDeleteConnection() {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
-            int index = Random.randInt(connections.size() - 1);
-            Connection c = Random.choiceRemove(connections); // TODO this in linear time operation, find a faster way to do this or whatever
+            Connection c = Random.choiceRemove(connections);
+            // TODO this in linear time operation, find a faster way to do this or whatever
 
-            clearConnection(c);
+            c.getInNode().removeOutConnection(c);
+            c.getOutNode().removeInConnection(c);
 
 
         }
     }
 
-    private void clearConnection(Connection c) {
-        c.getInNode().removeOutConnection(c);
-        c.getOutNode().removeInConnection(c);
-    }
 
-    private void mutateAddNode() {
+    public void mutateAddNode() {
         double random = Math.random();
+
         if (random < parameters.nodeAddProbability) {
             Connection c = Random.choice(connections);
             c.setEnabled(false);
@@ -150,14 +138,14 @@ public class Graph {
             Node newNode = createNewNode(Node.NodeType.HIDDEN);
 
             createAndAddNewConnection(c.getInNode(), newNode, 1);
-            createAndAddNewConnection(newNode, c.getOutNode());
-            
+            createAndAddNewConnection(newNode, c.getOutNode(), c.getWeight());
+
         }
 
 
     }
 
-    private void mutateDeleteNode() {
+    public void mutateDeleteNode() {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
             if (hiddenNodes.isEmpty()) {
