@@ -61,7 +61,7 @@ public class NeuralNetwork {
 
 
     public void mutateConnections() {
-        for (Connection c : connectionsMap.values()) {
+        for (Connection c : connections.values()) {
             parameters.changeConnection(c);
         }
 
@@ -117,23 +117,13 @@ public class NeuralNetwork {
     }
 
 
-    public void mutateDeleteConnection() {
-        double random = Math.random();
-        if (random < parameters.connectionDeleteProbability) {
-            Connection c = Random.choiceRemove(connections);
-            c.getInNode().removeOutConnection(c);
-            c.getOutNode().removeInConnection(c);
-
-
-        }
-    }
-
-
     public void mutateAddNode() {
         double random = Math.random();
 
         if (random < parameters.nodeAddProbability) {
-            Connection c = Random.choice(connections);
+            int innov = Random.choice(connections.keySet());
+            Connection c = connections.get(innov);
+
             c.setEnabled(false);
 
             Node newNode = createNewNode(Node.NodeType.HIDDEN);
@@ -146,26 +136,6 @@ public class NeuralNetwork {
         }
 
 
-    }
-
-    public void mutateDeleteNode() {
-        double random = Math.random();
-        if (random < parameters.connectionDeleteProbability) {
-            if (hiddenNodes.isEmpty()) {
-                return;
-            } else {
-                Node n = Random.choiceRemove(hiddenNodes);
-
-                connections.removeAll(n.getInConnections());
-                connections.removeAll(n.getOutConnections());
-
-
-                n.clear();
-
-            }
-
-
-        }
     }
 
 
@@ -236,7 +206,7 @@ public class NeuralNetwork {
     }
 
     public Collection<Connection> getConnections() {
-        return connectionsMap.values();
+        return connections.values();
     }
 
     @Override
