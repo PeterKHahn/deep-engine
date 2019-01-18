@@ -23,7 +23,7 @@ public class NeuralNetwork {
     private List<Node> outputNodes;
 
 
-    private List<Connection> connections;
+    private List<Connection> connections; // Invariant: Must be strictly increasing order of innovation
 
 
     public NeuralNetwork(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
@@ -47,12 +47,12 @@ public class NeuralNetwork {
 
         // Initializing input nodes
         for (int i = 0; i < numInputNodes; i++) {
-            nodes.add(new Node(getNextNode(), Node.NodeType.SENSOR));
+            createNewNode(Node.NodeType.SENSOR);
         }
 
         // Initializing Output nodes
         for (int i = 0; i < numOutputNodes; i++) {
-            nodes.add(new Node(getNextNode(), Node.NodeType.OUTPUT));
+            createNewNode(Node.NodeType.OUTPUT);
         }
 
 
@@ -140,6 +140,8 @@ public class NeuralNetwork {
             createAndAddNewConnection(c.getInNode(), newNode, 1);
             createAndAddNewConnection(newNode, c.getOutNode(), c.getWeight());
 
+            hiddenNodes.add(newNode);
+
         }
 
 
@@ -152,8 +154,9 @@ public class NeuralNetwork {
                 return;
             } else {
                 Node n = Random.choiceRemove(hiddenNodes);
-                connections.removeAll(n.getInConnections());
-                connections.removeAll(n.getOutConnections());
+                removeConnections(n.getInConnections());
+                removeConnections(n.getOutConnections());
+
 
                 n.clear();
 
@@ -161,6 +164,31 @@ public class NeuralNetwork {
 
 
         }
+    }
+
+    private void removeConnections(List<Connection> toRemove) {
+
+        Iterator<Connection> connectionsIter = this.connections.iterator();
+
+
+        for (Connection connectionToRemove : toRemove) {
+
+            int innovRemove = connectionToRemove.getInnovationNumber();
+
+            int innov = -1;
+            while (innov < innovRemove && connectionsIter.hasNext()) {
+
+                Connection c = connectionsIter.next();
+                innov = c.getInnovationNumber();
+            }
+            if (innov == innovRemove) {
+                connectionsIter.remove();
+            }
+
+
+        }
+
+
     }
 
     private boolean accessible(Node start, Node end) {
@@ -191,7 +219,22 @@ public class NeuralNetwork {
     }
 
     private Node createNewNode(Node.NodeType type) {
-        return new Node(getNextNode(), type);
+        Node n = new Node(getNextNode(), type);
+        switch (type) {
+            case HIDDEN:
+                hiddenNodes.add(n);
+                nodes.add(n);
+                break;
+            case SENSOR:
+                inputNodes.add(n);
+                nodes.add(n);
+                break;
+            case OUTPUT:
+                inputNodes.add(n);
+                nodes.add(n);
+                break;
+        }
+        return n;
     }
 
     private int peekNextInnovation() {
@@ -212,6 +255,29 @@ public class NeuralNetwork {
         int tmp = nodeCounter;
         nodeCounter++;
         return tmp;
+    }
+
+    public List<Connection> getConnections() {
+        return connections;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Input Nodes: \n");
+        for (Node n : inputNodes) {
+            sb.append(n);
+        }
+        sb.append("Hidden Nodes: \n");
+        for (Node n : hiddenNodes) {
+            sb.append(n);
+        }
+        sb.append("Output Nodes: \n");
+        for (Node n : outputNodes) {
+            sb.append(n);
+        }
+
+        return sb.toString();
     }
 
 

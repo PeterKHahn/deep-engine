@@ -13,9 +13,9 @@ public class Random {
         return list.get(random);
     }
 
+
     public static <T> T choiceRemove(List<T> list) {
         int random = randInt(list.size() - 1);
-
         return list.remove(random);
     }
 

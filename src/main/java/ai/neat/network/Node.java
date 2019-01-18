@@ -1,8 +1,6 @@
 package ai.neat.network;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Node {
@@ -10,8 +8,9 @@ public class Node {
     private int number;
     private NodeType type;
 
-    private List<Connection> inConnections;
-    private List<Connection> outConnections;
+
+    private Set<Connection> inConnections;
+    private Set<Connection> outConnections;
 
     private Set<Node> inNodes;
     private Set<Node> outNodes;
@@ -24,8 +23,8 @@ public class Node {
     }
 
     private void init() {
-        inConnections = new ArrayList<>();
-        outConnections = new ArrayList<>();
+        inConnections = new HashSet<>();
+        outConnections = new HashSet<>();
 
         inNodes = new HashSet<>();
         outNodes = new HashSet<>();
@@ -80,13 +79,14 @@ public class Node {
         return inNodes;
     }
 
-    public List<Connection> getInConnections() {
+    public Set<Connection> getInConnections() {
         return inConnections;
     }
 
-    public List<Connection> getOutConnections() {
+    public Set<Connection> getOutConnections() {
         return outConnections;
     }
+
 
     public void clear() {
         for (Connection c : inConnections) {
@@ -97,5 +97,6 @@ public class Node {
 
         }
     }
+
 }
 

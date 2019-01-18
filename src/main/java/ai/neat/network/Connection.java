@@ -40,5 +40,9 @@ public class Connection {
         this.enabled = enabled;
     }
 
+    public int getInnovationNumber() {
+        return innovationNumber;
+    }
+
 
 }
