@@ -1,7 +1,6 @@
 package ai.neat.network;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Node {
 
@@ -9,8 +8,8 @@ public class Node {
     private NodeType type;
 
 
-    private Set<Connection> inConnections;
-    private Set<Connection> outConnections;
+    private Map<Integer, Connection> inConnections;
+    private Map<Integer, Connection> outConnections;
 
     private Set<Node> inNodes;
     private Set<Node> outNodes;
@@ -23,8 +22,8 @@ public class Node {
     }
 
     private void init() {
-        inConnections = new HashSet<>();
-        outConnections = new HashSet<>();
+        inConnections = new HashMap<>();
+        outConnections = new HashMap<>();
 
         inNodes = new HashSet<>();
         outNodes = new HashSet<>();
@@ -35,7 +34,7 @@ public class Node {
 
         if (!outNodes.contains(outNode)) {
             // only add if the connection does not exist
-            outConnections.add(c);
+            outConnections.put(c.getInnovationNumber(), c);
             outNodes.add(outNode);
         }
 
@@ -45,7 +44,7 @@ public class Node {
         Node inNode = c.getInNode();
         if (!inNodes.contains(inNode)) {
             // Only add if the connection does not exist
-            inConnections.add(c);
+            inConnections.put(c.getInnovationNumber(), c);
             inNodes.add(inNode);
         }
     }
@@ -79,20 +78,20 @@ public class Node {
         return inNodes;
     }
 
-    public Set<Connection> getInConnections() {
-        return inConnections;
+    public Collection<Connection> getInConnections() {
+        return inConnections.values();
     }
 
-    public Set<Connection> getOutConnections() {
-        return outConnections;
+    public Collection<Connection> getOutConnections() {
+        return outConnections.values();
     }
 
 
     public void clear() {
-        for (Connection c : inConnections) {
+        for (Connection c : inConnections.values()) {
             c.getInNode().removeOutConnection(c);
         }
-        for (Connection c : outConnections) {
+        for (Connection c : outConnections.values()) {
             c.getOutNode().removeInConnection(c);
 
         }

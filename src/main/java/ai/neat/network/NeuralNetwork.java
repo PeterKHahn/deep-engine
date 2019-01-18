@@ -23,7 +23,7 @@ public class NeuralNetwork {
     private List<Node> outputNodes;
 
 
-    private Set<Connection> connections;
+    private Map<Integer, Connection> connections;
 
 
     public NeuralNetwork(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
@@ -37,7 +37,8 @@ public class NeuralNetwork {
 
     private void init() {
         nodes = new ArrayList<>();
-        connections = new HashSet<>();
+
+        connections = new HashMap<>();
 
         inputNodes = new ArrayList<>();
         hiddenNodes = new ArrayList<>();
@@ -60,10 +61,11 @@ public class NeuralNetwork {
 
 
     public void mutateConnections() {
-
-        for (Connection c : connections) {
+        for (Connection c : connectionsMap.values()) {
             parameters.changeConnection(c);
         }
+
+
     }
 
 
@@ -107,8 +109,9 @@ public class NeuralNetwork {
     }
 
     private void createAndAddNewConnection(Node from, Node to, double weight) {
-        Connection newConnection = new Connection(from, to, weight, true, getNextInnovation());
-        connections.add(newConnection);
+        int innov = getNextInnovation();
+        Connection newConnection = new Connection(from, to, weight, true, innov);
+        connections.put(innov, newConnection);
         from.addOutConnection(newConnection);
         to.addInConnection(newConnection);
     }
@@ -232,8 +235,8 @@ public class NeuralNetwork {
         return tmp;
     }
 
-    public Set<Connection> getConnections() {
-        return connections;
+    public Collection<Connection> getConnections() {
+        return connectionsMap.values();
     }
 
     @Override
