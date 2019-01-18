@@ -23,7 +23,7 @@ public class NeuralNetwork {
     private List<Node> outputNodes;
 
 
-    private List<Connection> connections; // Invariant: Must be strictly increasing order of innovation
+    private Set<Connection> connections;
 
 
     public NeuralNetwork(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
@@ -37,7 +37,7 @@ public class NeuralNetwork {
 
     private void init() {
         nodes = new ArrayList<>();
-        connections = new ArrayList<>();
+        connections = new HashSet<>();
 
         inputNodes = new ArrayList<>();
         hiddenNodes = new ArrayList<>();
@@ -118,8 +118,6 @@ public class NeuralNetwork {
         double random = Math.random();
         if (random < parameters.connectionDeleteProbability) {
             Connection c = Random.choiceRemove(connections);
-            // TODO this in linear time operation, find a faster way to do this or whatever
-
             c.getInNode().removeOutConnection(c);
             c.getOutNode().removeInConnection(c);
 
@@ -154,8 +152,9 @@ public class NeuralNetwork {
                 return;
             } else {
                 Node n = Random.choiceRemove(hiddenNodes);
-                removeConnections(n.getInConnections());
-                removeConnections(n.getOutConnections());
+
+                connections.removeAll(n.getInConnections());
+                connections.removeAll(n.getOutConnections());
 
 
                 n.clear();
@@ -166,30 +165,6 @@ public class NeuralNetwork {
         }
     }
 
-    private void removeConnections(List<Connection> toRemove) {
-
-        Iterator<Connection> connectionsIter = this.connections.iterator();
-
-
-        for (Connection connectionToRemove : toRemove) {
-
-            int innovRemove = connectionToRemove.getInnovationNumber();
-
-            int innov = -1;
-            while (innov < innovRemove && connectionsIter.hasNext()) {
-
-                Connection c = connectionsIter.next();
-                innov = c.getInnovationNumber();
-            }
-            if (innov == innovRemove) {
-                connectionsIter.remove();
-            }
-
-
-        }
-
-
-    }
 
     private boolean accessible(Node start, Node end) {
         Set<Node> visited = new HashSet<>();
@@ -199,7 +174,7 @@ public class NeuralNetwork {
         frontier.addAll(start.getOutNodes());
 
 
-        while (frontier.isEmpty()) {
+        while (!frontier.isEmpty()) {
 
             Node n = frontier.poll();
             if (visited.contains(n)) {
@@ -257,7 +232,7 @@ public class NeuralNetwork {
         return tmp;
     }
 
-    public List<Connection> getConnections() {
+    public Set<Connection> getConnections() {
         return connections;
     }
 

@@ -1,10 +1,25 @@
 package math;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Random {
 
     private Random() {
+    }
+
+    public static <T> T choice(Collection<T> collection) {
+        List<T> list = new ArrayList<>(collection);
+        return choice(list);
+
+    }
+
+    public static <T> T choiceRemove(Collection<T> collection) {
+        List<T> list = new ArrayList<>(collection);
+        T element = choice(list);
+        collection.remove(element);
+        return element;
     }
 
     public static <T> T choice(List<T> list) {
