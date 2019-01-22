@@ -48,7 +48,7 @@ public class NeatParameters {
     public final double compatibilityWeightCoefficient;
 
     public final double connectionAddProbability;
-    public final double connectionDeleteProbability;
+    // public final double connectionDeleteProbability;
 
     public final boolean enabledDefault;
     public final double enabledMutationRate;
@@ -60,7 +60,7 @@ public class NeatParameters {
     public final InitialConnection initialConnection;
 
     public final double nodeAddProbability;
-    public final double nodeDeleteProbability;
+    // public final double nodeDeleteProbability;
     public final int numHidden;
     public final int numInputs;
     public final int numOutputs;
@@ -124,7 +124,7 @@ public class NeatParameters {
         this.compatibilityWeightCoefficient = builder.compatibilityWeightCoefficient;
 
         this.connectionAddProbability = builder.connectionAddProbability;
-        this.connectionDeleteProbability = builder.connectionDeleteProbability;
+        // this.connectionDeleteProbability = builder.connectionDeleteProbability;
 
         this.enabledDefault = builder.enabledDefault;
         this.enabledMutationRate = builder.enabledMutationRate;
@@ -135,7 +135,7 @@ public class NeatParameters {
         this.initialConnection = builder.initialConnection;
 
         this.nodeAddProbability = builder.nodeAddProbability;
-        this.nodeDeleteProbability = builder.nodeDeleteProbability;
+        // this.nodeDeleteProbability = builder.nodeDeleteProbability;
 
         this.numHidden = builder.numHidden;
         this.numInputs = builder.numInputs;
@@ -286,8 +286,8 @@ public class NeatParameters {
         private double compatibilityDisjointCoefficient;
         private double compatibilityWeightCoefficient;
 
-        public double connectionAddProbability;
-        public double connectionDeleteProbability;
+        private double connectionAddProbability;
+        // private double connectionDeleteProbability;
 
         private boolean enabledDefault;
         private double enabledMutationRate;
@@ -298,8 +298,8 @@ public class NeatParameters {
 
         private InitialConnection initialConnection;
 
-        public double nodeAddProbability;
-        public double nodeDeleteProbability;
+        private double nodeAddProbability;
+        // private double nodeDeleteProbability;
         private int numHidden;
         private int numInputs;
         private int numOutputs;
@@ -473,10 +473,10 @@ public class NeatParameters {
             return this;
         }
 
-        public NeatParametersBuilder connectionDeleteProbability(double connectionDeleteProbability) {
+        /*public NeatParametersBuilder connectionDeleteProbability(double connectionDeleteProbability) {
             this.connectionDeleteProbability = connectionDeleteProbability;
             return this;
-        }
+        }*/
 
         public NeatParametersBuilder enabledDefault(boolean enabledDefault) {
             this.enabledDefault = enabledDefault;
@@ -513,10 +513,10 @@ public class NeatParameters {
             return this;
         }
 
-        public NeatParametersBuilder nodeDeleteProbability(double nodeDeleteProbability) {
+        /*public NeatParametersBuilder nodeDeleteProbability(double nodeDeleteProbability) {
             this.nodeDeleteProbability = nodeDeleteProbability;
             return this;
-        }
+        }*/
 
         public NeatParametersBuilder numHidden(int numHidden) {
             this.numHidden = numHidden;

@@ -23,7 +23,7 @@ public class NeuralNetwork {
     private List<Node> outputNodes;
 
 
-    private Map<Integer, Connection> connections;
+    private List<Connection> connections;
 
 
     public NeuralNetwork(int numInputNodes, int numOutputNodes, NeatParameters parameters) {
@@ -38,7 +38,7 @@ public class NeuralNetwork {
     private void init() {
         nodes = new ArrayList<>();
 
-        connections = new HashMap<>();
+        connections = new ArrayList<>();
 
         inputNodes = new ArrayList<>();
         hiddenNodes = new ArrayList<>();
@@ -61,7 +61,7 @@ public class NeuralNetwork {
 
 
     public void mutateConnections() {
-        for (Connection c : connections.values()) {
+        for (Connection c : connections) {
             parameters.changeConnection(c);
         }
 
@@ -111,7 +111,7 @@ public class NeuralNetwork {
     private void createAndAddNewConnection(Node from, Node to, double weight) {
         int innov = getNextInnovation();
         Connection newConnection = new Connection(from, to, weight, true, innov);
-        connections.put(innov, newConnection);
+        connections.add(newConnection);
         from.addOutConnection(newConnection);
         to.addInConnection(newConnection);
     }
@@ -121,8 +121,7 @@ public class NeuralNetwork {
         double random = Math.random();
 
         if (random < parameters.nodeAddProbability) {
-            int innov = Random.choice(connections.keySet());
-            Connection c = connections.get(innov);
+            Connection c = Random.choice(connections);
 
             c.setEnabled(false);
 
@@ -205,8 +204,17 @@ public class NeuralNetwork {
         return tmp;
     }
 
-    public Collection<Connection> getConnections() {
-        return connections.values();
+    public List<Connection> getConnections() {
+        return connections;
+    }
+
+    public int numConnections() {
+        return connections.size();
+    }
+
+    public static NeuralNetwork breed(NeuralNetwork alpha, NeuralNetwork bravo) {
+        // TODO fill, potentially add more parameters
+        return null;
     }
 
     @Override
