@@ -4,15 +4,13 @@ import ai.neat.network.Connection;
 import ai.neat.network.NeuralNetwork;
 import ai.neat.parameters.NeatParameters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Evolver {
 
 
     private NeatParameters parameters;
 
-    private List<NeuralNetwork> population;
 
     public Evolver(NeatParameters parameters) {
         this.parameters = parameters;
@@ -24,10 +22,70 @@ public class Evolver {
 
     }
 
-    public void start() {
-        // In this method, we hope to start with the evolution process.
+    private List<Species> initialSpecies() {
+        List<NeuralNetwork> initialPopulation = new ArrayList<>();
+
         for (int i = 0; i < parameters.populationSize; i++) {
             // we are going to initialize the population to population size members
+            // Each neural net will have no connections, and only its input and output nodes
+        }
+
+        Species initial = new Species(initialPopulation);
+
+        List<Species> res = new ArrayList<>();
+        res.add(initial);
+        return res;
+
+    }
+
+    public void start(int numGenerations) {
+
+        List<Species> speciesList = initialSpecies();
+
+
+        // In this method, we hope to start with the evolution process.
+
+
+        double survivalThreshold = parameters.survivalThreshold; // The fraction of guys who will breed
+
+
+        for (int i = 0; i < numGenerations; i++) { // For each generation, we are doing
+
+            for (Species s : speciesList) {
+                List<NeuralNetwork> population = s.getPopulation();
+
+                Map<NeuralNetwork, Double> fitnessMap = new HashMap<>();
+
+                for (NeuralNetwork network : population) {
+                    network.mutate(); // Mutates each network to start
+
+
+                    double fitness = fitness(network); // Evaluates the fitness of network
+
+                }
+
+                population.sort(Comparator.comparingDouble(fitnessMap::get).reversed()); // sort the population
+
+                // For testing purposes
+                if (population.size() > 0) {
+                    System.out.println("Biggest: " + population.get(0));
+                    System.out.println("Smallest: " + population.get(population.size() - 1));
+                }
+
+                int threshold = Math.max((int) (population.size() * survivalThreshold), 2);
+
+                List<NeuralNetwork> fittest = new ArrayList<>();
+                for (int k = 0; k < threshold; k++) { // creating the fittest population
+                    fittest.add(population.get(k));
+                }
+
+
+                List<NeuralNetwork> spawn = new ArrayList<>();
+
+
+            }
+
+
         }
     }
 

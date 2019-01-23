@@ -59,6 +59,13 @@ public class NeuralNetwork {
 
     }
 
+    public void mutate() {
+        mutateAddConnection();
+        mutateAddNode();
+        mutateConnections();
+
+    }
+
 
     public void mutateConnections() {
         for (Connection c : connections) {
