@@ -1,17 +1,20 @@
 package main;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import spark.Session;
 
-import static spark.Spark.*;
+import java.io.IOException;
+
+import static spark.Spark.init;
+import static spark.Spark.webSocket;
 
 @WebSocket
 public class ServerTest {
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
 
         webSocket("/chat", ServerTest.class);
         System.out.println("HA");
@@ -20,10 +23,11 @@ public class ServerTest {
     }
 
 
-
     @OnWebSocketConnect
     public void onConnect(Session user) throws Exception {
         System.out.println("Connected");
+        user.getRemote().sendString("HELLO CHILD, WELCOME TO THE PARTY");
+
 
     }
 
@@ -35,6 +39,11 @@ public class ServerTest {
 
     @OnWebSocketMessage
     public void onMessage(Session user, String message) {
+        try {
+            user.getRemote().sendString("hi");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Got a message");
         System.out.println(message);
     }

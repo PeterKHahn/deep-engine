@@ -11,14 +11,17 @@ def on_close(ws):
     print("### closed ###")
 
 def on_open(ws):
+    print("Opened a connection")
     for i in range(3):
-        time.sleep(1)
+
         ws.send("Hello %d" % i)
-    time.sleep(1)
-    ws.close()
 
 
-websocket.enbableTrace(True)
+# websocket.enbableTrace(True)
+print("Creating server app...")
 ws = websocket.WebSocketApp("ws://localhost:4567/chat", on_message=on_message, on_error=on_error, on_close=on_close)
+print("Setting on_open...")
 ws.on_open = on_open
+print("running server..")
 ws.run_forever()
+
