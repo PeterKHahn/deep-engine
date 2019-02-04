@@ -205,7 +205,8 @@ public class JPanelRenderer extends JPanel implements EngineListener, KeyListene
     @Override
     public void keyPressed(KeyEvent e) {
         // Meta Engine Mechanics
-        if (e.getKeyChar() == 'p') {
+        char c = e.getKeyChar();
+        if (c== 'p' || c == 'P') {
             engine.pause();
         }
         if (e.getKeyChar() == 'd') {
