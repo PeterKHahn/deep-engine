@@ -1,4 +1,7 @@
 import websocket
+import sys
+
+server_address = sys.argv[1]
 
 
 def on_message(ws, message):
@@ -19,7 +22,7 @@ def on_open(ws):
 
 # websocket.enbableTrace(True)
 print("Creating server app...")
-ws = websocket.WebSocketApp("ws://localhost:4567/chat", on_message=on_message, on_error=on_error, on_close=on_close)
+ws = websocket.WebSocketApp(server_address, on_message=on_message, on_error=on_error, on_close=on_close)
 print("Setting on_open...")
 ws.on_open = on_open
 print("running server..")

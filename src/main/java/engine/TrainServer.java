@@ -1,53 +1,78 @@
 package engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import game.DynamicGameState;
+import game.environment.Vector;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import java.io.IOException;
 
-public class TrainServer implements EngineListener, AutoCloseable{
+import static spark.Spark.init;
+import static spark.Spark.webSocket;
 
-    private ServerSocket serverSocket;
-    private Socket connectionSocket;
+@WebSocket
+public class TrainServer implements EngineListener {
 
-    private Scanner scanner;
-    private PrintWriter serverPrintOut;
-
-    public TrainServer(int port) throws IOException {
-
-        serverSocket = new ServerSocket(port);
-        connectionSocket = serverSocket.accept();
-
-        InputStream inputToServer = connectionSocket.getInputStream();
-        OutputStream outputFromServer = connectionSocket.getOutputStream();
-
-        scanner = new Scanner(inputToServer, "UTF-8");
-        serverPrintOut = new PrintWriter(new OutputStreamWriter(outputFromServer, StandardCharsets.UTF_8), true);
-
-        while(scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-        }
+    private Session trainer = null;
+    private GsonBuilder builder = new GsonBuilder();
 
 
+    public TrainServer() {
+        webSocket("/chat", TrainServer.class);
+        init();
+    }
 
 
+    @OnWebSocketConnect
+    public void onConnect(Session user) throws Exception {
+        System.out.println("Connected");
+        user.getRemote().sendString("HELLO CHILD, WELCOME TO THE PARTY");
+
+        Gson gson = builder.create();
+        String json = gson.toJson(new Vector(5, 6));
+        user.getRemote().sendString(json);
+        trainer = user;
 
     }
+
+    @OnWebSocketClose
+    public void onClose(Session user, int statusCode, String reason) {
+        System.out.println("Closed");
+        trainer = null;
+
+    }
+
+    @OnWebSocketMessage
+    public void onMessage(Session user, String message) {
+        try {
+            user.getRemote().sendString("hi");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Got a message");
+        System.out.println(message);
+    }
+
 
     @Override
     public void onUpdate(DynamicGameState gameState) {
-        serverPrintOut.println("SOMETHING ABOUT THE GAME STATE");
+        if (trainer != null) {
+            Gson gson = builder.create();
+            String json = gson.toJson(new Vector(5, 6));
+            try {
+                trainer.getRemote().sendString(json);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
-    @Override
-    public void close() throws IOException {
-        connectionSocket.close();
-
-        serverSocket.close();
-        scanner.close();
-        serverPrintOut.close();
-    }
 }
+
+

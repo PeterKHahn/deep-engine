@@ -1,5 +1,8 @@
 package main;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import game.environment.Vector;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -27,6 +30,10 @@ public class ServerTest {
     public void onConnect(Session user) throws Exception {
         System.out.println("Connected");
         user.getRemote().sendString("HELLO CHILD, WELCOME TO THE PARTY");
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        String json = gson.toJson(new Vector(5, 6));
+        user.getRemote().sendString(json);
 
 
     }
