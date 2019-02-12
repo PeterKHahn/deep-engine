@@ -1,11 +1,19 @@
 import websocket
 import sys
 
+"""
+This file is for training
+"""
+
 server_address = sys.argv[1]
 
 
 def on_message(ws, message):
     print(message)
+    player_id = message 
+    x = {"held": ["A"]}
+    # ws.send(str({held: ["A"]}))
+    ws.send(str(x))
 
 def on_error(ws, error):
     print(error)
@@ -15,9 +23,7 @@ def on_close(ws):
 
 def on_open(ws):
     print("Opened a connection")
-    for i in range(3):
 
-        ws.send("Hello %d" % i)
 
 
 # websocket.enbableTrace(True)
