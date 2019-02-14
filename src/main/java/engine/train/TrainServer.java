@@ -1,14 +1,13 @@
-package engine;
+package engine.train;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import game.DynamicGameState;
+import engine.Engine;
 import game.Game;
 import game.controller.GameController;
 import game.environment.GameEnvironment;
 import game.environment.Vector;
 import game.environment.environmentObject.Floor;
-import gameTestOne.AiController;
 import gameTestOne.PlayerX;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -16,14 +15,11 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import java.io.IOException;
-import java.util.Set;
-
 import static spark.Spark.init;
 import static spark.Spark.webSocket;
 
 @WebSocket
-public class TrainServer implements EngineListener {
+public class TrainServer {
 
     private Session trainer;
     private GsonBuilder builder = new GsonBuilder();
@@ -65,7 +61,7 @@ public class TrainServer implements EngineListener {
         // JPanelRenderer renderer = new JPanelRenderer(game, engine);
         // engine.addListener(renderer);
         System.out.println("Adding controllers");
-        engine.addListener(this);
+        // engine.addListener(this);
 
         engine.insertController(0, controller1);
         engine.insertController(1, controller2);
@@ -76,7 +72,6 @@ public class TrainServer implements EngineListener {
 
         Gson gson = builder.create();
         String json = gson.toJson(new Vector(5, 6));
-        Set set = gson.fromJson("", Set.class);
         user.getRemote().sendString(json);
 
     }
@@ -92,25 +87,22 @@ public class TrainServer implements EngineListener {
     public void onMessage(Session user, String message) {
         // This method will be called upon making an input.
         // In general gameplay, we will not advance the engine, it will just play
+
+        Gson gson = builder.create();
+        try {
+            GameController controller = gson.fromJson(message, GameController.class);
+            System.out.println(controller.getHeld());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         engine.advance();
+
 
         System.out.println("Got a message");
         System.out.println(message);
     }
 
-
-    @Override
-    public void onUpdate(DynamicGameState gameState) {
-        Gson gson = builder.create();
-        String json = gson.toJson(gameState);
-        try {
-            trainer.getRemote().sendString(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
 }
 

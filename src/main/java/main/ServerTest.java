@@ -10,8 +10,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import java.io.IOException;
-
 import static spark.Spark.init;
 import static spark.Spark.webSocket;
 
@@ -60,12 +58,5 @@ public class ServerTest {
             e.printStackTrace();
         }
 
-        try {
-            user.getRemote().sendString("hi");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Got a message");
-        System.out.println(message);
     }
 }

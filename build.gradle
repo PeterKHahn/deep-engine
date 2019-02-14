@@ -4,7 +4,7 @@ plugins {
 }
 
 apply plugin: 'application'
-mainClassName = 'main.ServerTest'
+mainClassName = 'main.JboxMain'
 
 
 
@@ -28,6 +28,18 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
 
     compile "com.sparkjava:spark-core:2.7.2"
+
+    // https://mvnrepository.com/artifact/org.jbox2d/jbox2d
+    compile group: 'org.jbox2d', name: 'jbox2d', version: '2.1.2.2', ext: 'pom'
+
+    // https://mvnrepository.com/artifact/org.jbox2d/jbox2d-library
+    compile group: 'org.jbox2d', name: 'jbox2d-library', version: '2.1.2.2'
+
+    // https://mvnrepository.com/artifact/org.jbox2d/jbox2d-testbed
+    compile group: 'org.jbox2d', name: 'jbox2d-testbed', version: '2.1.2.2'
+
+
+
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
