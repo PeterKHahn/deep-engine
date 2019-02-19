@@ -1,5 +1,7 @@
 package boxEngine;
 
+import gameBuilder.Entity;
+import gameBuilder.PlayerBuilder;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -8,6 +10,8 @@ import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
 public class BoxGame1 extends TestbedTest {
+    Entity player1;
+    Entity player2;
 
     @Override
     public void initTest(boolean argDeserialized) {
@@ -19,17 +23,21 @@ public class BoxGame1 extends TestbedTest {
         Body ground = getWorld().createBody(bd);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsEdge(new Vec2(-40.0f, 0.0f), new Vec2(40.0f, 0.0f));
-        ground.createFixture(shape, 0.0f);
+        //shape.setAsEdge(new Vec2(-40.0f, 0.0f), new Vec2(40.0f, 0.0f));
+        // ground.createFixture(shape, 0.0f);
 
         createBoundaries();
 
-        shape.setAsEdge(new Vec2(-30.0f, 20.0f), new Vec2(-10.0f, 20.0f));
-        ground.createFixture(shape, 0.0f);
+        //shape.setAsEdge(new Vec2(-30.0f, 20.0f), new Vec2(-10.0f, 20.0f));
+        //ground.createFixture(shape, 0.0f);
 
-        shape.setAsEdge(new Vec2(10.0f, 20.0f), new Vec2(30.0f, 20.0f));
-        ground.createFixture(shape, 0.0f);
-        Person.createPerson(getWorld());
+        //shape.setAsEdge(new Vec2(10.0f, 20.0f), new Vec2(30.0f, 20.0f));
+        //ground.createFixture(shape, 0.0f);
+
+        player1 = new PlayerBuilder(getWorld()).createEntity();
+        player2 = new PlayerBuilder(getWorld()).createEntity();
+        getWorld().setGravity(new Vec2(0, 0));
+
 
     }
 
@@ -109,6 +117,18 @@ public class BoxGame1 extends TestbedTest {
 
     @Override
     public void keyPressed(char argKeyChar, int argKeyCode) {
+        switch (argKeyChar) {
+            case 'a':
+                player2.incRotationalVelocity();
+                break;
+            case 'd':
+                player2.decRotationalVelocity();
+                break;
 
+            case 'j':
+                player2.accelerate();
+                break;
+
+        }
     }
 }
