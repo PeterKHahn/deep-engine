@@ -1,13 +1,13 @@
 package gameTestOne;
 
-import game.Game;
-import game.controller.ControllerButton;
-import game.entity.Player;
-import game.environment.CollisionEnvironment;
-import game.environment.EnvironmentCollisionBox;
-import game.environment.Vector;
-import game.physics.collision.hitbox.HitBox;
-import game.physics.collision.hitbox.HurtBox;
+import oldEngine.game.Game;
+import oldEngine.game.controller.ControllerButton;
+import oldEngine.game.entity.Player;
+import oldEngine.game.environment.CollisionEnvironment;
+import oldEngine.game.environment.EnvironmentCollisionBox;
+import oldEngine.game.environment.Vector;
+import oldEngine.game.physics.collision.hitbox.HitBox;
+import oldEngine.game.physics.collision.hitbox.HurtBox;
 
 import java.util.Set;
 

@@ -5,7 +5,13 @@ import sys
 This file is for training
 """
 
-server_address = sys.argv[1]
+
+host = sys.argv[1]
+port = sys.argv[2] 
+path = sys.argv[3]
+
+
+server_address = "ws://" + host + ":" + str(port) + "/" + path
 
 
 def on_message(ws, message):

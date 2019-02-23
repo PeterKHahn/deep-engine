@@ -1,158 +1,62 @@
 package game;
 
-import engine.ControllerBoard;
-import game.controller.GameController;
-import game.entity.Entity;
-import game.entity.EntityState;
-import game.entity.Player;
-import game.environment.*;
-import game.environment.environmentObject.*;
+import com.google.common.collect.HashMultimap;
+import entity.Entity;
+import gameBuilder.controller.ControllerButton;
+import org.jbox2d.dynamics.Body;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
 
-    private Set<Entity> entities;
-    private Player[] players;
+    private final Entity player1;
+    private final Entity player2;
 
+    private Map<Body, Long> bodyMap;
+    private Map<Long, Entity> entityMap;
 
-    private GameEnvironment environment;
+    private HashMultimap<Entity, ControllerButton> buttonsMap;
 
-
-    private Game() {
-
+    public Game(Entity player1, Entity player2) {
+        this.player1 = player1;
+        this.player2 = player2;
         init();
     }
 
     private void init() {
+        bodyMap = new HashMap<>();
+        entityMap = new HashMap<>();
 
-        entities = new HashSet<>();
+        buttonsMap = HashMultimap.create();
 
-
+        addEntity(player1);
+        addEntity(player2);
     }
 
-    public static GameBuilder builder() {
-        return new GameBuilder();
-    }
-
-    public void updateControllers(ControllerBoard controllerBoard) {
-        for (int i = 0; i < players.length; i++) {
-            GameController controller = controllerBoard.getController(i);
-
-            if (controller == null) continue;
-
-            players[i].act(controller.getHeld());
-
-        }
+    public void addEntity(Entity e) {
+        bodyMap.put(e.getBody(), e.getEntityId());
+        entityMap.put(e.getEntityId(), e);
     }
 
 
-    public void tick() {
-
-
-        for (Entity e : entities) {
-            e.tick(this);
-        }
-
-
+    public Entity getEntityFromId(long id) {
+        return entityMap.get(id);
     }
 
-    public DynamicGameState getState() {
-        Set<EntityState> states = new HashSet<>();
-        for (Entity e : entities) {
-            states.add(e.getState());
-        }
-
-        return DynamicGameState.builder()
-                .addEntities(states)
-                .build();
+    public Entity getEntityFromBody(Body body) {
+        return entityMap.get(bodyMap.get(body));
     }
 
-
-    public void printState() {
-        System.out.println("Printing Game State");
-        for (Entity e : entities) {
-            System.out.println(e);
-        }
+    public long getIdFromBody(Body body) {
+        return bodyMap.get(body);
     }
 
-    public Set<Entity> getEntities() {
-        return entities;
+    public Entity getPlayer1() {
+        return player1;
     }
 
-    public Set<EnvironmentObject> getEnvironmentObjects() {
-        return environment.getEnvironmentObjects();
+    public Entity getPlayer2() {
+        return player2;
     }
-
-    public Set<Floor> getFloors() {
-        return environment.getFloors();
-    }
-
-    public Set<Ceiling> getCeilings() {
-        return environment.getCeilings();
-    }
-
-    public Set<LeftWall> getLeftWalls() {
-        return environment.getLeftWalls();
-    }
-
-    public Set<RightWall> getRightWalls() {
-        return environment.getRightWalls();
-    }
-
-    public GameEnvironment getEnvironment() {
-        return environment;
-    }
-
-
-    /**
-     * The Game Builder class uses the builder pattern to create Games, also allowing
-     * for input on a Game Environment.
-     */
-    public static class GameBuilder {
-
-        private Game game;
-        private List<Player> players;
-
-
-        private GameBuilder() {
-            init();
-        }
-
-        private void init() {
-            game = new Game();
-            players = new ArrayList<>();
-
-
-        }
-
-
-        public GameBuilder setEnvironment(GameEnvironment gameEnvironment) {
-            game.environment = gameEnvironment;
-            return this;
-        }
-
-        public GameBuilder insertPlayer(Player player) {
-            game.entities.add(player);
-            players.add(player);
-            return this;
-        }
-
-
-        public Game build() {
-
-            game.players = new Player[players.size()];
-            for (int i = 0; i < players.size(); i++) {
-                game.players[i] = players.get(i);
-            }
-            return game;
-        }
-
-
-    }
-
-
 }

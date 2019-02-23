@@ -1,5 +1,6 @@
 package gameBuilder;
 
+import entity.EntityBuilder;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;

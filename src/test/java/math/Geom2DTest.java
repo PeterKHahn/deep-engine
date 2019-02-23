@@ -1,6 +1,6 @@
 package math;
 
-import game.environment.Vector;
+import oldEngine.game.environment.Vector;
 import org.junit.Test;
 
 import static math.Geom2D.distance;

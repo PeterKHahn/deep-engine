@@ -1,7 +1,11 @@
 package boxEngine;
 
-import gameBuilder.Entity;
+import connect.TrainServer;
+import entity.Entity;
+import game.Game;
+import game.GameState;
 import gameBuilder.PlayerBuilder;
+import io.javalin.websocket.WsSession;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -10,14 +14,38 @@ import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
 public class BoxGame1 extends TestbedTest {
-    Entity player1;
-    Entity player2;
+    private Entity player1;
+    private Entity player2;
+
+    private Game game;
+
+    private TrainServer trainServer;
+    private WsSession session;
+
+
+    public BoxGame1(WsSession session) {
+
+        this.session = session;
+    }
+
+
+    @Override
+    public Long getTag(Body argBody) {
+        return game.getIdFromBody(argBody);
+    }
 
     @Override
     public void initTest(boolean argDeserialized) {
+
+
         if (argDeserialized) {
             return;
         }
+
+        // getModel().getSettings().singleStep = true;
+
+        // trainServer = new TrainServer();
+
 
         BodyDef bd = new BodyDef();
         Body ground = getWorld().createBody(bd);
@@ -36,6 +64,9 @@ public class BoxGame1 extends TestbedTest {
 
         player1 = new PlayerBuilder(getWorld()).createEntity();
         player2 = new PlayerBuilder(getWorld()).createEntity();
+
+        game = new Game(player1, player2);
+
         getWorld().setGravity(new Vec2(0, 0));
 
 
@@ -112,11 +143,33 @@ public class BoxGame1 extends TestbedTest {
     @Override
     public void step(TestbedSettings settings) {
         super.step(settings);
+        session.send(GameState.state(game).toJson());
+
+//        trainServer.sendMessage();
+
 
     }
 
     @Override
     public void keyPressed(char argKeyChar, int argKeyCode) {
+        switch (argKeyChar) {
+            case 'a':
+                player2.incRotationalVelocity();
+                break;
+            case 'd':
+                player2.decRotationalVelocity();
+                break;
+
+            case 'j':
+                player2.accelerate();
+                break;
+
+        }
+    }
+
+
+    @Override
+    public void keyReleased(char argKeyChar, int argKeyCode) {
         switch (argKeyChar) {
             case 'a':
                 player2.incRotationalVelocity();

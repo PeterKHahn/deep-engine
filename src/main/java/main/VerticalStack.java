@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
@@ -11,6 +12,8 @@ import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
+import java.util.Map;
+
 public class VerticalStack extends TestbedTest {
     private static final long BULLET_TAG = 1;
 
@@ -18,6 +21,10 @@ public class VerticalStack extends TestbedTest {
     public static final int e_rowCount = 3;
 
     Body m_bullet;
+
+    private Map<Body, Long> bodyMap;
+    private Map<Long, Entity> entityMap;
+
 
     @Override
     public Long getTag(Body argBody) {
@@ -105,6 +112,7 @@ public class VerticalStack extends TestbedTest {
             @Override
             public void beginContact(Contact contact) {
                 Fixture a = contact.m_fixtureA;
+
                 Fixture b = contact.m_fixtureB;
 
                 System.out.println(a + " : " + b);

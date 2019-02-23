@@ -1,17 +1,17 @@
 package rendering;
 
-import engine.Engine;
-import engine.EngineListener;
-import game.DynamicGameState;
-import game.Game;
-import game.controller.ControllerButton;
-import game.controller.GameController;
-import game.entity.EntityState;
-import game.environment.EnvironmentCollisionBox;
-import game.environment.Vector;
-import game.environment.environmentObject.Floor;
-import game.physics.collision.hitbox.HitBox;
-import game.physics.collision.hitbox.HurtBox;
+import oldEngine.engine.Engine;
+import oldEngine.engine.EngineListener;
+import oldEngine.game.DynamicGameState;
+import oldEngine.game.Game;
+import oldEngine.game.controller.ControllerButton;
+import oldEngine.game.controller.GameController;
+import oldEngine.game.entity.EntityState;
+import oldEngine.game.environment.EnvironmentCollisionBox;
+import oldEngine.game.environment.Vector;
+import oldEngine.game.environment.environmentObject.Floor;
+import oldEngine.game.physics.collision.hitbox.HitBox;
+import oldEngine.game.physics.collision.hitbox.HurtBox;
 
 import javax.swing.*;
 import java.awt.*;

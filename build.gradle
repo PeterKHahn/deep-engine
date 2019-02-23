@@ -38,6 +38,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jbox2d/jbox2d-testbed
     compile group: 'org.jbox2d', name: 'jbox2d-testbed', version: '2.1.2.2'
 
+    compile 'io.javalin:javalin:2.6.0'
+
+
 
 
 
