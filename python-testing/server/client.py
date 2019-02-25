@@ -1,6 +1,8 @@
 import websocket
 import sys
 
+import json
+
 """
 This file is for training
 """
@@ -14,12 +16,35 @@ path = sys.argv[3]
 server_address = "ws://" + host + ":" + str(port) + "/" + path
 
 
+# model = BasicModel()
+
 def on_message(ws, message):
-    print(message)
-    player_id = message 
+    message = json.loads(message)
+    # print(message)
+
+    ongoing = message['ongoing']
+    rewards = message['rewards']
+    state = message['state']
+
+    print(ongoing, rewards, state)
+
+
+    if ongoing: 
+         
+        # model.train_iteration(state)
+        pass
+    else:
+        pass
+
+    #   print(message)
     x = {"held": ["A"]}
     # ws.send(str({held: ["A"]}))
     ws.send(str(x))
+
+    if True: 
+        pass 
+    else:
+        ws.send("RESET")
 
 def on_error(ws, error):
     print(error)
@@ -38,5 +63,8 @@ ws = websocket.WebSocketApp(server_address, on_message=on_message, on_error=on_e
 print("Setting on_open...")
 ws.on_open = on_open
 print("running server..")
+# ws.send("RESET")
 ws.run_forever()
+
+
 

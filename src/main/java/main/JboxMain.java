@@ -27,8 +27,8 @@ public class JboxMain {
         Javalin.create()
                 .ws("/train", ws -> {
                     ws.onConnect(session -> {
-
-                        model.addTest(new BoxGame1(session));
+                        BoxGame1 game = new BoxGame1(session);
+                        model.addTest(game);
                         TestbedPanel panel = new TestPanelJ2D(model);    // create our testbed panel
 
                         JFrame testbed = new TestbedFrame(model, panel); // put both into our testbed frame
@@ -40,10 +40,14 @@ public class JboxMain {
 
                     ws.onClose((session, status, message) -> {
 
+
                     });
 
                     ws.onMessage((session, message) -> {
-                        System.out.println(message);
+
+                        if (message.equals("RESET")) {
+                            System.out.println("RESETTI");
+                        }
                     });
                 })
                 .start(8080);

@@ -3,19 +3,26 @@ package boxEngine;
 import connect.TrainServer;
 import entity.Entity;
 import game.Game;
-import game.GameState;
+import game.GameTransitionStatus;
 import gameBuilder.PlayerBuilder;
 import io.javalin.websocket.WsSession;
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
 public class BoxGame1 extends TestbedTest {
     private Entity player1;
     private Entity player2;
+
+    private Body boundaries;
 
     private Game game;
 
@@ -30,37 +37,24 @@ public class BoxGame1 extends TestbedTest {
 
 
     @Override
-    public Long getTag(Body argBody) {
-        return game.getIdFromBody(argBody);
+    public Long getTag(Body body) {
+        if (body == boundaries) {
+            return -1L;
+        }
+
+        return game.getIdFromBody(body);
     }
 
     @Override
     public void initTest(boolean argDeserialized) {
 
-
         if (argDeserialized) {
             return;
         }
 
-        // getModel().getSettings().singleStep = true;
 
-        // trainServer = new TrainServer();
+        boundaries = createBoundaries();
 
-
-        BodyDef bd = new BodyDef();
-        Body ground = getWorld().createBody(bd);
-
-        PolygonShape shape = new PolygonShape();
-        //shape.setAsEdge(new Vec2(-40.0f, 0.0f), new Vec2(40.0f, 0.0f));
-        // ground.createFixture(shape, 0.0f);
-
-        createBoundaries();
-
-        //shape.setAsEdge(new Vec2(-30.0f, 20.0f), new Vec2(-10.0f, 20.0f));
-        //ground.createFixture(shape, 0.0f);
-
-        //shape.setAsEdge(new Vec2(10.0f, 20.0f), new Vec2(30.0f, 20.0f));
-        //ground.createFixture(shape, 0.0f);
 
         player1 = new PlayerBuilder(getWorld()).createEntity();
         player2 = new PlayerBuilder(getWorld()).createEntity();
@@ -68,48 +62,48 @@ public class BoxGame1 extends TestbedTest {
         game = new Game(player1, player2);
 
         getWorld().setGravity(new Vec2(0, 0));
+        getWorld().setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture a = contact.m_fixtureA;
+                Fixture b = contact.m_fixtureB;
+                System.out.println(getTag(a.getBody()));
+                System.out.println(getTag(b.getBody()));
+
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
 
 
     }
 
-    private void createBoundaries() {
+    private Body createBoundaries() {
         // TODO abstract this logic a bit more out
 
-        BodyDef bd = new BodyDef();
-        Body boundaries = getWorld().createBody(bd);
-
-        float x = -10;
-        float x2 = 10;
-        float y = -10;
-        float y2 = 10;
 
         float size = 70;
 
-        Vec2 corner1 = new Vec2(x, y);
-        Vec2 corner2 = new Vec2(x, y2);
-        Vec2 corner3 = new Vec2(x2, y2);
-        Vec2 corner4 = new Vec2(x2, y);
 
-        createBox(new Vec2(-size, -size), new Vec2(size, size));
-/*
-        PolygonShape shape = new PolygonShape();
+        return createBox(new Vec2(-size, -size), new Vec2(size, size));
 
-        shape.setAsEdge(corner1, corner2);
-        boundaries.createFixture(shape, 0.0f);
-
-        shape.setAsEdge(corner2, corner3);
-        boundaries.createFixture(shape, 0.0f);
-
-        shape.setAsEdge(corner3, corner4);
-        boundaries.createFixture(shape, 0.0f);
-
-        shape.setAsEdge(corner4, corner1);
-        boundaries.createFixture(shape, 0.0f);
-*/
 
     }
 
-    private void createBox(Vec2 corner1, Vec2 corner2) {
+    private Body createBox(Vec2 corner1, Vec2 corner2) {
 
         BodyDef bd = new BodyDef();
         Body box = getWorld().createBody(bd);
@@ -132,6 +126,9 @@ public class BoxGame1 extends TestbedTest {
         box.createFixture(shape, 1);
 
 
+        return box;
+
+
     }
 
 
@@ -143,9 +140,9 @@ public class BoxGame1 extends TestbedTest {
     @Override
     public void step(TestbedSettings settings) {
         super.step(settings);
-        session.send(GameState.state(game).toJson());
 
-//        trainServer.sendMessage();
+        double[] rewards = game.step();
+        session.send(GameTransitionStatus.status(game, rewards).toJson());
 
 
     }
@@ -180,6 +177,7 @@ public class BoxGame1 extends TestbedTest {
 
             case 'j':
                 player2.accelerate();
+                reset();
                 break;
 
         }

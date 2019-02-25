@@ -38,6 +38,9 @@ class PlayerModel:
         self.hitbox_tensor = self.hitbox_tensor_func()
         self.hugrtbox_tensor = self.hurtbox_tensor_func()
         self.ecb_tensor = self.ecb_tensor_func
+
+        self.sess.run(tf.global_variables_initializer())
+
     
     def hitbox_tensor_func(self):
         layer1 = tf.layers.dense(self.hitbox_input, self.hitbox_encoding_size)
