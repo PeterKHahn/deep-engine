@@ -16,10 +16,6 @@ public class TrainServer {
     private Session trainer;
     private GsonBuilder builder = new GsonBuilder();
 
-    public TrainServer(String s) {
-        System.out.println("AHHHH");
-    }
-
 
     @OnWebSocketConnect
     public void onConnect(Session user) throws Exception {
@@ -50,14 +46,13 @@ public class TrainServer {
         Gson gson = builder.create();
         try {
             GameController controller = gson.fromJson(message, GameController.class);
-            System.out.println(controller.getHeld());
+                System.out.println(controller.getHeld());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         System.out.println("Got a message");
-        System.out.println(message);
     }
 
     public void sendMessage() {

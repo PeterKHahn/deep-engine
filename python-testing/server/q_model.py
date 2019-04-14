@@ -5,7 +5,7 @@ import random
 
 
 
-class BasicModel:
+class QModel:
 
     def __init__(self, state_size, num_actions, state_to_vector):
         self.sess = tf.Session()
@@ -19,11 +19,15 @@ class BasicModel:
         self.gamma = 0.99
 
         self.state_vector = tf.placeholder(tf.float32, [None, self.state_size])
+        self.state_vector1 = tf.placeholder(tf.float32, [None, self.state_size])
+
         self.rewards_vector = tf.placeholder(tf.float32, [None]) 
         self.actions_vector = tf.placeholder(tf.int32, shape=[None])
 
         self.actor_probs = self.actor() 
-        self.state_value = self.critic()
+
+        self.q_state = self.q_func(self.state_vector)
+        self.q_state1 = self.q_func(self.state_vector1, reuse=True)
 
         self.loss_tensor = self.loss_func()
         self.optimize_tensor = self.optimizer_func()
@@ -37,38 +41,27 @@ class BasicModel:
         self.history = []
 
 
-    def critic(self):
-        layer = tf.layers.dense(self.state_vector, 100, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
+    def q_func(self, state, reuse=False):
+        with tf.variable_scope('q', reuse=reuse):
+            layer = tf.layers.dense(state, 100, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
+            layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
 
-
-        layer = tf.layers.dense(layer, 1,  kernel_initializer=tf.random_normal_initializer(stddev=0.01)) 
-        return layer
-
+            layer = tf.layers.dense(layer, self.num_actions, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
+            return layer
 
     def actor(self):
-        layer = tf.layers.dense(self.state_vector, 100, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        layer = tf.layers.dense(layer, 200, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-
-
-        layer = tf.layers.dense(layer, self.num_actions, activation=tf.nn.softmax, kernel_initializer=tf.random_normal_initializer(stddev=0.01))
-        return layer
+        return tf.nn.softmax(self.q)
 
     def loss_func(self):
-        advantage = self.rewards_vector - self.state_value 
 
-        indices = tf.range(0, tf.shape(self.actor_probs)[0]) * self.num_actions + self.actions_vector 
-        act_probs = tf.gather(tf.reshape(self.actor_probs   , [-1]), indices) 
+        reward_from_state1 = self.q_state1 # NEEDS TO BE THE STATE PRIME VECTOR 
+        max_reward_of_state1 = tf.reduce_max(reward_from_state1)
+        reward_plus_potential = self.rewards_vector + self.gamma * max_reward_of_state1
 
-        actor_loss = -1 * tf.reduce_mean(tf.log(act_probs) * advantage) 
-        critic_loss = tf.reduce_mean(tf.square(advantage)) 
+        loss = tf.reduce_mean(tf.square(reward_plus_potential - self.q_state))
 
-        loss = actor_loss + critic_loss 
-        return loss 
+        return loss
+
          
     
 
@@ -78,24 +71,40 @@ class BasicModel:
             
 
 
-    def log(self, state, action, reward):
+    def log(self, state, action, reward, state1):
         """
         Adds a particular state action reward tuple 
         to the history list 
         """
-        self.history.append((state, action, reward))
+        self.history.append((state, action, reward, state1))
 
+
+    def get_action(self, state_dictionary):
+        state_vector = self.state_to_vector(state_dictionary)
+        fd = {
+            self.state_vector: np.matrix(state_vector)
+        }
+
+        act_distribution = self.sess.run([self.actor_probs], feed_dict=fd)
+
+        action = np.random.choice(self.num_actions, 1, p=act_distribution[0][0])[0]
+        return action 
+        
+
+    def train(self):
+        pass 
 
 
     def train_iteration(self, state_dictionary, p=0.0):
         state_vector = self.state_to_vector(state_dictionary)
+
         fd = {
             self.state_vector: np.matrix(state_vector) # TODO modify this
         }
 
         act_dist = self.sess.run([self.actor_probs], feed_dict = fd)
-        # print(state_vector)
-        # print(act_dist)
+        print(state_vector)
+        print(act_dist)
         if random.random() < p: 
             return np.random.choice(self.num_actions, 1)
         
@@ -104,36 +113,6 @@ class BasicModel:
 
         return action
         
-
-    def calculate_reward(self):
-        discounted_rewards = self.discounted_rewards([x[2] for x in self.history])
-
-        fd = {
-            self.state_vector: [self.state_to_vector(st[0]) for st in self.history], 
-            self.rewards_vector: discounted_rewards, 
-            self.actions_vector: [a[1] for a in self.history]
-        }
-
-        l = self.sess.run([self.loss_tensor, self.optimize_tensor], feed_dict = fd)
-
-        reward_sum = sum([x[2] for x in self.history]) 
-
-        self.history = []
-
-        return reward_sum
-
-
-
-
-    def discounted_rewards(self, ls):
-
-        rev = list(reversed(ls))
-        for idx in range(1, len(ls)):
-            rev[idx] = rev[idx] + self.gamma * rev[idx - 1]
-
-        return list(reversed(rev))
-
-    
   
     
     def save_model(self, file_path):
@@ -173,26 +152,25 @@ def player_to_vector(self, player):
 
     return [px, py, velx, vely, angle, angular_velocity]
 
-game = gym.make('MountainCar-v0')
+#game = gym.make('CartPole-v1')
 
-model = BasicModel(game.observation_space.shape[0], game.action_space.n, lambda x: x)
+#model = BasicModel(game.observation_space.shape[0], game.action_space.n, lambda x: x)
 
 
-
-for g in range(20000):
+"""
+while True:
     state = game.reset() 
     for i in range(999):
         action = model.train_iteration(state)
         st1, reward, done, _ = game.step(action[0])
         model.log(state, action[0], reward)
-        if g % 100 == 0:
-            game.render()
+        # game.render()
 
         state = st1 
         if done: 
             reward_sum = model.calculate_reward()
-            print(g, reward_sum)
+            print(reward_sum)
             break
 
-
+"""
 # model.save_model("./hello.ckpt")

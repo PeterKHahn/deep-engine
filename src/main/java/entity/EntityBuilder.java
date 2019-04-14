@@ -38,6 +38,7 @@ public abstract class EntityBuilder {
         fd.shape = polygon;
         fd.density = density();
         fd.friction = friction();
+
         return fd;
 
 
@@ -53,6 +54,8 @@ public abstract class EntityBuilder {
         for (Box box : boxes()) {
             body.createFixture(addBox(box));
         }
+
+
 
         return body;
 

@@ -1,6 +1,5 @@
 package boxEngine;
 
-import connect.TrainServer;
 import entity.Entity;
 import game.Game;
 import game.GameTransitionStatus;
@@ -26,9 +25,9 @@ public class BoxGame1 extends TestbedTest {
 
     private Game game;
 
-    private TrainServer trainServer;
     private WsSession session;
 
+    private double reward;
 
     public BoxGame1(WsSession session) {
 
@@ -52,12 +51,15 @@ public class BoxGame1 extends TestbedTest {
             return;
         }
 
+        reward = 0;
 
         boundaries = createBoundaries();
 
+        PlayerBuilder playerBuilder = new PlayerBuilder(getWorld());
 
-        player1 = new PlayerBuilder(getWorld()).createEntity();
-        player2 = new PlayerBuilder(getWorld()).createEntity();
+
+        player1 = playerBuilder.createEntity();
+        player2 = playerBuilder.createEntity();
 
         game = new Game(player1, player2);
 
@@ -67,8 +69,14 @@ public class BoxGame1 extends TestbedTest {
             public void beginContact(Contact contact) {
                 Fixture a = contact.m_fixtureA;
                 Fixture b = contact.m_fixtureB;
-                System.out.println(getTag(a.getBody()));
-                System.out.println(getTag(b.getBody()));
+                long aTag = getTag(a.getBody());
+                long bTag = getTag(b.getBody());
+                System.out.println("A: " + aTag + " B: " + bTag);
+                if (aTag == -1) {
+                    game.getEntityFromId(bTag).kill();
+                    game.finish();
+                    reset();
+                }
 
             }
 
@@ -87,6 +95,8 @@ public class BoxGame1 extends TestbedTest {
 
             }
         });
+
+        session.send(GameTransitionStatus.status(game, new double[2], GameTransitionStatus.MessageType.INIT).toJson());
 
 
     }
@@ -142,7 +152,7 @@ public class BoxGame1 extends TestbedTest {
         super.step(settings);
 
         double[] rewards = game.step();
-        session.send(GameTransitionStatus.status(game, rewards).toJson());
+        session.send(GameTransitionStatus.status(game, rewards, GameTransitionStatus.MessageType.NORMAL).toJson());
 
 
     }
@@ -177,9 +187,24 @@ public class BoxGame1 extends TestbedTest {
 
             case 'j':
                 player2.accelerate();
-                reset();
                 break;
 
         }
+    }
+
+    public void processAction(String action) {
+        int actionInt = Integer.parseInt(action);
+        System.out.println(actionInt);
+
+        if (actionInt == 2) {
+            player1.incRotationalVelocity();
+        } else if (actionInt == 1) {
+            player1.decRotationalVelocity();
+        } else if (actionInt == 0) {
+            player1.accelerate();
+        } else {
+            System.out.println("WTF");
+        }
+
     }
 }

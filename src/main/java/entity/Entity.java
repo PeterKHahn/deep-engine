@@ -11,12 +11,17 @@ public class Entity {
 
     private long entityId;
     private Body body;
+
+    public boolean isAlive;
     // TODO uncomment when ready
     // private List<Box> hurtBox;
 
     public Entity(long entityId, Body body) {
         this.entityId = entityId;
         this.body = body;
+        isAlive = true;
+        body.setAngularDamping(1.0f);
+        body.setLinearDamping(1.0f);
         // TODO uncomment when ready
         // this.hurtBox = hurtBox;
     }
@@ -42,18 +47,26 @@ public class Entity {
     }
 
     public void incRotationalVelocity() {
-        body.m_angularVelocity += 0.1;
+        body.setAngularVelocity(5);
+
+    }
+
+
+    public void kill() {
+        isAlive = false;
     }
 
     public void decRotationalVelocity() {
-        body.m_angularVelocity -= 0.1;
+        // body.m_angularVelocity -= 0.1;
+        body.setAngularVelocity(-5);
+
 
     }
 
     public void accelerate() {
         float angle = body.getAngle();
         Vec2 unit = angleToVec2(angle);
-        body.m_linearVelocity.set(body.m_linearVelocity.add(unit));
+        body.setLinearVelocity(unit.mul(5));
         // body.applyForce(angleToVec2(angle).mul(100000), body.getWorldCenter());
 
     }

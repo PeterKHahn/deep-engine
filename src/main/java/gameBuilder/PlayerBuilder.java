@@ -12,6 +12,8 @@ public class PlayerBuilder extends EntityBuilder {
 
     private List<Box> boxes;
 
+    private boolean flag = true;
+
     public PlayerBuilder(World world) {
         super(world);
         init();
@@ -46,7 +48,15 @@ public class PlayerBuilder extends EntityBuilder {
 
     @Override
     public Vec2 initialPosition() {
-        return new Vec2(0, 0);
+        flag = !flag;
+        if (flag) {
+            return new Vec2(30, 30);
+
+
+        } else {
+            return new Vec2(-30, -30);
+
+        }
     }
 
     @Override

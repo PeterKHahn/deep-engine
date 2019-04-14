@@ -6,25 +6,21 @@ import time
 
 import random
 
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
-
-import matplotlib.pyplot as plt
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 
 class DQN:
-    def __init__(self, game_name):
-        self.MAX_MEMORY = 100000
-        self.BATCH_SIZE = 200
+    def __init__(self):
+        self.MAX_MEMORY = 1000000
+        self.BATCH_SIZE = 1000
 
         self.memory = []
         self.num_episodes = 200
 
-        self.gamma = 0.99
+        self.gamma = 0.9
 
-        self.game = gym.make(game_name)
+        self.game = gym.make('CartPole-v1') # gym.make('CartPole-v1') #
         self.game._max_episode_steps = self.num_episodes
 
         self.num_actions = self.game.action_space.n
@@ -47,6 +43,7 @@ class DQN:
         self.rewards = tf.placeholder(shape=[None], dtype=tf.float32, name="rewards")
         self.actions = tf.placeholder(shape=[None], dtype=tf.int32, name="actions")
 
+        self.batch_size = 200
 
         self.q = self.q_func(self.state_input)
         self.q1 = self.q_func(self.state_input1, reuse=True)
@@ -80,7 +77,7 @@ class DQN:
         """
         :return: Optimizer for your loss function
         """
-        opt = tf.train.RMSPropOptimizer(learning_rate=0.001)
+        opt = tf.train.RMSPropOptimizer(learning_rate=0.0001)
         # opt = tf.train.AdamOptimizer(learning_rate=0.001)
         return opt.minimize(self.loss_val)
 
@@ -96,29 +93,16 @@ class DQN:
 
         r = 0.5
 
-        bias = True
-        activation = tf.nn.leaky_relu
-
         with tf.variable_scope('q', reuse=reuse):        
-            output = tf.layers.dense(state, W_2, activation=activation, use_bias=bias)
+            output = tf.layers.dense(state, W_2, activation=tf.nn.relu)
             output = tf.layers.dropout(output, rate=r, training=self.initialization)
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
-            output = tf.layers.dropout(output, rate=r, training=self.initialization)
-
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
+            output = tf.layers.dense(output, W_3, activation=tf.nn.relu)
             output = tf.layers.dropout(output, rate=r, training=self.initialization)
 
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
+            output = tf.layers.dense(output, W_3, activation=tf.nn.relu)
             output = tf.layers.dropout(output, rate=r, training=self.initialization)
 
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
-            output = tf.layers.dropout(output, rate=r, training=self.initialization)  
-
-
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
-            output = tf.layers.dropout(output, rate=r, training=self.initialization)
-
-            output = tf.layers.dense(output, W_3, activation=activation, use_bias=bias)
+            output = tf.layers.dense(output, W_3, activation=tf.nn.relu)
             output = tf.layers.dropout(output, rate=r, training=self.initialization)
 
 
@@ -152,6 +136,7 @@ class DQN:
         #return tf.reduce_sum(tf.multiply(self.q, actions_one_hot), 1)
 
     def diff_tensor(self):
+        # true - actual
         return self.values - self.action_index # self.rewards
 
     def loss(self):
@@ -174,7 +159,6 @@ class DQN:
 
                 action = np.random.choice(self.num_actions, 1)[0]
 
-
                 st1, reward, done, _ = self.game.step(action)
                 # st1 = self.normalize(st1)
                 states.append(st)
@@ -187,7 +171,6 @@ class DQN:
                 i -= 1
                 if done:
                     break
-
             
             qs = self.discounted_rewards(rewards)
 
@@ -199,55 +182,17 @@ class DQN:
 
     def pre_train(self, iterations):
         for i in range(iterations):
-            sts = np.random.random((self.BATCH_SIZE, self.state_size)) * 2 - 1
-            sts1 = np.random.random((self.BATCH_SIZE, self.state_size)) * 2 - 1
-
-            qs = np.full(self.BATCH_SIZE, 30.0)
-            #var = np.random.random(self.BATCH_SIZE)
-            #qs += var
+            sts = np.random.random((self.BATCH_SIZE, self.state_size))
+            sts1 = np.random.random((self.BATCH_SIZE, self.state_size))
+            qs = np.full(self.BATCH_SIZE, 50.0)
+            var = np.random.random(self.BATCH_SIZE)
+            qs += var
             acs = np.random.randint(self.num_actions, size=(self.BATCH_SIZE))
-            
-            if i % 10 == 0:
-                print("iteration: ", i)
+            self.train_ls(sts, qs, acs, sts1, True)
 
-                self.train_ls(sts, qs, acs, sts1, True)
-            else:
-                self.train_ls(sts, qs, acs, sts1, True)
- 
 
     def normalize(self, st):
         return (st - self.mean) / self.spread
-
-    
-    def graphs(self):
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.set_xlabel('X: Position')
-        ax.set_ylabel('Y Velocity')
-        ax.set_zlabel('Z: Max Q')
-
-        xdata = [] 
-        ydata = [] 
-        zdata = []
-        colors = []
-        for i in range(-12, 7):
-            for j in range(-7, 8):
-                axis1 = i / 10
-                axis2 = j / 100
-                xdata.append(axis1)
-                ydata.append(axis2)
-                res = self.session.run(self.q, feed_dict={self.state_input: [[axis1, axis2]], self.initialization: False})
-                argmax = np.argmax(res[0])
-                if argmax == 0:
-                    colors.append('r')
-                elif argmax == 1:
-                    colors.append('g')
-                else:
-                    colors.append('b')
-                zdata.append(max(res[0]))
-
-        ax.scatter(xdata, ydata, zdata, c=colors)
-        plt.show()
 
     def train_episode(self, epsilon=0.1, render=False):
         """
@@ -256,8 +201,6 @@ class DQN:
         add any return values to this method.
         """
         total_reward = 0
-
-       
 
         current_batch = []
 
@@ -269,7 +212,7 @@ class DQN:
         st = self.game.reset()
         # st = self.normalize(st)
         for j in range(2999):
-            self.retrieve_loss(self.sample_memory(self.BATCH_SIZE))
+            l = self.retrieve_loss(self.sample_memory(self.BATCH_SIZE))
             action = None
             if random.random() < epsilon:
                 action = np.random.choice(self.num_actions, 1)[0]
@@ -282,15 +225,12 @@ class DQN:
                 act_dist, qx = self.session.run([self.actor_probs, self.q], feed_dict = fd)
 
                 action = np.random.choice(self.num_actions, 1, p=act_dist[0])[0]
-                # action = np.argmax(act_dist)
-            
+
 
             if render:
 
                 self.game.render()
                 #print(st, act_dist, qx)
-
-
 
             st1, reward, done, _ = self.game.step(action)
             # self.memory.append((st, action, reward, st1))
@@ -305,28 +245,27 @@ class DQN:
 
             st = st1
 
-            if done:
+            if(done):
                 break
-
 
 
         qs = self.discounted_rewards(rewards)
 
         current_batch = []
 
-        for el in zip(states, actions, qs, states1):
-            self.add_memory(el)
-            current_batch.append(el)
+        for state, action, q, state1 in zip(states, actions, qs, states1):
+            self.add_memory((state, action, q, state1))
+            current_batch.append((state, action, q, state1))
             
 
 
-        self.retrieve_loss(current_batch)
+        l = self.retrieve_loss(current_batch)
         self.retrieve_loss(self.sample_memory(self.BATCH_SIZE))
-
+        # print(l)
 
         return total_reward
 
-    def train_ls(self, sts, qs, acs, sts1, init=False, should_print=False):
+    def train_ls(self, sts, qs, acs, sts1, init=False):
         
         fd = {
             self.state_input: sts, 
@@ -336,15 +275,8 @@ class DQN:
             self.initialization: init
 
         }
-        self.session.run(self.train_op, feed_dict=fd)
-        if should_print:
-
-            print('########################################')
-
-            print(acs.count(0) / len(acs), acs.count(1) / len(acs), acs.count(2) / len(acs))
-            
-
-            print('########################################')
+        l, _ = self.session.run([self.loss_val, self.train_op], feed_dict=fd)
+        return l
 
     def retrieve_loss(self, batch):
         # batch = self.memory # self.sample_memory(self.BATCH_SIZE)
@@ -363,8 +295,23 @@ class DQN:
             sts1.append(st1x)
             acs.append(act)
 
-        self.train_ls(sts, qs, acs, sts1, should_print=False)
 
+        loss = self.train_ls(sts, qs, acs, sts1)
+
+        # print(qs)
+        #fd2 = {
+         #   self.state_input: sts,
+          #  self.rewards:  qs,
+           # self.actions: acs,
+            #self.state_input1: sts1}
+
+        #l = self.session.run([self.loss_val, self.train_op], feed_dict =fd2)
+        #loss = l[0]
+        # print(l[1], l[2])
+
+
+
+        return loss
 
     def discounted_rewards(self, ls):
 
@@ -380,45 +327,38 @@ if __name__ == '__main__':
 
     tot = 0
     num = 0
-    learner = DQN('CartPole-v1') #gym.make('MountainCar-v0') # gym.make('CartPole-v1') # 'Acrobot-v1'
+    learner = DQN()
 
     print("Prefilling memory...")
-    learner.pre_fill(5000)
+    learner.pre_fill(100000)
 
     print("Pre training model")
-    # learner.pre_train(1000)
+    learner.pre_train(150)
 
     print("starting iterations...")
 
-
-    current_epsilon = 1.0
-
-    for i in range(1000):
-        print("Starting iteration: ", i)
+    for i in range(100000):
 
         av = None
 
 
-        if i % 2 == 0:
-            current_epsilon *=0.99 #learner.graphs()
 
-        if i < 20:
-            av = learner.train_episode(render=True, epsilon=1.0)
-        
 
+        if i % 100 == 0:
+            av = learner.train_episode(render=True, epsilon=0.0)
         else:
-            print("epsilon: ", current_epsilon)
-            av = learner.train_episode(render=True, epsilon=current_epsilon)
 
+            av = learner.train_episode(render=False)
 
 
         tot += av
         num += 1
 
         if i % 1 == 0:
-            print('\t', tot / num)
+            print('iteration: ', i, tot / num)
             tot = 0 
             num = 0
 
 
 
+    print("Total / Num", tot / num)

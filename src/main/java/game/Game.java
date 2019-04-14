@@ -84,7 +84,20 @@ public class Game {
      */
     public double[] step() {
         // TODO implement
-        return new double[2];
+        double[] res = new double[2];
+        res[0] = -1;
+        res[1] = -1;
+        if (!player1.isAlive) {
+            res[0] -= 10000;
+            res[1] += 10000;
+        }
+        if (!player2.isAlive) {
+            res[0] += 10000;
+            res[1] -= 10000;
+        }
+
+
+        return res;
     }
 }
 
