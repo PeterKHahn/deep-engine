@@ -1,6 +1,6 @@
 import websocket
 import sys
-import basic_model
+import dqn
 import numpy as np
 
 import json
@@ -46,7 +46,7 @@ def player_to_vector(player):
     return [px, py, velx, vely, angle, angular_velocity]
 
 
-model = basic_model.BasicModel(12, 3, state_to_vector)
+model = dqn.DQN('CartPole-v1')
 
 current_state = None
 count = 0
@@ -99,9 +99,47 @@ def on_error(ws, error):
 def on_close(ws):
     print("### closed ###")
 
+
+
+
+game_socket = None
+
 def on_open(ws):
     print("Opened a connection")
+    game_socket = ws
 
+
+
+class ServerGame:
+    
+
+    def __init__(self, num_actions, state_size, max_episode_steps):
+        print("fuck yes")
+
+        self.game.max_episode_steps = max_episode_steps
+        self.num_actions = num_actions
+        self.state_size = state_size
+
+
+
+    def on_open(ws):
+        print('Opened a Connection')
+        self.game_socket = ws
+
+
+
+    def reset(self):
+        ws.send('RESET')
+        pass 
+
+    def step(self, action):
+        pass 
+
+
+    def render(self):
+        pass
+
+    
 
 
 # websocket.enbableTrace(True)
@@ -112,6 +150,8 @@ ws.on_open = on_open
 print("running server..")
 # ws.send("RESET")
 ws.run_forever()
+
+
 
 
 

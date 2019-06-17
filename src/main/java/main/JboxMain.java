@@ -33,6 +33,7 @@ public class JboxMain {
         Javalin.create()
                 .ws("/train", ws -> {
                     ws.onConnect(session -> {
+                        System.out.println("Connected to client");
                         BoxGame1 game = new BoxGame1(session);
                         model.addTest(game);
                         TestbedPanel panel = new TestPanelJ2D(model);    // create our testbed panel
@@ -47,7 +48,7 @@ public class JboxMain {
                     });
 
                     ws.onClose((session, status, message) -> {
-
+                        System.out.println("Connection closed");
 
                     });
 

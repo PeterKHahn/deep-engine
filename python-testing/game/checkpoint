@@ -1,0 +1,2 @@
+model_checkpoint_path: "pokemodel1"
+all_model_checkpoint_paths: "pokemodel1"
